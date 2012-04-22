@@ -1,0 +1,18 @@
+Service: Bloc
+
+Types: enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+
+Observators:
+	getType : [Bloc] -> TypeBloc
+	
+Constructors:
+	init : TypeBloc -> [Bloc]
+	
+Operators:
+	setType : [Bloc] * TypeBloc -> [Bloc]
+	
+Observations:
+	[init]
+		getType(init(tb)) = tb
+	[setType]
+		getType(setType(b, tb)) = tb

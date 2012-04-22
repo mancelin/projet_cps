@@ -1,0 +1,18 @@
+Service: Position
+
+Types: integer
+
+Observators:
+	getX : [Position] -> integer
+	getY : [Position] -> integer
+	
+Constructors:
+	init : integer * integer -> [Position]
+	
+Operators:
+
+Observations:
+	[init]
+		getX(init(x, y)) = x
+		getY(init(x, y)) = y
+	

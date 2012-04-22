@@ -1,0 +1,69 @@
+Service: Terrain
+
+Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+
+Use: Bloc, Position
+
+Observators:
+	getLargeur : [Terrain] -> integer
+	getHauteur : [Terrain] -> integer
+	getPosHero : [Terrain] -> [Position]
+		pre getPosHero(t) require isDead(t) = false
+	getPosSortie : [Terrain] -> [Position]
+	getTypeBloc : [Terrain] * integer * integer -> TypeBloc
+		pre getTypeBloc(t,x,y) require isInTerrain(t,x,y)
+		//							idem : x > 0 ^ y > 0 ^ x <= getLargeur(t) ^ y <= getHauteur(t)
+	getUp : [Terrain] * integer * integer -> [Position]
+		pre getUp(t,x,y) require isInTerrain(t,x,y)
+	getDown : [Terrain] * integer * integer -> [Position]
+		pre getDown(t,x,y) require isInTerrain(t,x,y)
+	getLeft : [Terrain] * integer * integer -> [Position]
+		pre getLeft(t,x,y) require isInTerrain(t,x,y)
+	getRight : [Terrain] * integer * integer -> [Position]
+		pre getRigth(t,x,y) require isInTerrain(t,x,y)
+	getNbDiamantsRestants : [Terrain] -> integer
+	isDead : [Terrain] -> boolean
+		pre isDead(t) require Terrain::isInTerrain(t, Position::getX(getPosHero), Position::getY(getPosHero))
+	isSortieOuverte : [Terrain] -> boolean
+		pre isSortieOuverte(t) require isInTerrain(t, Position::getX(getPosSortie), Position::getY(getPosSortie))
+	isInTerrain : [Terrain] * integer * integer -> boolean 
+	
+Constructors:
+	init : integer * integer -> [Terrain]
+		pre init(l,h) require l>0 ^ h>0
+	
+Operators:
+	setPosHero : [Terrain] * integer * integer -> [Terrain]
+		pre setPosHero(t,x,y) require isInTerrain(t,x,y)
+	setPosSortie : [Terrain] * integer * integer -> [Terrain]
+		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
+	ouvrirSortie : [Terrain] -> [Terrain]
+		pre ouvrirSortie(t) require isSortieOuverte(t) = false ^ getNbDiamantsRestants(t) = 0
+	setTypeBloc : [Terrain] * integer * integer * TypeBloc -> [Terrain]
+		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
+	killHero : [Terrain] -> [Terrain]
+		pre killHero(t) require isDead(t) = false
+		
+Observations:
+	[invariants]
+		isInTerrain(t,x,y) ={min}  x > 0 ^ y > 0 ^ x <= getLargeur(t) ^ y <= getHauteur(t)
+		ouvrirSortie(t) ={min}  setTypeBloc(t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t), SORTIE_OUVERTE)
+		killHero(t) ={min}  setTypeBloc(t, Position::getX(getPosHero(t), Position::getY(getPosHero(t), SORTIE_OUVERTE)		
+	[init]
+		getLargeur(init(l,h)) = l
+		getHauteur(init(l,h)) = h
+		Position::getX(getPosHero(init(l,h)) ) = -1
+		Position::getY(getPosHero(init(l,h)) ) = -1 Position::getX(getPosSortie(init(l,h)) ) = -1
+		Position::getY(getPosSortie(init(l,h)) ) = -1
+	[setPosHero]
+		Position::getX(getPosHero(setPosHero(t,x,y))) = x
+		Position::getY(getPosHero(setPosHero(t,x,y))) = y
+	[setPosSortie]
+		Position::getX(getPosSortie(setPosSortie(t,x,y))) = x
+		Position::getY(getPosSortie(setPosSortie(t,x,y))) = y
+	[ouvrirSortie]
+		getTypeBloc(t, Position::getX(getPosSortie(t)), Position::getY(getPosSortie(t)) ) = SORTIE_OUVERTE
+	[setTypeBloc]
+		getTypeBloc(setTypeBloc(t,x,y,tb), x, y) = tb
+	[killHero]
+		getTypeBloc(t, Position::getX(getPosHero(t)), Position::getY(getPosHero(t)) ) = DEAD_HERO
