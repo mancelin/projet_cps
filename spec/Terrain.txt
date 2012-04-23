@@ -7,47 +7,43 @@ Use: Bloc, Position
 Observators:
 	getLargeur : [Terrain] -> integer
 	getHauteur : [Terrain] -> integer
-	getPosHero : [Terrain] -> [Position]
-		pre getPosHero(t) require isDead(t) = false
-	getPosSortie : [Terrain] -> [Position]
-	getTypeBloc : [Terrain] * integer * integer -> TypeBloc
-		pre getTypeBloc(t,x,y) require isInTerrain(t,x,y)
-		//							idem : x > 0 ^ y > 0 ^ x <= getLargeur(t) ^ y <= getHauteur(t)
-	getUp : [Terrain] * integer * integer -> [Position]
-		pre getUp(t,x,y) require isInTerrain(t,x,y)
-	getDown : [Terrain] * integer * integer -> [Position]
-		pre getDown(t,x,y) require isInTerrain(t,x,y)
-	getLeft : [Terrain] * integer * integer -> [Position]
-		pre getLeft(t,x,y) require isInTerrain(t,x,y)
-	getRight : [Terrain] * integer * integer -> [Position]
-		pre getRigth(t,x,y) require isInTerrain(t,x,y)
-	getNbDiamantsRestants : [Terrain] -> integer
-	isInTerrain : [Terrain] * integer * integer -> boolean 
-	isJouable : [Terrain] -> boolean 
+	getPosHero : [Terrain] -> Position
+		pre getPosHero(t) require isHeroVivant(t)
+	getPosSortie : [Terrain] -> Position
+	getBloc : [Terrain] * integer * integer -> Bloc
+	getBlocHaut : [Terrain] * integer * integer -> Bloc
+	getBlocBas : [Terrain] * integer * integer -> Bloc
+	getBlocGauche : [Terrain] * integer * integer -> Bloc
+	getBlocDroite : [Terrain] * integer * integer -> Bloc
+	isDiamantsRestants : [Terrain] -> boolean
+	isHeroVivant : [Terrain] -> boolean
+	isSortieOuverte : [Terrain] -> boolean
+	isJouable : [Terrain] -> boolean
 	
 Constructors:
 	init : integer * integer -> [Terrain]
-		pre init(l,h) require l>0 ^ h>0
+		pre init(l, h) require l > 0 ^ h > 0
 	
 Operators:
 	setPosHero : [Terrain] * integer * integer -> [Terrain]
-		pre setPosHero(t,x,y) require isInTerrain(t,x,y)
 	setPosSortie : [Terrain] * integer * integer -> [Terrain]
-		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
 	setTypeBloc : [Terrain] * integer * integer * TypeBloc -> [Terrain]
-		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
 		
 Observations:
 	[invariants]
-		isInTerrain(t,x,y) ={min}  x > 0 ^ y > 0 ^ x <= getLargeur(t) ^ y <= getHauteur(t)
-		isJouable(t) ={min}  isInTerrain( t, Position::getX(getPosHero(t), Position::getY(getPosHero(t)) ^
-							isInTerrain( t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t)) 
+		isJouable(t) ={min} isHeroVivant(t) ^ 
+							
+		isHeroVivant(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = HERO
+		isDiamantsRestants(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = DIAMANT
+		isSortieOuverte(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = SORTIE_OUVERTE
+		 
 	[init]
 		getLargeur(init(l,h)) = l
 		getHauteur(init(l,h)) = h
 		Position::getX(getPosHero(init(l,h)) ) = -1
 		Position::getY(getPosHero(init(l,h)) ) = -1 Position::getX(getPosSortie(init(l,h)) ) = -1
 		Position::getY(getPosSortie(init(l,h)) ) = -1
+		
 	[setPosHero]
 		Position::getX(getPosHero(setPosHero(t,x,y))) = x
 		Position::getY(getPosHero(setPosHero(t,x,y))) = y
