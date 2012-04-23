@@ -22,11 +22,8 @@ Observators:
 	getRight : [Terrain] * integer * integer -> [Position]
 		pre getRigth(t,x,y) require isInTerrain(t,x,y)
 	getNbDiamantsRestants : [Terrain] -> integer
-	isDead : [Terrain] -> boolean
-		pre isDead(t) require Terrain::isInTerrain(t, Position::getX(getPosHero), Position::getY(getPosHero))
-	isSortieOuverte : [Terrain] -> boolean
-		pre isSortieOuverte(t) require isInTerrain(t, Position::getX(getPosSortie), Position::getY(getPosSortie))
 	isInTerrain : [Terrain] * integer * integer -> boolean 
+	isJouable : [Terrain] -> boolean 
 	
 Constructors:
 	init : integer * integer -> [Terrain]
@@ -37,18 +34,14 @@ Operators:
 		pre setPosHero(t,x,y) require isInTerrain(t,x,y)
 	setPosSortie : [Terrain] * integer * integer -> [Terrain]
 		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
-	ouvrirSortie : [Terrain] -> [Terrain]
-		pre ouvrirSortie(t) require isSortieOuverte(t) = false ^ getNbDiamantsRestants(t) = 0
 	setTypeBloc : [Terrain] * integer * integer * TypeBloc -> [Terrain]
 		pre setPosSortie(t,x,y) require isInTerrain(t,x,y)
-	killHero : [Terrain] -> [Terrain]
-		pre killHero(t) require isDead(t) = false
 		
 Observations:
 	[invariants]
 		isInTerrain(t,x,y) ={min}  x > 0 ^ y > 0 ^ x <= getLargeur(t) ^ y <= getHauteur(t)
-		ouvrirSortie(t) ={min}  setTypeBloc(t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t), SORTIE_OUVERTE)
-		killHero(t) ={min}  setTypeBloc(t, Position::getX(getPosHero(t), Position::getY(getPosHero(t), SORTIE_OUVERTE)		
+		isJouable(t) ={min}  isInTerrain( t, Position::getX(getPosHero(t), Position::getY(getPosHero(t)) ^
+							isInTerrain( t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t)) 
 	[init]
 		getLargeur(init(l,h)) = l
 		getHauteur(init(l,h)) = h
@@ -65,5 +58,3 @@ Observations:
 		getTypeBloc(t, Position::getX(getPosSortie(t)), Position::getY(getPosSortie(t)) ) = SORTIE_OUVERTE
 	[setTypeBloc]
 		getTypeBloc(setTypeBloc(t,x,y,tb), x, y) = tb
-	[killHero]
-		getTypeBloc(t, Position::getX(getPosHero(t)), Position::getY(getPosHero(t)) ) = DEAD_HERO

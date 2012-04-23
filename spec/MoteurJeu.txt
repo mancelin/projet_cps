@@ -8,6 +8,10 @@ Observators:
 	canFall : [MoteurJeu] * integer * integer -> boolean
 	isPushableLeft : [MoteurJeu] * integer * integer -> boolean
 	isPushableRigth : [MoteurJeu] * integer * integer -> boolean
+	isDead : [MoteurJeu] -> boolean
+	isSortieOuverte : [Terrain] -> boolean
+		pre isSortieOuverte(mj) require isInTerrain(mj, Position::getX(getPosSortie(mj)), Position::getY(getPosSortie(mj)))
+	isWinGame : [MoteurJeu] -> boolean
 	isGameOver : [MoteurJeu] -> boolean
 	
 Constructors:
@@ -15,10 +19,12 @@ Constructors:
 		pre init(t, nbPas) require getLargeur(t)>0 ^ getHauteur(t)>0 ^ nbPas>0
 	
 Operators:
-	makeTopFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre makeTopFall(mj, x, y) require getPasRestants(mj) > 0
 	decrementePas : [MoteurJeu] -> [MoteurJeu]
-		pre decrementePas(mj) require getPasRestants(mj) > 0
+		pre decrementePas(mj) require !isGameOver(mj)
+	triggerFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
+		pre triggerFall(mj,x,y) require isInTerrain(mj,x,y) ^ canFall(mj,x,y)	
+	makeTopFall : [MoteurJeu] * integer * integer -> [MoteurJeu]   // pour faire tomber les bloc/diamants au dessus d'un bloc/diamant en chute
+		pre makeTopFall(mj, x, y) require !isGameOver(mj)
 	moveUp : [MoteurJeu] -> [MoteurJeu]
 		pre moveUp(mj) require isGameOver(mj) = false ^ isInTerrain(mj,getUpx,y)
 	moveDown : [MoteurJeu] -> [MoteurJeu]
@@ -33,14 +39,21 @@ Operators:
 	pushRight : [MoteurJeu] * integer * integer -> [MoteurJeu]
 		pre pushRight(mj,x,y) require isInTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
 			getTypeBloc(t,Position::getX(getRight(mj,x,y)), Position::getY(getRight(mj,x,y))) = VIDE
-	triggerFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre triggerFall(mj,x,y) require isInTerrain(mj,x,y) ^ canFall(mj,x,y)
+	takeDiamant : [MoteurJeu] -> [MoteurJeu]
+		pre takeDiamant(mj) require getTypeBloc(t,Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj))) = DIAMANT
+	ouvrirSortie : [Terrain] -> [Terrain]
+		pre ouvrirSortie(t) require isSortieOuverte(t) = false ^ getNbDiamantsRestants(t) = 0
+	killHero : [MoteurJeu] -> [MoteurJeu]
+		pre killHero(mj) require isDead(mj) = false
 	winGame : [MoteurJeu] -> [MoteurJeu]
 	
 Observations:
 	[invariant]
+		ouvrirSortie(t) ={min}  setTypeBloc(t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t), SORTIE_OUVERTE)
+		killHero(t) ={min}  setTypeBloc(t, Position::getX(getPosHero(t), Position::getY(getPosHero(t), SORTIE_OUVERTE)		
 		canFall(mj,x,y) ={min}  getTypeBloc(mj,x,y) = ( ROCHER | DIAMANT ) ^ 
 			getTypeBloc(mj, Position::getX(getDown(mj,x,y)), Position::getY(getDown(mj,x,y))) = VIDE
+		isWinGame(mj) ={min}  isSortieOuverte(mj) ^ getPosHero(mj) = getPosSortie(mj)
 		isGameOver(mj) ={min}  isDead(mj) = true ^ getPasRestants = 0;
 
  	[init]
@@ -55,6 +68,9 @@ Observations:
 			then isDead(moveUp(mj) = true;
 		else if (getTypeBloc(getUp(t, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) )) ) = (MUR)
 			then getPosHero(mj)
+			
+	[killHero]
+		getTypeBloc(mj, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) ) = DEAD_HERO
 	[]
 	[]
-// WinGame(mj) ={min}  isSortieOuverte(mj) ^ getPosHero(mj) = getPosSortie(mj)
+// 
