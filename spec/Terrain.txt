@@ -1,20 +1,25 @@
 Service: Terrain
 
-Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+Types: integer, boolean, enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
 
 Use: Bloc, Position
 
 Observators:
 	getLargeur : [Terrain] -> integer
 	getHauteur : [Terrain] -> integer
-	getPosHero : [Terrain] -> Position
-		pre getPosHero(t) require isHeroVivant(t)
-	getPosSortie : [Terrain] -> Position
+	getBlocHero : [Terrain] -> Bloc
+		pre getBlocHero(t) require isHeroVivant(t)
+	getBlocSortie : [Terrain] -> Bloc
 	getBloc : [Terrain] * integer * integer -> Bloc
-	getBlocHaut : [Terrain] * integer * integer -> Bloc
-	getBlocBas : [Terrain] * integer * integer -> Bloc
-	getBlocGauche : [Terrain] * integer * integer -> Bloc
-	getBlocDroite : [Terrain] * integer * integer -> Bloc
+	getBlocHaut : [Terrain] * Bloc -> Bloc
+	getBlocBas : [Terrain] * Bloc -> Bloc
+	getBlocGauche : [Terrain] * Bloc -> Bloc
+	getBlocDroite : [Terrain] * Bloc -> Bloc
+	getTypeBloc : [Terrain] * integer * integer -> TypeBloc
+	getTypeBlocHaut : [TypeBloc] * Bloc -> TypeBloc
+	getTypeBlocBas : [TypeBloc] * Bloc -> TypeBloc
+	getTypeBlocGauche : [TypeBloc] * Bloc -> TypeBloc
+	getTypeBlocDroite : [TypeBloc] * Bloc -> TypeBloc
 	isDiamantsRestants : [Terrain] -> boolean
 	isHeroVivant : [Terrain] -> boolean
 	isSortieOuverte : [Terrain] -> boolean
@@ -33,9 +38,9 @@ Observations:
 	[invariants]
 		isJouable(t) ={min} isHeroVivant(t) ^ 
 							
-		isHeroVivant(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = HERO
-		isDiamantsRestants(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = DIAMANT
-		isSortieOuverte(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = SORTIE_OUVERTE
+		isHeroVivant(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = HERO
+		isDiamantsRestants(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = DIAMANT
+		isSortieOuverte(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = SORTIE_OUVERTE
 		 
 	[init]
 		getLargeur(init(l,h)) = l
