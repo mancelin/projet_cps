@@ -2,11 +2,13 @@ Service: Bloc
 
 Types: enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
 
+Use: Position
+
 Observators:
 	getType : [Bloc] -> TypeBloc
 	
 Constructors:
-	init : TypeBloc -> [Bloc]
+	init : Position * TypeBloc -> [Bloc]
 	
 Operators:
 	setType : [Bloc] * TypeBloc -> [Bloc]
