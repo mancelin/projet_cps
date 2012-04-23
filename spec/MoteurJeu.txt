@@ -1,7 +1,8 @@
 Service: MoteurJeu
 
-Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
-Refine : Terrain
+Types: integer, boolean, enum Direction { HAUT, BAS, GAUCHE, DROITE } enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
+
+Use: Terrain, Bloc, Position
 
 Observators:
 	getTerrain : [MoteurJeu] -> Terrain
@@ -18,6 +19,24 @@ Constructors:
 		pre init(t, nbPas) require nbPas > 0
 	
 Operators:
+	deplacerHero : [MoteurJeu] * Direction -> [MoteurJeu]
+		pre deplacerHero(mj, dir) require ¬isPartieTerminee(mj)
+
+
+Observations:
+	[invariant]
+		peutTomber(mj, b) ={min} Terrain::getTypeBlocBas(getTerrain(mj), b)) \in { VIDE, HERO }
+		peutEtrePousseAGauche(mj, b) ={min} Terrain::getTypeGauche(getTerrain(mj), b) = VIDE
+		peutEtrePousseADroite(mj, b) ={min} Terrain::getTypeDroite(getTerrain(mj), b) = VIDE
+		isPartieTerminee(mj) ={min}
+			getPasRestants(mj) = 0
+			V ¬Terrain::isHeroVivant(getTerrain(mj))
+			V Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))
+		isPartieGagnee(mj) ={min} isPartieTerminee(mj) ^ Terrain::isHeroVivant(getTerrain(mj))
+
+
+----
+
 	triggerFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
 		pre triggerFall(mj,x,y) require estDansTerrain(mj,x,y) ^ canFall(mj,x,y)	
 	makeTopFall : [MoteurJeu] * integer * integer -> [MoteurJeu]   // pour faire tomber les bloc/diamants au dessus d'un bloc/diamant en chute
