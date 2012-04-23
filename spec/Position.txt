@@ -2,18 +2,20 @@ Service: Position
 
 Types: integer
 
+Use: Terrain
+
 Observators:
 	getX : [Position] -> integer
 	getY : [Position] -> integer
 	
 Constructors:
-	init : integer * integer -> [Position]
+	init : Terrain * integer * integer -> [Position]
 		pre init(x, y) require x >= 0 ^ y >= 0
 	
 Operators:
 
 Observations:
 	[init]
-		getX(init(x, y)) = x
-		getY(init(x, y)) = y
+		getX(init(T, x, y)) = x mod Terrain::getLargeur()
+		getY(init(T, x, y)) = y mod Terrain::getHauteur()
 	
