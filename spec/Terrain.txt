@@ -1,6 +1,6 @@
 Service: Terrain
 
-Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
 
 Use: Bloc, Position
 

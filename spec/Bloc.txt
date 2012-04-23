@@ -1,6 +1,6 @@
 Service: Bloc
 
-Types: enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+Types: enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
 
 Observators:
 	getType : [Bloc] -> TypeBloc
