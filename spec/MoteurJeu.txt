@@ -4,40 +4,37 @@ Types: integer, boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, DEAD_HERO, SORTIE
 Refine : Terrain
 
 Observators:
+	getTerrain : [MoteurJeu] -> Terrain
 	getPasRestants : [MoteurJeu] -> integer
-	canFall : [MoteurJeu] * integer * integer -> boolean
-	isPushableLeft : [MoteurJeu] * integer * integer -> boolean
-	isPushableRigth : [MoteurJeu] * integer * integer -> boolean
-	isDead : [MoteurJeu] -> boolean
-	isSortieOuverte : [Terrain] -> boolean
-		pre isSortieOuverte(mj) require isInTerrain(mj, Position::getX(getPosSortie(mj)), Position::getY(getPosSortie(mj)))
-	isWinGame : [MoteurJeu] -> boolean
-	isGameOver : [MoteurJeu] -> boolean
+	isPartieTerminee : [MoteurJeu] -> boolean
+	isPartieGagnee : [MoteurJeu] -> boolean
+	
+	peutTomber : [Terrain] * Bloc -> boolean
+	peutEtrePousseAGauche : [Terrain] * Bloc -> boolean
+	peutEtrePousseADroite : [Terrain] * Bloc -> boolean
 	
 Constructors:
 	init : [Terrain] * integer -> [MoteurJeu]
-		pre init(t, nbPas) require getLargeur(t)>0 ^ getHauteur(t)>0 ^ nbPas>0
+		pre init(t, nbPas) require nbPas > 0
 	
 Operators:
-	decrementePas : [MoteurJeu] -> [MoteurJeu]
-		pre decrementePas(mj) require !isGameOver(mj)
 	triggerFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre triggerFall(mj,x,y) require isInTerrain(mj,x,y) ^ canFall(mj,x,y)	
+		pre triggerFall(mj,x,y) require estDansTerrain(mj,x,y) ^ canFall(mj,x,y)	
 	makeTopFall : [MoteurJeu] * integer * integer -> [MoteurJeu]   // pour faire tomber les bloc/diamants au dessus d'un bloc/diamant en chute
 		pre makeTopFall(mj, x, y) require !isGameOver(mj)
 	moveUp : [MoteurJeu] -> [MoteurJeu]
-		pre moveUp(mj) require isGameOver(mj) = false ^ isInTerrain(mj,getUpx,y)
+		pre moveUp(mj) require isGameOver(mj) = false ^ estDansTerrain(mj,getUpx,y)
 	moveDown : [MoteurJeu] -> [MoteurJeu]
-		pre getDown(mj,x,y) require isGameOver(mj) = false ^ isInTerrain(mj,x,y)
+		pre getDown(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
 	moveLeft : [MoteurJeu] -> [MoteurJeu]
-		pre getLeft(mj,x,y) require isGameOver(mj) = false ^ isInTerrain(mj,x,y)
+		pre getLeft(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
 	moveRight : [MoteurJeu] -> [MoteurJeu]
-		pre getRigth(mj,x,y) require isGameOver(mj) = false ^ isInTerrain(mj,x,y)
+		pre getRigth(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
 	pushLeft : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre pushLeft(mj,x,y) require isInTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
+		pre pushLeft(mj,x,y) require estDansTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
 			getTypeBloc(t,Position::getX(getLeft(mj,x,y)), Position::getY(getLeft(mj,x,y))) = VIDE
 	pushRight : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre pushRight(mj,x,y) require isInTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
+		pre pushRight(mj,x,y) require estDansTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
 			getTypeBloc(t,Position::getX(getRight(mj,x,y)), Position::getY(getRight(mj,x,y))) = VIDE
 	takeDiamant : [MoteurJeu] -> [MoteurJeu]
 		pre takeDiamant(mj) require getTypeBloc(t,Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj))) = DIAMANT
@@ -57,11 +54,8 @@ Observations:
 		isGameOver(mj) ={min}  isDead(mj) = true ^ getPasRestants = 0;
 
  	[init]
-		getPasRestants(init(t,nbPas)) = nbPas
-		getHauteur(init(l,h)) = h
-		Position::getX(getPosHero(init(l,h)) ) = -1
-		Position::getY(getPosHero(init(l,h)) ) = -1 Position::getX(getPosSortie(init(l,h)) ) = -1
-		Position::getY(getPosSortie(init(l,h)) ) = -1
+		getPasRestants(init(t, nbPas)) = nbPas
+		getTerrain(init(t, nbPas)) = t
 	
 	[moveUp]	
 		if (getTypeBloc(getUp(t, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) )) ) = (ROCHER | DIAMANT)
