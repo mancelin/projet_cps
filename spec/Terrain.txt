@@ -33,18 +33,16 @@ Observations:
 	[invariants]
 		getTypeBloc(t, pos) ={min} Bloc::getType(getBloc(t, pos))
 		getBlocVersDirection(t, bloc, dir) ={min}
-			let* pos = Bloc::getPosition(bloc)
-			and x = Position::getX(pos)
-			and y = Position::getY(pos)
+			let pos = Bloc::getPosition(bloc)
 			in
 				if dir = HAUT then
-					getBloc(t, Position::init(t, x, y - 1))
+					getBloc(t, Position::deplacerVersHaut(pos))
 				else if dir = BAS then
-					getBloc(t, Position::init(t, x, y + 1))
+					getBloc(t, Position::deplacerVersBas(pos))
 				else if dir = GAUCHE then
-					getBloc(t, Position::init(t, x - 1, y))
+					getBloc(t, Position::deplacerVersGauche(pos))
 				else if dir = DROITE then
-					getBloc(t, Position::init(t, x + 1, y))
+					getBloc(t, Position::deplacerVersDroite(pos))
 		getTypeBlocVersDirection(t, bloc, dir) ={min} Bloc::getType(getBlocVersDirection(t, bloc, dir))
 		isHeroVivant(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = HERO
 		isDiamantsRestants(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = DIAMANT
@@ -79,5 +77,29 @@ Observations:
 			in
 				if pos = posBloc then
 					Bloc::init(type, pos)
+				else
+					getBloc(t, pos)
+	
+	[deplacerBlocVersDirection]
+		getPosSortie(deplacerBlocVersDirection(t, bloc, dir)) = getPosSortie(t)
+		getPosHero(deplacerBlocVersDirection(t, bloc, dir)) =
+			if bloc = getBlocHero(t) then
+				Bloc::getPosition(getBlocVersDirection(t, bloc, dir))
+			else
+				getPosHero(t)
+		getBlocHero(deplacerBlocVersDirection(t, bloc, dir)) =
+			if bloc = getBlocHero(t) then
+				Bloc::setType(getBlocVersDirection(t, bloc, dir), HERO)
+			else
+				getBlocHero(t)
+		getBloc(deplacerBlocVersDirection(t, bloc, dir), pos) =
+			let* blocDest = getBlocVersDirection(t, bloc, dir)
+			and posDest = Bloc::getPosition(blocDest)
+			and posOrig = Bloc::getPosition(bloc)
+			in
+				if pos = posDest then
+					Bloc::setType(blocDest, Bloc::getType(bloc))
+				else if pos = posOrig then
+					Bloc::setType(bloc, VIDE)
 				else
 					getBloc(t, pos)
