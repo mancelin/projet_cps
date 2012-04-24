@@ -12,10 +12,7 @@ Observators:
 	getBlocHero : [Terrain] -> Bloc
 		pre getBlocHero(t) require isHeroVivant(t)
 	getBloc : [Terrain] * Position -> Bloc
-	
-	getTypeBloc : [Terrain] * Position -> TypeBloc
 	getBlocVersDirection : [Terrain] * Bloc * Direction -> Bloc
-	getTypeBlocVersDirection : [Terrain] * Bloc * Direction -> TypeBloc
 	isHeroVivant : [Terrain] -> boolean
 	isDiamantsRestants : [Terrain] -> boolean
 	isDeplacementBlocPossible : [Terrain] * Bloc * Direction -> boolean
@@ -28,10 +25,10 @@ Operators:
 	setBloc : [Terrain] * TypeBloc * integer * integer -> [Terrain]
 	deplacerBlocVersDirection : [Terrain] * Bloc * Direction -> [Terrain]
 		pre deplacerBlocVersDirection(t, bloc, dir) require isDeplacementBlocPossible(t, bloc, dir)
-		
+	fairePasDeMiseAJour : [Terrain] -> [Terrain]
+	
 Observations:
 	[invariants]
-		getTypeBloc(t, pos) ={min} Bloc::getType(getBloc(t, pos))
 		getBlocVersDirection(t, bloc, dir) ={min}
 			let pos = Bloc::getPosition(bloc)
 			in
@@ -43,9 +40,8 @@ Observations:
 					getBloc(t, Position::deplacerVersGauche(pos))
 				else if dir = DROITE then
 					getBloc(t, Position::deplacerVersDroite(pos))
-		getTypeBlocVersDirection(t, bloc, dir) ={min} Bloc::getType(getBlocVersDirection(t, bloc, dir))
-		isHeroVivant(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = HERO
-		isDiamantsRestants(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = DIAMANT
+		isHeroVivant(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = HERO
+		isDiamantsRestants(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = DIAMANT
 		isDeplacementBlocPossible(t, bloc, dir) ={min} in ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
 
 	[init]
@@ -103,3 +99,20 @@ Observations:
 					Bloc::setType(bloc, VIDE)
 				else
 					getBloc(t, pos)
+	
+	[fairePasDeMiseAJour]
+		getPosSortie(fairePasDeMiseAJour(t)) = getPosSortie(t)
+		getPosHero(fairePasDeMiseAJour(t)) = getPosHero(t)
+		getBlocHero(fairePasDeMiseAJour(t)) = getBlocHero(t)
+		∀x ∈ 0..getLargeur(t) - 1, y ∈ getHauteur(t) - 1..0, pos = (x, y) getBloc(fairePasDeMiseAJour(t), pos) =
+			let bloc = getBloc(t, pos)
+			in
+				if Bloc::isSortieFermee(bloc) ^ ¬isDiamantsRestants(t) then
+					Bloc::setType(bloc, SORTIE_OUVERTE)
+				else if Bloc::isTombable(bloc) ^ Bloc::isVide(getBlocVersDirection(t, bloc, BAS))
+					Bloc::setType(bloc, VIDE)
+				else if Bloc::isVide(bloc) ^ Bloc::isTombable(getBlocVersDirection(t, bloc, HAUT))
+					Bloc::setType(bloc, Bloc::getType(getBlocVersDirection(t, bloc, HAUT)))
+				else
+					getBloc(t, pos)
+					
