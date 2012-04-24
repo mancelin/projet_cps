@@ -5,6 +5,8 @@ Types: integer
 Use: Terrain
 
 Observators:
+	const getLargeur : [Position] -> integer
+	const getHauteur : [Position] -> integer
 	getX : [Position] -> integer
 	getY : [Position] -> integer
 	
@@ -12,8 +14,31 @@ Constructors:
 	init : Terrain * integer * integer -> [Position]
 		pre init(x, y) require x >= 0 ^ y >= 0
 
+Operators:
+	deplacerVersHaut : [Position] -> [Position]
+	deplacerVersBas : [Position] -> [Position]
+	deplacerVersGauche : [Position] -> [Position]
+	deplacerVersDroite : [Position] -> [Position]
+	
 Observations:
 	[init]
+		getLargeur(init(T, x, y)) = Terrain::getLargeur()
+		getHauteur(init(T, x, y)) = Terrain::getHauteur()
 		getX(init(T, x, y)) = x mod Terrain::getLargeur()
 		getY(init(T, x, y)) = y mod Terrain::getHauteur()
 	
+	[deplacerVersHaut]
+		getX(deplacerVersHaut(p)) = getX(p)
+		getY(deplacerVersHaut(p)) = (y - 1) mod getHauteur(p)
+		
+	[deplacerVersBas]
+		getX(deplacerVersHaut(p)) = getX(p)
+		getY(deplacerVersHaut(p)) = (y + 1) mod getHauteur(p)
+		
+	[deplacerVersGauche]
+		getX(deplacerVersHaut(p)) = (x - 1) mod getLargeur(p)
+		getY(deplacerVersHaut(p)) = getY(p)
+	
+	[deplacerVersDroite]
+		getX(deplacerVersHaut(p)) = (x + 1) mod getLargeur(p)
+		getY(deplacerVersHaut(p)) = getY(p)
