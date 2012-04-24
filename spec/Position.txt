@@ -1,6 +1,6 @@
 Service: Position
 
-Types: integer
+Types: integer, enum Direction { HAUT, BAS, GAUCHE, DROITE }
 
 Use: Terrain
 
@@ -15,10 +15,7 @@ Constructors:
 		pre init(x, y) require x >= 0 ^ y >= 0
 
 Operators:
-	deplacerVersHaut : [Position] -> [Position]
-	deplacerVersBas : [Position] -> [Position]
-	deplacerVersGauche : [Position] -> [Position]
-	deplacerVersDroite : [Position] -> [Position]
+	deplacerVersDirection : [Position] * Direction -> [Position]
 	
 Observations:
 	[init]
@@ -27,18 +24,18 @@ Observations:
 		getX(init(T, x, y)) = x mod Terrain::getLargeur()
 		getY(init(T, x, y)) = y mod Terrain::getHauteur()
 	
-	[deplacerVersHaut]
-		getX(deplacerVersHaut(p)) = getX(p)
-		getY(deplacerVersHaut(p)) = (y - 1) mod getHauteur(p)
-		
-	[deplacerVersBas]
-		getX(deplacerVersHaut(p)) = getX(p)
-		getY(deplacerVersHaut(p)) = (y + 1) mod getHauteur(p)
-		
-	[deplacerVersGauche]
-		getX(deplacerVersHaut(p)) = (x - 1) mod getLargeur(p)
-		getY(deplacerVersHaut(p)) = getY(p)
-	
-	[deplacerVersDroite]
-		getX(deplacerVersHaut(p)) = (x + 1) mod getLargeur(p)
-		getY(deplacerVersHaut(p)) = getY(p)
+	[deplacerVersDirection]
+		getX(deplacerVersDirection(p, dir)) =
+			if dir = GAUCHE then
+				(getX(p) - 1) mod getLargeur(p)
+			else if dir = DROITE then
+				(getX(p) + 1) mod getLargeur(p)
+			else
+				getX(p)
+		getY(deplacerVersDirection(p, dir)) =
+			if dir = HAUT then
+				(getY(p) - 1) mod getHauteur(p)
+			else if dir = BAS then
+				(getY(p) + 1) mod getHauteur(p)
+			else
+				getY(p)

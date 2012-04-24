@@ -29,17 +29,7 @@ Operators:
 	
 Observations:
 	[invariants]
-		getBlocVersDirection(t, bloc, dir) ={min}
-			let pos = Bloc::getPosition(bloc)
-			in
-				if dir = HAUT then
-					getBloc(t, Position::deplacerVersHaut(pos))
-				else if dir = BAS then
-					getBloc(t, Position::deplacerVersBas(pos))
-				else if dir = GAUCHE then
-					getBloc(t, Position::deplacerVersGauche(pos))
-				else if dir = DROITE then
-					getBloc(t, Position::deplacerVersDroite(pos))
+		getBlocVersDirection(t, bloc, dir) ={min} getBloc(t, Position::deplacerVersDirection(Bloc::getPosition(bloc), dir))
 		isHeroVivant(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = HERO
 		isDiamantsRestants(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = DIAMANT
 		isDeplacementBlocPossible(t, bloc, dir) ={min} in ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
