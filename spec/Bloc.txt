@@ -6,12 +6,13 @@ Use: Position
 
 Observators:
 	getType : [Bloc] -> TypeBloc
+	getPosition : [Bloc] -> Position
 	isVide : [Bloc] -> boolean
 	isSolide : [Bloc] -> boolean
 	isDeplacable : [Bloc] -> boolean
 	
 Constructors:
-	init : Position * TypeBloc -> [Bloc]
+	init : TypeBloc * Position -> [Bloc]
 	
 Operators:
 	setType : [Bloc] * TypeBloc -> [Bloc]
@@ -23,6 +24,9 @@ Observations:
 		isDeplacable(b) ={min} getType(b) = ROCHER
 		
 	[init]
-		getType(init(tb)) = tb
+		getType(init(tb, pos)) = tb
+		getPosition(init(tb, pos)) = pos
+		
 	[setType]
 		getType(setType(b, tb)) = tb
+		getPosition(setType(b, tb)) = getPosition(b)

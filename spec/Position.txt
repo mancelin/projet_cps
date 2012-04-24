@@ -11,8 +11,6 @@ Observators:
 Constructors:
 	init : Terrain * integer * integer -> [Position]
 		pre init(x, y) require x >= 0 ^ y >= 0
-	
-Operators:
 
 Observations:
 	[init]
