@@ -7,12 +7,9 @@ Use: Terrain, Bloc, Position
 Observators:
 	getTerrain : [MoteurJeu] -> Terrain
 	getPasRestants : [MoteurJeu] -> integer
+	isDeplacementHeroPossible : [MoteurJeu] -> boolean
 	isPartieTerminee : [MoteurJeu] -> boolean
 	isPartieGagnee : [MoteurJeu] -> boolean
-	
-	peutTomber : [Terrain] * Bloc -> boolean
-	peutEtrePousseAGauche : [Terrain] * Bloc -> boolean
-	peutEtrePousseADroite : [Terrain] * Bloc -> boolean
 	
 Constructors:
 	init : [Terrain] * integer -> [MoteurJeu]
@@ -20,70 +17,37 @@ Constructors:
 	
 Operators:
 	deplacerHero : [MoteurJeu] * Direction -> [MoteurJeu]
-		pre deplacerHero(mj, dir) require ¬isPartieTerminee(mj)
+		pre deplacerHero(mj, dir) require ¬isPartieTerminee(mj) ^ isDeplacementHeroPossible(mj, dir)
 
 
 Observations:
 	[invariant]
-		peutTomber(mj, b) ={min} Terrain::getTypeBlocBas(getTerrain(mj), b)) \in { VIDE, HERO }
-		peutEtrePousseAGauche(mj, b) ={min} Terrain::getTypeGauche(getTerrain(mj), b) = VIDE
-		peutEtrePousseADroite(mj, b) ={min} Terrain::getTypeDroite(getTerrain(mj), b) = VIDE
 		isPartieTerminee(mj) ={min}
 			getPasRestants(mj) = 0
 			V ¬Terrain::isHeroVivant(getTerrain(mj))
 			V Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))
 		isPartieGagnee(mj) ={min} isPartieTerminee(mj) ^ Terrain::isHeroVivant(getTerrain(mj))
-
-
-----
-
-	triggerFall : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre triggerFall(mj,x,y) require estDansTerrain(mj,x,y) ^ canFall(mj,x,y)	
-	makeTopFall : [MoteurJeu] * integer * integer -> [MoteurJeu]   // pour faire tomber les bloc/diamants au dessus d'un bloc/diamant en chute
-		pre makeTopFall(mj, x, y) require !isGameOver(mj)
-	moveUp : [MoteurJeu] -> [MoteurJeu]
-		pre moveUp(mj) require isGameOver(mj) = false ^ estDansTerrain(mj,getUpx,y)
-	moveDown : [MoteurJeu] -> [MoteurJeu]
-		pre getDown(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
-	moveLeft : [MoteurJeu] -> [MoteurJeu]
-		pre getLeft(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
-	moveRight : [MoteurJeu] -> [MoteurJeu]
-		pre getRigth(mj,x,y) require isGameOver(mj) = false ^ estDansTerrain(mj,x,y)
-	pushLeft : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre pushLeft(mj,x,y) require estDansTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
-			getTypeBloc(t,Position::getX(getLeft(mj,x,y)), Position::getY(getLeft(mj,x,y))) = VIDE
-	pushRight : [MoteurJeu] * integer * integer -> [MoteurJeu]
-		pre pushRight(mj,x,y) require estDansTerrain(mj,x,y) ^ getTypeBloc(mj,x,y) = ROCHER ^
-			getTypeBloc(t,Position::getX(getRight(mj,x,y)), Position::getY(getRight(mj,x,y))) = VIDE
-	takeDiamant : [MoteurJeu] -> [MoteurJeu]
-		pre takeDiamant(mj) require getTypeBloc(t,Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj))) = DIAMANT
-	ouvrirSortie : [Terrain] -> [Terrain]
-		pre ouvrirSortie(t) require isSortieOuverte(t) = false ^ getNbDiamantsRestants(t) = 0
-	killHero : [MoteurJeu] -> [MoteurJeu]
-		pre killHero(mj) require isDead(mj) = false
-	winGame : [MoteurJeu] -> [MoteurJeu]
-	
-Observations:
-	[invariant]
-		ouvrirSortie(t) ={min}  setTypeBloc(t, Position::getX(getPosSortie(t), Position::getY(getPosSortie(t), SORTIE_OUVERTE)
-		killHero(t) ={min}  setTypeBloc(t, Position::getX(getPosHero(t), Position::getY(getPosHero(t), SORTIE_OUVERTE)		
-		canFall(mj,x,y) ={min}  getTypeBloc(mj,x,y) = ( ROCHER | DIAMANT ) ^ 
-			getTypeBloc(mj, Position::getX(getDown(mj,x,y)), Position::getY(getDown(mj,x,y))) = VIDE
-		isWinGame(mj) ={min}  isSortieOuverte(mj) ^ getPosHero(mj) = getPosSortie(mj)
-		isGameOver(mj) ={min}  isDead(mj) = true ^ getPasRestants = 0;
-
- 	[init]
-		getPasRestants(init(t, nbPas)) = nbPas
+		isDeplacementHeroPossible(mj, dir) ={min}
+			let* terrain = getTerrain(mj)
+			and blocHero = Terrain::getBlocHero(terrain)
+			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
+			in
+				¬Bloc::isSolide(blocDest)
+				V (Bloc::isDeplacable(blocDest) ^ Bloc::isVide(Terrain::getBlocVersDirection(terrain, blocDest, dir))
+		
+	[init]
 		getTerrain(init(t, nbPas)) = t
+		getPasRestants(init(t, nbPas)) = nbPas
 	
-	[moveUp]	
-		if (getTypeBloc(getUp(t, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) )) ) = (ROCHER | DIAMANT)
-			then isDead(moveUp(mj) = true;
-		else if (getTypeBloc(getUp(t, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) )) ) = (MUR)
-			then getPosHero(mj)
-			
-	[killHero]
-		getTypeBloc(mj, Position::getX(getPosHero(mj)), Position::getY(getPosHero(mj)) ) = DEAD_HERO
-	[]
-	[]
-// 
+	[deplacerHero]
+		getTerrain(deplacerHero(mj, dir)) =
+			let* terrain = getTerrain(mj)
+			and blocHero = Terrain::getBlocHero(terrain)
+			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
+			in
+				if ¬Bloc::isSolide(blocDest) then
+					Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)
+				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
+					let terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)
+					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
+		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1					
