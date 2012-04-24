@@ -1,11 +1,14 @@
 Service: Bloc
 
-Types: enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
+Types: boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
 
 Use: Position
 
 Observators:
 	getType : [Bloc] -> TypeBloc
+	isVide : [Bloc] -> boolean
+	isSolide : [Bloc] -> boolean
+	isDeplacable : [Bloc] -> boolean
 	
 Constructors:
 	init : Position * TypeBloc -> [Bloc]
@@ -14,6 +17,11 @@ Operators:
 	setType : [Bloc] * TypeBloc -> [Bloc]
 	
 Observations:
+	[invariant]
+		isVide(b) ={min} getType(b) = VIDE
+		isSolide(b) ={min} getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
+		isDeplacable(b) ={min} getType(b) = ROCHER
+		
 	[init]
 		getType(init(tb)) = tb
 	[setType]
