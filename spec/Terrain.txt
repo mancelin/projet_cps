@@ -1,61 +1,83 @@
 Service: Terrain
 
-Types: integer, boolean, enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
+Types: integer, boolean, enum Direction { HAUT, BAS, GAUCHE, DROITE }, enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
 
 Use: Bloc, Position
 
 Observators:
-	getLargeur : [Terrain] -> integer
-	getHauteur : [Terrain] -> integer
+	const getLargeur : [Terrain] -> integer
+	const getHauteur : [Terrain] -> integer
+	getPosSortie : [Terrain] -> Position
+	getPosHero : [Terrain] -> Position
 	getBlocHero : [Terrain] -> Bloc
 		pre getBlocHero(t) require isHeroVivant(t)
-	getBlocSortie : [Terrain] -> Bloc
-	getBloc : [Terrain] * integer * integer -> Bloc
-	getBlocHaut : [Terrain] * Bloc -> Bloc
-	getBlocBas : [Terrain] * Bloc -> Bloc
-	getBlocGauche : [Terrain] * Bloc -> Bloc
-	getBlocDroite : [Terrain] * Bloc -> Bloc
-	getTypeBloc : [Terrain] * integer * integer -> TypeBloc
-	getTypeBlocHaut : [TypeBloc] * Bloc -> TypeBloc
-	getTypeBlocBas : [TypeBloc] * Bloc -> TypeBloc
-	getTypeBlocGauche : [TypeBloc] * Bloc -> TypeBloc
-	getTypeBlocDroite : [TypeBloc] * Bloc -> TypeBloc
-	isDiamantsRestants : [Terrain] -> boolean
+	getBloc : [Terrain] * Position -> Bloc
+	
+	getTypeBloc : [Terrain] * Position -> TypeBloc
+	getBlocVersDirection : [Terrain] * Bloc * Direction -> Bloc
+	getTypeBlocVersDirection : [Terrain] * Bloc * Direction -> TypeBloc
 	isHeroVivant : [Terrain] -> boolean
-	isSortieOuverte : [Terrain] -> boolean
-	isJouable : [Terrain] -> boolean
+	isDiamantsRestants : [Terrain] -> boolean
+	isDeplacementBlocPossible : [Terrain] * Bloc * Direction -> boolean
 	
 Constructors:
 	init : integer * integer -> [Terrain]
 		pre init(l, h) require l > 0 ^ h > 0
 	
 Operators:
-	setPosHero : [Terrain] * integer * integer -> [Terrain]
-	setPosSortie : [Terrain] * integer * integer -> [Terrain]
-	setTypeBloc : [Terrain] * integer * integer * TypeBloc -> [Terrain]
+	setBloc : [Terrain] * TypeBloc * integer * integer -> [Terrain]
+	deplacerBlocVersDirection : [Terrain] * Bloc * Direction -> [Terrain]
+		pre deplacerBlocVersDirection(t, bloc, dir) require isDeplacementBlocPossible(t, bloc, dir)
 		
 Observations:
 	[invariants]
-		isJouable(t) ={min} isHeroVivant(t) ^ 
-							
+		getTypeBloc(t, pos) ={min} Bloc::getType(getBloc(t, pos))
+		getBlocVersDirection(t, bloc, dir) ={min}
+			let* pos = Bloc::getPosition(bloc)
+			and x = Position::getX(pos)
+			and y = Position::getY(pos)
+			in
+				if dir = HAUT then
+					getBloc(t, Position::init(t, x, y - 1))
+				else if dir = BAS then
+					getBloc(t, Position::init(t, x, y + 1))
+				else if dir = GAUCHE then
+					getBloc(t, Position::init(t, x - 1, y))
+				else if dir = DROITE then
+					getBloc(t, Position::init(t, x + 1, y))
+		getTypeBlocVersDirection(t, bloc, dir) ={min} Bloc::getType(getBlocVersDirection(t, bloc, dir))
 		isHeroVivant(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = HERO
 		isDiamantsRestants(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = DIAMANT
-		isSortieOuverte(t) ={min} ∃x,y tq. getTypeBloc(t, x, y) = SORTIE_OUVERTE
-		 
+		isDeplacementBlocPossible(t, bloc, dir) ={min} in ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
+
 	[init]
-		getLargeur(init(l,h)) = l
-		getHauteur(init(l,h)) = h
-		Position::getX(getPosHero(init(l,h)) ) = -1
-		Position::getY(getPosHero(init(l,h)) ) = -1 Position::getX(getPosSortie(init(l,h)) ) = -1
-		Position::getY(getPosSortie(init(l,h)) ) = -1
-		
-	[setPosHero]
-		Position::getX(getPosHero(setPosHero(t,x,y))) = x
-		Position::getY(getPosHero(setPosHero(t,x,y))) = y
-	[setPosSortie]
-		Position::getX(getPosSortie(setPosSortie(t,x,y))) = x
-		Position::getY(getPosSortie(setPosSortie(t,x,y))) = y
-	[ouvrirSortie]
-		getTypeBloc(t, Position::getX(getPosSortie(t)), Position::getY(getPosSortie(t)) ) = SORTIE_OUVERTE
-	[setTypeBloc]
-		getTypeBloc(setTypeBloc(t,x,y,tb), x, y) = tb
+		getLargeur(init(l, h)) = l
+		getHauteur(init(l, h)) = h
+		getPosSortie(init(l, h)) = null
+		getPosHero(init(l, h)) = null
+		getBlocHero(init(l, h)) = null
+		getBloc(init(l, h), p) = null
+	
+	[setBloc]
+		getPosSortie(setBloc(t, type, x, y)) =
+			if type = SORTIE_FERMEE then
+				Position::init(t, x, y)
+			else
+				getPosSortie(t)
+		getPosHero(setBloc(t, type, x, y)) =
+			if type = HERO then
+				Position::init(t, x, y)
+			else
+				getPosHero(t)
+		getBlocHero(setBloc(t, type, x, y)) =
+			if type = HERO then
+				Bloc::init(type, Position::init(t, x, y))
+			else
+				getBlocHero(t)
+		getBloc(setBloc(t, type, x, y), pos) =
+			let posBloc = Position::init(t, x, y)
+			in
+				if pos = posBloc then
+					Bloc::init(type, pos)
+				else
+					getBloc(t, pos)
