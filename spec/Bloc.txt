@@ -10,6 +10,8 @@ Observators:
 	isVide : [Bloc] -> boolean
 	isSolide : [Bloc] -> boolean
 	isDeplacable : [Bloc] -> boolean
+	isTombable : [Bloc] -> boolean
+	isSortieFermee : [Bloc] -> boolean
 	
 Constructors:
 	init : TypeBloc * Position -> [Bloc]
@@ -22,6 +24,8 @@ Observations:
 		isVide(b) ={min} getType(b) = VIDE
 		isSolide(b) ={min} getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
 		isDeplacable(b) ={min} getType(b) = ROCHER
+		isTombable(b) ={min} getType(b) \in { ROCHER, DIAMANT }
+		isSortieFermee(b) ={min} getType(b) = SORTIE_FERMEE
 		
 	[init]
 		getType(init(tb, pos)) = tb
