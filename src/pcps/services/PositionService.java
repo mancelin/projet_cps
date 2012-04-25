@@ -21,7 +21,7 @@ public interface PositionService {
 	 *  post: getX() = x mod Terrain::getLargeur()
 	 *  post: getY() = y mod Terrain::getHauteur()
 	 */
-	 public void init(int lim);
+	 public void init(TerrainService t, int x, int y);
 
 	/** déplacement vers une direction
 	 * post: if dir = GAUCHE
