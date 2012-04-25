@@ -21,34 +21,27 @@ public interface BlocService {
 	
 	/** Observateur: le bloc est une sortie fermmée */
 	public boolean isSortieFermee();
+	
+	// inv: isVide(b) == getType(b) = VIDE
+	// inv: isSolide(b) == getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
+	// inv: isDeplacable(b) == getType(b) = ROCHER
+	// inv: isTombable(b) == getType(b) \in { ROCHER, DIAMANT }
+	// inv: isSortieFermee(b) == getType(b) = SORTIE_FERMEE
+					
+	
+	/** iInitialisation
+	 *  pre: 
+	 *  post: getType() == tb
+	 *  post: getPosition() == pos
+	 */
+	public void init(TypeBloc tb, PositionService pos);
+	
+	
+	/** changement du type d' un bloc
+	 * post : getType() == tb
+	 * post	: getPosition() = getPosition()@pre
+	 */
+	public void setType(TypeBloc tb);
+	
+	
 }
-
-
-/*
-Service: Bloc
-
-Types: boolean, enum TypeBloc VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT
-
-
-Constructors:
-	init : TypeBloc * Position -> [Bloc]
-	
-Operators:
-	setType : [Bloc] * TypeBloc -> [Bloc]
-	
-Observations:
-	[invariant]
-		isVide(b) ={min} getType(b) = VIDE
-		isSolide(b) ={min} getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
-		isDeplacable(b) ={min} getType(b) = ROCHER
-		isTombable(b) ={min} getType(b) \in { ROCHER, DIAMANT }
-		isSortieFermee(b) ={min} getType(b) = SORTIE_FERMEE
-		
-	[init]
-		getType(init(tb, pos)) = tb
-		getPosition(init(tb, pos)) = pos
-		
-	[setType]
-		getType(setType(b, tb)) = tb
-		getPosition(setType(b, tb)) = getPosition(b)
-*/
