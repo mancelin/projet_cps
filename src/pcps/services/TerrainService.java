@@ -52,26 +52,26 @@ public interface TerrainService {
 	public void init(int l, int h);
 	
 	/** definition d' un bloc de type "type" a une coordonnée (x,y) du terrain 
-	 * post: Bloc::getType(getBloc(x,y)) = type
-	 * post: getPosSortie(setBloc(type, x, y)) =
+	 * post: Bloc::getType() = type
+	 * post: getPosSortie() =
 	 *			if type = SORTIE_FERMEE 
 	 *			then
 	 *				Position::init(t, x, y)
 	 *			else
 	 *				getPosSortie()
-	 * post: getPosHero(setBloc(type, x, y)) =
+	 * post: getPosHero() =
 	 *			if type = HERO 
 	 *			then
 	 *				Position::init(t, x, y)
 	 *			else
 	 *				getPosHero()
-	 * post: getBlocHero(setBloc(type, x, y)) =
+	 * post: getBlocHero() =
 	 *			if type = HERO 
 	 *			then
 	 *				Bloc::init(type, Position::init(t, x, y))
 	 *			else
 	 *				getBlocHero()
-	 * post: getBloc(setBloc(t, type, x, y), pos) =
+	 * post: getBloc(pos) =
 	 *			let posBloc = Position::init(t, x, y)
 	 *			in
 	 *				if pos = posBloc then

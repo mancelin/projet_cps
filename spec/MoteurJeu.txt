@@ -1,13 +1,13 @@
 Service: MoteurJeu
 
-Types: integer, boolean, enum Direction { HAUT, BAS, GAUCHE, DROITE } enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
+Types: integer, boolean, enum Direction { HAUT, BAS, GAUCHE, DROITE }, enum TypeBloc { VIDE, TERRE, MUR, HERO, SORTIE_FERMEE, SORTIE_OUVERTE, ROCHER, DIAMANT }
 
 Use: Terrain, Bloc, Position
 
 Observators:
 	getTerrain : [MoteurJeu] -> Terrain
 	getPasRestants : [MoteurJeu] -> integer
-	isDeplacementHeroPossible : [MoteurJeu] -> boolean
+	isDeplacementHeroPossible : [MoteurJeu] * Direction -> boolean
 	isPartieTerminee : [MoteurJeu] -> boolean
 	isPartieGagnee : [MoteurJeu] -> boolean
 	
