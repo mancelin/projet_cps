@@ -22,11 +22,11 @@ public interface BlocService {
 	/** Observateur: le bloc est une sortie fermmée */
 	public boolean isSortieFermee();
 	
-	// inv: isVide(b) == getType(b) = VIDE
-	// inv: isSolide(b) == getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
-	// inv: isDeplacable(b) == getType(b) = ROCHER
-	// inv: isTombable(b) == getType(b) \in { ROCHER, DIAMANT }
-	// inv: isSortieFermee(b) == getType(b) = SORTIE_FERMEE
+	// inv: isVide() == getType() = VIDE
+	// inv: isSolide() == getType() \in { SORTIE_FERMEE, MUR, ROCHER }
+	// inv: isDeplacable() == getType() = ROCHER
+	// inv: isTombable() == getType() \in { ROCHER, DIAMANT }
+	// inv: isSortieFermee() == getType() = SORTIE_FERMEE
 					
 	
 	/** initialisation
