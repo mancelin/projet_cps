@@ -1,6 +1,5 @@
 package pcps.services;
 
-import java.lang.reflect.Type;
 
 public interface TerrainService {
 	/** Observateur: largeur du terrain */
