@@ -29,7 +29,7 @@ public interface BlocService {
 	// inv: isSortieFermee(b) == getType(b) = SORTIE_FERMEE
 					
 	
-	/** iInitialisation
+	/** initialisation
 	 *  pre: 
 	 *  post: getType() == tb
 	 *  post: getPosition() == pos
