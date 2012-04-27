@@ -1,65 +1,37 @@
 package pcps.components;
 
 import pcps.services.BlocService;
-import pcps.services.Direction;
 import pcps.services.PositionService;
-import pcps.services.TerrainService;
 import pcps.services.TypeBloc;
 
 public class Bloc implements 
 	/* provide */
-	BlocService, PositionService {
+	BlocService {
 
-	private Position pos;
-	private TypeBloc type;
+	protected PositionService position;
+	protected TypeBloc type;
 	
 	
-	public Bloc () {
-		// do nothing ? ou contructeur avec init() ??
-	}
+	public Bloc () {}
 	
 	@Override
-	public int getLargeur() {
-		return pos.getLargeur();
-	}
-
-	@Override
-	public int getHauteur() {
-		return pos.getHauteur();
-	}
-
-	@Override
-	public int getX() {
-		return pos.getX();
-	}
-
-	@Override
-	public int getY() {
-		return pos.getY();
-	}
-
-	@Override
-	public void init(TerrainService t, int x, int y) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deplacerVersDirection(Direction dir) {
-		// TODO Auto-generated method stub
-
+	public void init(TypeBloc tb, PositionService pos) {
+		// TODO Auto-generated method stub	
 	}
 
 	@Override
 	public TypeBloc getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return type;
+	}
+	
+	@Override
+	public void setType(TypeBloc tb) {
+		type = tb;
 	}
 
 	@Override
-	public TypeBloc getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+	public PositionService getPosition() {
+		return position;
 	}
 
 	@Override
@@ -68,11 +40,13 @@ public class Bloc implements
 		return false;
 	}
 
+
 	@Override
 	public boolean isSolide() {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 	@Override
 	public boolean isDeplacable() {
@@ -80,28 +54,17 @@ public class Bloc implements
 		return false;
 	}
 
+
 	@Override
 	public boolean isTombable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+
 	@Override
 	public boolean isSortieFermee() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public void init(TypeBloc tb, PositionService pos) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setType(TypeBloc tb) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
