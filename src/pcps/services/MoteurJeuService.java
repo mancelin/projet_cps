@@ -1,76 +1,54 @@
 package pcps.services;
 
 public interface MoteurJeuService {
-	/** Observateur: terrain associé au moteur de jeu */
+	/** Observator: terrain associé au moteur de jeu */
 	public TerrainService getTerrain();
 	
-	/** Observateur: nombre de pas restants pour que la partie soit terminée ( et perdue ) */
+	/** Observator: nombre de pas restants pour que la partie soit interrompue */
 	public int getPasRestants();
 	
-	/** Observateur: déplacement du hero possible dans la direction "dir" ? */
+	/** Observator: le héro peut-il se déplacer dans la direction donnée ? */
 	public boolean isDeplacementHeroPossible(Direction dir);
 	
-	/** Observateur: la partie est terminée ? */
+	/** Observator: la partie est-elle terminée ? */
 	public boolean isPartieTerminee();
 	
-	/** Observateur: la partie est gagnée ? */
+	/** Observator: la partie est-elle gagnée ? */
 	public boolean isPartieGagnee();
 	
-	// inv: isPartieTerminee() == 
-	//  		getPasRestants() = 0
-	//			V ¬Terrain::isHeroVivant(getTerrain())
-	//			V Terrain::getPosSortie(getTerrain()) = Terrain::getPosHero(getTerrain())
-	// inv: isPartieGagnee() == isPartieTerminee() ^ Terrain::isHeroVivant(getTerrain()) 
+	
+	/** Invariant */
+	// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || getTerrain().getPosSortie == getTerrain().getPosHero())
+	// inv: isPartieGagnee() == (isPartieTerminee() && getTerrain().isHeroVivant() 
 	// inv: isDeplacementHeroPossible(dir) ==
-	// 			let* terrain = getTerrain()
-	//			and blocHero = Terrain::getBlocHero()
-	//			and blocDest = Terrain::getBlocVersDirection(blocHero, dir)
-	//			in
-	//				¬Bloc::isSolide()
-	//				V (Bloc::isDeplacable() ^ Bloc::isVide(Terrain::getBlocVersDirection(blocDest, dir))
+	//        \let* terrain = getTerrain()
+	//        \and blocHero = terrain.getBlocHero()
+	//        \and blocDest = terrain.getBlocVersDirection(blocHero, dir)
+	//        \in !blocDest.isSolide() || (blocDest.isDeplacable() && terrain.getBlocVersDirection(blocDest, dir).isVide()
 
 	
-	/** initialisation
-	 * pre: nbPas > 0
-	 * post: getTerrain() = t
-	 * post: getPasRestants() = nbPas
+	/**
+	 * Constructor init:
+	 *   pre: nbPas > 0
+	 *   post: getTerrain() = t
+	 *   post: getPasRestants() = nbPas
 	 */
 	public void init(TerrainService t, int nbPas);
 	
-	/** deplace le hero d' une case dans la direction "dir"
-	 * pre: ¬isPartieTerminee() ^ isDeplacementHeroPossible(dir)
-	 * post: getTerrain() =
-	 *			let* terrain = getTerrain()
-	 *			and blocHero = Terrain::getBlocHero()
-	 *			and blocDest = Terrain::getBlocVersDirection(blocHero, dir)
-	 *			in
-	 *				if ¬Bloc::isSolide(blocDest) then
-	 *					Terrain::deplacerBlocVersDirection(blocHero, dir)
-	 *				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
-	 *					let terrain' = Terrain::deplacerBlocVersDirection(blocDest, dir)
-	 *					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
- 	 * post: getPasRestants() = getPasRestants()@pre - 1
+	/**
+	 * Operator deplacerHero: déplacer le héro d'une case dans la direction donnée
+	 *   pre: !isPartieTerminee() && isDeplacementHeroPossible(dir)
+	 *   post:
+	 *       \let* terrain = getTerrain()
+	 *       \and blocHero = terrain.getBlocHero()
+	 *       \and blocDest = terrain.getBlocVersDirection(blocHero, dir)
+	 *       \in
+	 *           \if !blocDest.isSolide() \then
+	 *               getTerrain() = getTerrain()@pre.deplacerBlocVersDirection(blocHero, dir)
+	 *           \else \if blocDest.isDeplacable() && dir \in { GAUCHE, DROITE } \then
+	 *               getTerrain()@pre.deplacerBlocVersDirection(blocDest, dir)
+	 *               terrain == getTerrain()@pre.deplacerBlocVersDirection(blocHero, dir)
+	 *   post: getPasRestants() = getPasRestants()@pre - 1
 	 */
 	public void deplacerHero(Direction dir);
-	
-	
 }
-
-/*
-	
-
-Observations:
-	
-	[deplacerHero]
-		getTerrain(deplacerHero(mj, dir)) =
-			let* terrain = getTerrain(mj)
-			and blocHero = Terrain::getBlocHero(terrain)
-			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
-			in
-				if ¬Bloc::isSolide(blocDest) then
-					Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)
-				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
-					let terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)
-					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
-		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1					
-*/
