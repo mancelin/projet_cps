@@ -2,143 +2,133 @@ package pcps.services;
 
 
 public interface TerrainService {
-	/** Observateur: largeur du terrain */
+	/** Observator: largeur du terrain */
 	public int getLargeur();
 	
-	/** Observateur: hauteur du terrain */
+	/** Observator: hauteur du terrain */
 	public int getHauteur();
 	
-	/** Observateur: retourne la position de la sortie */
+	/** Observator: position de la sortie */
 	public PositionService getPosSortie();
 	
-	/** Observateur: retourne la position du hero */
+	/** Observator: position courante du héro */
 	public PositionService getPosHero();
 	
-	/** Observateur: retourne le bloc a la position du hero 
-	 * pre: isHeroVivant()
+	/**
+	 * Observator: bloc représentant le héro
+	 *   pre: isHeroVivant()
 	 */
 	public BlocService getBlocHero();
 	
-	/** Observateur: retourne le bloc a une position donnée */
+	/** Observator: bloc à une position donnée */
 	public BlocService getBloc(PositionService pos);
 	
-	/** Observateur: retourne le bloc voisin  de "bloc" dans la direction "dir" */
+	/** Observator: bloc voisin  d'un bloc donné dans une direction donnée */
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir);
 	
-	/** Observateur: le heros est vivant? (pas ecrasé par un ROCHER ou a court de temps) */
+	/** Observator: le heros est-il vivant ? (= y a t-il un bloc HERO sur le terrain) */
 	public boolean isHeroVivant();
 	
-	/** Observateur: il reste de diamants dans le terrain? (pas ecrasé par un ROCHER ou a court de temps) */
+	/** Observator: reste-t-il des diamants sur le terrain? */
 	public boolean isDiamantsRestants();
 	
-	/** Observateur: le bloc "bloc" peut être déplacé dans la direction "dir" ?*/
+	/** Observator: le bloc donné peut-il être déplacé dans la direction donnée ? */
 	public boolean isDeplacementBlocPossible(BlocService bloc, Direction dir);
 	
-	
-	// inv: getBlocVersDirection(bloc, dir) == getBloc(Position::deplacerVersDirection(Bloc::getPosition(), dir))
-	// inv: isHeroVivant() == ∃x,y tq. Bloc::getType(getBloc(x, y)) = HERO
-	// inv: isDiamantsRestants() == ∃x,y tq. Bloc::getType(getBloc(x, y)) = DIAMANT
-	// inv: isDeplacementBlocPossible(bloc, dir) == in ¬Bloc::isSolide(getBlocVersDirection(bloc, dir))
+	/** Invariants */
+	// inv: getBlocVersDirection(bloc, dir) == bloc.getPosition().deplacerVersDirection(dir)
+	// inv: isHeroVivant() == (\existe x,y \tq getBloc(x, y).getType() == HERO)
+	// inv: isDiamantsRestants() == (\existe x,y \tq getBloc(x, y).getType() == DIAMANT)
+	// inv: isDeplacementBlocPossible(bloc, dir) == !getBlocVersDirection(bloc, dir).isSolide()
 			
-	/** initialisation
-	 *  pre: l > 0 ^ h > 0
-	 *  post: getLargeur() == l
-	 *  post: getHauteur() == h
-	 *  post: getPosSortie() == null
-	 *  post: getPosHero() == null
-	 *  post: getBlocHero() == null
-	 *  post: getBloc(p) == null
+	/**
+	 * Constructor init:
+	 *   pre: l > 0 ^ h > 0
+	 *   post: getLargeur() == l
+	 *   post: getHauteur() == h
+	 *   post: getPosSortie() == null
+	 *   post: getPosHero() == null
+	 *   post: getBlocHero() == null
+	 *   post: getBloc(p) == null
 	 */
 	public void init(int l, int h);
 	
-	/** definition d' un bloc de type "type" a une coordonnée (x,y) du terrain 
-	 * post: Bloc::getType() = type
-	 * post: getPosSortie() =
-	 *			if type = SORTIE_FERMEE 
-	 *			then
-	 *				Position::init(t, x, y)
-	 *			else
-	 *				getPosSortie()
-	 * post: getPosHero() =
-	 *			if type = HERO 
-	 *			then
-	 *				Position::init(t, x, y)
-	 *			else
-	 *				getPosHero()
-	 * post: getBlocHero() =
-	 *			if type = HERO 
-	 *			then
-	 *				Bloc::init(type, Position::init(t, x, y))
-	 *			else
-	 *				getBlocHero()
-	 * post: getBloc(pos) =
-	 *			let posBloc = Position::init(t, x, y)
-	 *			in
-	 *				if pos = posBloc then
-	 *					Bloc::init(type, pos)
-	 *				else
-	 *					getBloc(pos)
+	/**
+	 * Operator setBloc: définie le type du bloc aux coordonnées données 
+	 *   post:
+	 *     \if type == SORTIE_FERMEE \then
+	 *         getPosSortie() == Position().init(this, x, y)
+	 *     \else
+	 *         getPosSortie() == getPosSortie()@pre
+	 *   post:
+	 *     \if type == HERO \then
+	 *         getPosHero() == Position().init(this, x, y)
+	 *     \else
+	 *         getPosHero() == getPosHero()@pre
+	 *   post:
+	 *     \if type == HERO \then
+	 *         getBlocHero() == Bloc().init(type, Position().init(this, x, y))
+	 *     \else
+	 *         getBlocHero() == getBlocHero()@pre
+	 *   post:
+	 *     \let posBloc = Position().init(this, x, y) \in
+	 *         \if pos == posBloc \then
+	 *             getBloc(pos) == Bloc().init(type, pos)
+	 *         \else
+	 *             getBloc(pos) == getBloc(pos)@pre
 	 */
 	public void setBloc(TypeBloc type, int x, int y);
 	
-	/** déplace le bloc "bloc" d' un case dans la direction "dir"
-	 * pre: isDeplacementBlocPossible(bloc, dir)
-	 * post: getPosSortie() = getPosSortie()@pre
-	 * 
+	/**
+	 * Operator deplacerBlocVersDirection: déplacer le bloc donné d'une case vers la direction donnée
+	 *   pre: isDeplacementBlocPossible(bloc, dir)
+	 *   post: getPosSortie() == getPosSortie()@pre
+	 *   post:
+	 *     \if bloc == getBlocHero() \then
+	 *         getPosHero() == getBlocVersDirection(bloc, dir)
+	 *     \else
+	 *         getPosHero() == getPosHero()@pre
+	 *   post:
+	 *     \if bloc == getBlocHero() \then
+	 *         getBlocHero() == getBlocVersDirection(bloc, dir).setType(HERO)
+	 *     \else
+	 *         getBlocHero() == getBlocHero()@pre
+	 *   post:
+	 *     \let* blocDest = getBlocVersDirection(bloc, dir)
+	 *     \and posDest = blocDest.getPosition()
+	 *     \and posOrig = bloc.getPosition()
+	 *     \in
+	 *         \if pos == posDest \then
+	 *             getBloc(pos) == blocDest.setType(bloc.getType())
+	 *         \else \if pos == posOrig \then
+	 *             getBloc(pos) == bloc.setType(VIDE)
+	 *         \else
+	 *             getBloc(pos) == getBloc(pos)@pre
 	 */
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir);
 	
-	/** met a jour le terrain 
-	 * post: getPosSortie() = getPosSortie()@pre 
-	 * post: getPosHero() = getPosHero()@pre
-	 * post: getBlocHero() = getBlocHero()@pre
+	/**
+	 * Operator fairePasDeMiseAJour: fait un pas de mise à jour du terrain,
+	 * soit:
+	 * 	- ouvre la sortie si tous les diamants sont ramassés
+	 *  - déplace les objets tombables d'une case vers le bas 
+	 * 
+	 *   post: getPosSortie() = getPosSortie()@pre 
+	 *   post: getPosHero() = getPosHero()@pre
+	 *   post: getBlocHero() = getBlocHero()@pre
+	 *   \forall x:integer \in [0..getLargeur()-1] {
+	 *       \forall y:integer \in [getHauteur()-1..0] {
+	 *           \let bloc = getBloc(Position().init(this, x, y)) \in
+	 *               \if bloc.isSortieFermee() && !isDiamantsRestants() \then
+	 *                   bloc == bloc@pre.setType(SORTIE_OUVERTE)
+	 *               \else \if bloc.isTombable() && getBlocVersDirection(bloc, BAS).isVide() \then
+	 *                   bloc == bloc@pre.setType(VIDE)
+	 *               \else \if bloc.isVide() && getBlocVersDirection(bloc, HAUT).isTombable() \then
+	 *                   bloc == bloc@pre.setType(bloc, getBlocVersDirection(bloc, HAUT).getType)
+	 *               \else
+	 *                   bloc == bloc@pre
+	 *       }
+	 *   }
 	 */
-	public void fairePasDeMiseAJour();
-	
+	public void fairePasDeMiseAJour();	
 }
-
-/*
- * 
- *Service: Terrain
-
-Observations:
-
-	
-	[deplacerBlocVersDirection]
-		getPosHero(deplacerBlocVersDirection(t, bloc, dir)) =
-			if bloc = getBlocHero(t) then
-				Bloc::getPosition(getBlocVersDirection(t, bloc, dir))
-			else
-				getPosHero(t)
-		getBlocHero(deplacerBlocVersDirection(t, bloc, dir)) =
-			if bloc = getBlocHero(t) then
-				Bloc::setType(getBlocVersDirection(t, bloc, dir), HERO)
-			else
-				getBlocHero(t)
-		getBloc(deplacerBlocVersDirection(t, bloc, dir), pos) =
-			let* blocDest = getBlocVersDirection(t, bloc, dir)
-			and posDest = Bloc::getPosition(blocDest)
-			and posOrig = Bloc::getPosition(bloc)
-			in
-				if pos = posDest then
-					Bloc::setType(blocDest, Bloc::getType(bloc))
-				else if pos = posOrig then
-					Bloc::setType(bloc, VIDE)
-				else
-					getBloc(t, pos)
-	
-	[fairePasDeMiseAJour]
-
-		∀x ∈ 0..getLargeur(t) - 1, y ∈ getHauteur(t) - 1..0, pos = (x, y) getBloc(fairePasDeMiseAJour(t), pos) =
-			let bloc = getBloc(t, pos)
-			in
-				if Bloc::isSortieFermee(bloc) ^ ¬isDiamantsRestants(t) then
-					Bloc::setType(bloc, SORTIE_OUVERTE)
-				else if Bloc::isTombable(bloc) ^ Bloc::isVide(getBlocVersDirection(t, bloc, BAS))
-					Bloc::setType(bloc, VIDE)
-				else if Bloc::isVide(bloc) ^ Bloc::isTombable(getBlocVersDirection(t, bloc, HAUT))
-					Bloc::setType(bloc, Bloc::getType(getBlocVersDirection(t, bloc, HAUT)))
-				else
-					getBloc(t, pos)
-					 
- */

@@ -32,7 +32,7 @@ Observations:
 		getBlocVersDirection(t, bloc, dir) ={min} getBloc(t, Position::deplacerVersDirection(Bloc::getPosition(bloc), dir))
 		isHeroVivant(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = HERO
 		isDiamantsRestants(t) ={min} ∃x,y tq. Bloc::getType(getBloc(t, x, y)) = DIAMANT
-		isDeplacementBlocPossible(t, bloc, dir) ={min} in ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
+		isDeplacementBlocPossible(t, bloc, dir) ={min} ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
 
 	[init]
 		getLargeur(init(l, h)) = l

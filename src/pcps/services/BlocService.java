@@ -1,47 +1,47 @@
 package pcps.services;
 
 public interface BlocService {
-	/** Observateur: type du bloc */
+	/** Observator: type du bloc */
 	public TypeBloc getType();
 	
-	/** Observateur: position du bloc */
-	public TypeBloc getPosition();
+	/** Observator: position du bloc */
+	public PositionService getPosition();
 	
-	/** Observateur: le bloc est de type VIDE ? */
+	/** Observator: le bloc est-il de type VIDE ? */
 	public boolean isVide();
 	
-	/** Observateur: le bloc est solide ? ( est de type SORTIE_FERMEE, MUR ou ROCHER ) */
+	/** Observator: le bloc est-il solide ? (type SORTIE_FERMEE, MUR ou ROCHER) */
 	public boolean isSolide();
 	
-	/** Observateur: le bloc est "potentiellement" deplaçable ? ( est de type ROCHER ) */
+	/** Observator: le bloc est-il "potentiellement" deplaçable ? (de type ROCHER) */
 	public boolean isDeplacable();
 	
-	/** Observateur: le bloc peut tomber ( est de type ROCHER ou DIAMANT ) */
+	/** Observator: le bloc peut-il tomber ? (de type ROCHER ou DIAMANT) */
 	public boolean isTombable();
 	
-	/** Observateur: le bloc est une sortie fermmée */
+	/** Observator: le bloc est-il une sortie fermée ? */
 	public boolean isSortieFermee();
 	
-	// inv: isVide() == getType() = VIDE
-	// inv: isSolide() == getType() \in { SORTIE_FERMEE, MUR, ROCHER }
-	// inv: isDeplacable() == getType() = ROCHER
-	// inv: isTombable() == getType() \in { ROCHER, DIAMANT }
-	// inv: isSortieFermee() == getType() = SORTIE_FERMEE
+	
+	/** Invariant */
+	// inv: isVide() == (getType() == VIDE)
+	// inv: isSolide() == (getType() \in { SORTIE_FERMEE, MUR, ROCHER })
+	// inv: isDeplacable() == (getType() == ROCHER)
+	// inv: isTombable() == (getType() \in { ROCHER, DIAMANT })
+	// inv: isSortieFermee() == (getType() == SORTIE_FERMEE)
 					
 	
-	/** initialisation
-	 *  pre: 
-	 *  post: getType() == tb
-	 *  post: getPosition() == pos
+	/**
+	 * Constructor init:
+	 *   post: getType() == tb
+	 *   post: getPosition() = pos
 	 */
 	public void init(TypeBloc tb, PositionService pos);
 	
-	
-	/** changement du type d' un bloc
-	 * post : getType() == tb
-	 * post	: getPosition() = getPosition()@pre
+	/**
+	 * Operator setType: changer le type du bloc
+	 *   post: getType() == tb
+	 *   post: getPosition() == getPosition()@pre
 	 */
 	public void setType(TypeBloc tb);
-	
-	
 }

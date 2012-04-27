@@ -12,7 +12,7 @@ Observators:
 	
 Constructors:
 	init : Terrain * integer * integer -> [Position]
-		pre init(x, y) require x >= 1 ^ y >= 1
+		pre init(x, y) require x >= 0 ^ y >= 0
 
 Operators:
 	deplacerVersDirection : [Position] * Direction -> [Position]
