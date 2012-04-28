@@ -1,5 +1,7 @@
 package pcps.services;
 
+import pcps.enums.Direction;
+
 public interface MoteurJeuService {
 	/** Observator: terrain associé au moteur de jeu */
 	public TerrainService getTerrain();

@@ -1,5 +1,7 @@
 package pcps.services;
 
+import pcps.enums.TypeBloc;
+
 public interface BlocService {
 	/** Observator: type du bloc */
 	public TypeBloc getType();

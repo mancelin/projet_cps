@@ -1,6 +1,6 @@
 package pcps.components;
 
-import pcps.services.Direction;
+import pcps.enums.Direction;
 import pcps.services.PositionService;
 import pcps.services.TerrainService;
 
@@ -45,5 +45,18 @@ public class Position implements
 
 	@Override
 	public void deplacerVersDirection(Direction dir) {
+		switch(dir){
+			case GAUCHE:
+				x = (x - 1) % largeur;
+			
+			case DROITE:
+				x = (x + 1) % largeur;
+				
+			case HAUT:
+				y = (y - 1) % hauteur;
+				
+			case BAS:
+				y = (y + 1) % hauteur;
+		}
 	}
 }

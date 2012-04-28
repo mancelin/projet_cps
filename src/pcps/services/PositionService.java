@@ -1,5 +1,7 @@
 package pcps.services;
 
+import pcps.enums.Direction;
+
 public interface PositionService {
 	/** Observator: largeur du terrain (sert au calcul des coordonnées cycliques) */
 	public int getLargeur();

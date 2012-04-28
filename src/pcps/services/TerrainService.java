@@ -1,5 +1,8 @@
 package pcps.services;
 
+import pcps.enums.Direction;
+import pcps.enums.TypeBloc;
+
 
 public interface TerrainService {
 	/** Observator: largeur du terrain */

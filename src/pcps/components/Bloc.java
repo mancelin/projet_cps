@@ -1,8 +1,8 @@
 package pcps.components;
 
+import pcps.enums.TypeBloc;
 import pcps.services.BlocService;
 import pcps.services.PositionService;
-import pcps.services.TypeBloc;
 
 public class Bloc implements 
 	/* provide */
