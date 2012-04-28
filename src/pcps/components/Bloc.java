@@ -8,15 +8,18 @@ public class Bloc implements
 	/* provide */
 	BlocService {
 
-	protected PositionService position;
 	protected TypeBloc type;
+	protected PositionService position;
 	
 	
-	public Bloc () {}
+	public Bloc () {
+		// do nothing
+	}
 	
 	@Override
 	public void init(TypeBloc tb, PositionService pos) {
-		// TODO Auto-generated method stub	
+		type=tb;
+		position=pos;
 	}
 
 	@Override
@@ -36,35 +39,40 @@ public class Bloc implements
 
 	@Override
 	public boolean isVide() {
-		// TODO Auto-generated method stub
+		if(type == TypeBloc.VIDE)
+			return true;
 		return false;
 	}
 
 
 	@Override
 	public boolean isSolide() {
-		// TODO Auto-generated method stub
+		if(type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.MUR || type == TypeBloc.ROCHER )
+			return true;
 		return false;
 	}
 
 
 	@Override
 	public boolean isDeplacable() {
-		// TODO Auto-generated method stub
+		if(type == TypeBloc.ROCHER)
+			return true;
 		return false;
 	}
 
 
 	@Override
 	public boolean isTombable() {
-		// TODO Auto-generated method stub
+		if(type == TypeBloc.ROCHER || type == TypeBloc.DIAMANT)
+			return true;
 		return false;
 	}
 
 
 	@Override
 	public boolean isSortieFermee() {
-		// TODO Auto-generated method stub
+		if(type == TypeBloc.SORTIE_FERMEE)
+			return true;
 		return false;
 	}
 }
