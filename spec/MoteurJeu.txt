@@ -27,13 +27,18 @@ Observations:
 			V ¬Terrain::isHeroVivant(getTerrain(mj))
 			V Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))
 		isPartieGagnee(mj) ={min} isPartieTerminee(mj) ^ Terrain::isHeroVivant(getTerrain(mj))
-		isDeplacementHeroPossible(mj, dir) ={min}
+		∀dir ⊆ { GAUCHE, DROITE }, isDeplacementHeroPossible(mj, dir) ={min}
+			let* terrain = getTerrain(mj)
+			and blocHero = Terrain::getBlocHero(terrain)
+			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
+			in
+				¬Bloc::isSolide(blocDest) V (Bloc::isDeplacable(blocDest) ^ Bloc::isVide(Terrain::getBlocVersDirection(terrain, blocDest, dir))
+		∀dir ⊆ { HAUT, BAS }, isDeplacementHeroPossible(mj, dir) ={min}
 			let* terrain = getTerrain(mj)
 			and blocHero = Terrain::getBlocHero(terrain)
 			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
 			in
 				¬Bloc::isSolide(blocDest)
-				V (Bloc::isDeplacable(blocDest) ^ Bloc::isVide(Terrain::getBlocVersDirection(terrain, blocDest, dir))
 		
 	[init]
 		getTerrain(init(t, nbPas)) = t
