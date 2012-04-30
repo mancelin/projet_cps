@@ -39,8 +39,8 @@ public interface MoteurJeuService {
 	/**
 	 * Constructor init:
 	 *   pre: nbPas > 0
-	 *   post: getTerrain() = t
-	 *   post: getPasRestants() = nbPas
+	 *   post: getTerrain() == t
+	 *   post: getPasRestants() == nbPas
 	 */
 	public void init(TerrainService t, int nbPas);
 
@@ -57,7 +57,7 @@ public interface MoteurJeuService {
 	 *         \else \if blocDest.isDeplacable() && dir \in { GAUCHE, DROITE } \then
 	 *             getTerrain()@pre.deplacerBlocVersDirection(blocDest, dir)
 	 *             getTerrain() == getTerrain()@pre.deplacerBlocVersDirection(blocHero, dir)
-	 *   post: getPasRestants() = getPasRestants()@pre - 1
+	 *   post: getPasRestants() == getPasRestants()@pre - 1
 	 */
 	public void deplacerHero(Direction dir);
 }
