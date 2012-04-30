@@ -36,7 +36,7 @@ public interface BlocService {
 	/**
 	 * Constructor init:
 	 *   post: getType() == tb
-	 *   post: getPosition() = pos
+	 *   post: getPosition() == pos
 	 */
 	public void init(TypeBloc tb, PositionService pos);
 	

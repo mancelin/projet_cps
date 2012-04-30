@@ -18,7 +18,7 @@ public interface PositionService {
 	
 	/**
 	 * Constructor init:
-	 *   pre: x >= 0 ^ y >= 0
+	 *   pre: x >= 0 && y >= 0
 	 *   post: getLargeur() == terrain.getLargeur()
 	 *   post: getHauteur() == terrain.getHauteur()
 	 *   post: getX() == x mod terrain.getLargeur()
