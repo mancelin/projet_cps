@@ -46,6 +46,11 @@ public class BlocDecorator implements BlocService {
 	}
 
 	@Override
+	public boolean isSortie() {
+		return getDelegate().isSortie();
+	}
+	
+	@Override
 	public boolean isSortieFermee() {
 		return getDelegate().isSortieFermee();
 	}

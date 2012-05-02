@@ -23,6 +23,9 @@ public interface BlocService {
 	/** Observator: le bloc peut-il tomber ? (de type ROCHER ou DIAMANT) */
 	public boolean isTombable();
 	
+	/** Observator: le bloc est-il une sortie ouverte ou fermée ? */
+	boolean isSortie();
+	
 	/** Observator: le bloc est-il une sortie fermée ? */
 	public boolean isSortieFermee();
 	
@@ -32,6 +35,7 @@ public interface BlocService {
 	// inv: isSolide() == (getType() \in { SORTIE_FERMEE, MUR, ROCHER })
 	// inv: isDeplacable() == (getType() == ROCHER)
 	// inv: isTombable() == (getType() \in { ROCHER, DIAMANT })
+	// inv: isSortie() == (getType() \in { SORTIE_FERMEE, SORTIE_OUVERTE }
 	// inv: isSortieFermee() == (getType() == SORTIE_FERMEE)
 					
 	

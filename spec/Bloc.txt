@@ -11,6 +11,7 @@ Observators:
 	isSolide : [Bloc] -> boolean
 	isDeplacable : [Bloc] -> boolean
 	isTombable : [Bloc] -> boolean
+	isSortie : [Bloc] -> boolean
 	isSortieFermee : [Bloc] -> boolean
 	
 Constructors:
@@ -25,6 +26,7 @@ Observations:
 		isSolide(b) ={min} getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
 		isDeplacable(b) ={min} getType(b) = ROCHER
 		isTombable(b) ={min} getType(b) \in { ROCHER, DIAMANT }
+		isSortie(b) ={min} getType(b) \in { SORTIE_FERMEE, SORTIE_OUVERTE }
 		isSortieFermee(b) ={min} getType(b) = SORTIE_FERMEE
 		
 	[init]

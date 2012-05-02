@@ -28,6 +28,10 @@ public class BlocContract extends BlocDecorator {
 		if (!(isTombable() == (getType() == TypeBloc.ROCHER || getType() == TypeBloc.DIAMANT)))
 			Contractor.defaultContractor().invariantError("BlocService", "Un bloc considéré tombable doit être de type ROCHER ou DIAMANT.");
 		
+		// inv: isSortie() == (getType() \in { SORTIE_FERMEE, SORTIE_OUVERTE }
+		if (!(isSortie() == (getType() == TypeBloc.SORTIE_FERMEE || getType() == TypeBloc.SORTIE_OUVERTE)))
+			Contractor.defaultContractor().invariantError("BlocService", "Un bloc étant une sortie doit être de type SORTIE_FERMEE ou SORTIE_OUVERTE.");
+
 		// inv: isSortieFermee() == (getType() == SORTIE_FERMEE)
 		if (!(isSortieFermee() == (getType() == TypeBloc.SORTIE_FERMEE)))
 			Contractor.defaultContractor().invariantError("BlocService", "Un bloc étant une sortie fermée doit être de type SORTIE_FERMEE.");
@@ -58,6 +62,11 @@ public class BlocContract extends BlocDecorator {
 		return super.isTombable();
 	}
 
+	@Override
+	public boolean isSortie() {
+		return super.isSortie();
+	}
+	
 	@Override
 	public boolean isSortieFermee() {
 		return super.isSortieFermee();

@@ -75,6 +75,12 @@ public class Bloc implements
 		return false;
 	}
 
+	@Override
+	public boolean isSortie() {
+		if (type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.SORTIE_OUVERTE)
+			return true;
+		return false;
+	}
 
 	@Override
 	public boolean isSortieFermee() {
