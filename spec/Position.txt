@@ -2,8 +2,6 @@ Service: Position
 
 Types: integer, enum Direction { HAUT, BAS, GAUCHE, DROITE }
 
-Use: Terrain
-
 Observators:
 	const getLargeur : [Position] -> integer
 	const getHauteur : [Position] -> integer
@@ -11,18 +9,18 @@ Observators:
 	getY : [Position] -> integer
 	
 Constructors:
-	init : Terrain * integer * integer -> [Position]
-		pre init(x, y) require x >= 0 ^ y >= 0
+	init : integer * integer * integer * integer -> [Position]
+		pre init(l, h, x, y) require l > 0 ^ h > 0 ^ x >= 0 ^ y >= 0
 
 Operators:
 	deplacerVersDirection : [Position] * Direction -> [Position]
 	
 Observations:
 	[init]
-		getLargeur(init(T, x, y)) = Terrain::getLargeur()
-		getHauteur(init(T, x, y)) = Terrain::getHauteur()
-		getX(init(T, x, y)) = x mod Terrain::getLargeur()
-		getY(init(T, x, y)) = y mod Terrain::getHauteur()
+		getLargeur(init(l, h, x, y)) = l
+		getHauteur(init(l, h, x, y)) = h
+		getX(init(l, h, x, y)) = x mod l
+		getY(init(l, h, x, y)) = y mod h
 	
 	[deplacerVersDirection]
 		getX(deplacerVersDirection(p, dir)) =

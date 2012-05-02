@@ -2,7 +2,6 @@ package pcps.components;
 
 import pcps.enums.Direction;
 import pcps.services.PositionService;
-import pcps.services.TerrainService;
 
 public class Position implements
 	/* provides */
@@ -16,9 +15,16 @@ public class Position implements
 	public Position() {}
 
 	@Override
-	public void init(TerrainService terrain, int x, int y) {
-		largeur = terrain.getLargeur();
-		hauteur = terrain.getHauteur();
+	public PositionService copy() {
+		PositionService copy = new Position();
+		copy.init(getLargeur(), getHauteur(), getX(), getY());
+		return copy;
+	}
+	
+	@Override
+	public void init(int l, int h, int x, int y) {
+		largeur = l;
+		hauteur = h;
 		this.x = x % largeur;
 		this.y = y % hauteur;
 	}

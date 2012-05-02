@@ -16,6 +16,11 @@ public class BlocDecorator implements BlocService {
 	}
 	
 	@Override
+	public BlocService copy() {
+		return getDelegate().copy();
+	}
+	
+	@Override
 	public PositionService getPosition() {
 		return getDelegate().getPosition();
 	}

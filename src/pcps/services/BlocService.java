@@ -3,6 +3,8 @@ package pcps.services;
 import pcps.enums.TypeBloc;
 
 public interface BlocService {
+	public BlocService copy();
+	
 	/** Observator: type du bloc */
 	public TypeBloc getType();
 	

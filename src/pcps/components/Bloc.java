@@ -17,6 +17,13 @@ public class Bloc implements
 	}
 	
 	@Override
+	public BlocService copy() {
+		BlocService copy = new Bloc();
+		copy.init(getType(), getPosition().copy());
+		return copy;
+	}
+	
+	@Override
 	public void init(TypeBloc tb, PositionService pos) {
 		type=tb;
 		position=pos;

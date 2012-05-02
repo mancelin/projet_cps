@@ -1,5 +1,7 @@
 package pcps.decorators;
 
+import java.util.Set;
+
 import pcps.enums.Direction;
 import pcps.enums.TypeBloc;
 import pcps.services.BlocService;
@@ -15,6 +17,11 @@ public class TerrainDecorator implements TerrainService {
 	
 	protected TerrainService getDelegate() {
 		return delegate;
+	}
+	
+	@Override
+	public TerrainService copy() {
+		return getDelegate().copy();
 	}
 	
 	@Override
@@ -43,15 +50,25 @@ public class TerrainDecorator implements TerrainService {
 	}
 
 	@Override
-	public BlocService getBloc(PositionService pos) {
-		return getDelegate().getBloc(pos);
+	public BlocService getBlocDepuisPosition(PositionService pos) {
+		return getDelegate().getBlocDepuisPosition(pos);
 	}
-
+	
+	@Override
+	public BlocService getBloc(int x, int y) {
+		return getDelegate().getBloc(x, y);
+	}
+	
 	@Override
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
 		return getDelegate().getBlocVersDirection(bloc, dir);
 	}
 
+	@Override
+	public Set<BlocService> getBlocs() {
+		return getDelegate().getBlocs();
+	}
+	
 	@Override
 	public boolean isHeroVivant() {
 		return getDelegate().isHeroVivant();
@@ -86,5 +103,4 @@ public class TerrainDecorator implements TerrainService {
 	public void fairePasDeMiseAJour() {
 		getDelegate().fairePasDeMiseAJour();
 	}
-
 }

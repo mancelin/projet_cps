@@ -3,6 +3,8 @@ package pcps.services;
 import pcps.enums.Direction;
 
 public interface PositionService {
+	public PositionService copy();
+	
 	/** Observator: largeur du terrain (sert au calcul des coordonnées cycliques) */
 	public int getLargeur();
 	
@@ -18,13 +20,13 @@ public interface PositionService {
 	
 	/**
 	 * Constructor init:
-	 *   pre: x >= 0 && y >= 0
-	 *   post: getLargeur() == terrain.getLargeur()
-	 *   post: getHauteur() == terrain.getHauteur()
-	 *   post: getX() == x mod terrain.getLargeur()
-	 *   post: getY() == y mod terrain.getHauteur()
+	 *   pre: l > 0 && h > 0 && x >= 0 && y >= 0
+	 *   post: getLargeur() == l
+	 *   post: getHauteur() == h
+	 *   post: getX() == x mod l
+	 *   post: getY() == y mod h
 	 */
-	 public void init(TerrainService terrain, int x, int y);
+	 public void init(int l, int h, int x, int y);
 
 	/**
 	 * Operator deplacerVersDirection: déplacer la position d'un pas dans une direction

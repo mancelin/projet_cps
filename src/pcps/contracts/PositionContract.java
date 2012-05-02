@@ -3,7 +3,6 @@ package pcps.contracts;
 import pcps.decorators.PositionDecorator;
 import pcps.enums.Direction;
 import pcps.services.PositionService;
-import pcps.services.TerrainService;
 
 public class PositionContract extends PositionDecorator {
 
@@ -36,23 +35,23 @@ public class PositionContract extends PositionDecorator {
 	}
 
 	@Override
-	public void init(TerrainService terrain, int x, int y) {
-		// pre: x >= 0 && y >= 0
-		if (!(x >= 0 && y >= 0))
-			Contractor.defaultContractor().preconditionError("PositionService", "init", "Les coordonnées (x, y) doivent être supérieures à 0.");
+	public void init(int l, int h, int x, int y) {
+		// pre: l > 0 && h > 0 && x >= 0 && y >= 0
+		if (!(l > 0 && h > 0 && x >= 0 && y >= 0))
+			Contractor.defaultContractor().preconditionError("PositionService", "init", "La largeur et la hauteur du terrain doivent être strictement positives et les coordonnées (x, y) doivent être positives.");
 		
 		// run
-		super.init(terrain, x, y);
+		super.init(l, h, x, y);
 		
 		// invariant@post
 		checkInvariant();
 		
-		// post: getLargeur() == terrain.getLargeur()
-		if (!(getLargeur() == terrain.getLargeur()))
+		// post: getLargeur() == l
+		if (!(getLargeur() == l))
 			Contractor.defaultContractor().postconditionError("PositionService", "init", "getLargeur() doit retourner la largeur du terrain fourni au constructeur.");
 		
-		// post: getHauteur() == terrain.getHauteur()
-		if (!(getHauteur() == terrain.getHauteur()))
+		// post: getHauteur() == h
+		if (!(getHauteur() == h))
 			Contractor.defaultContractor().postconditionError("PositionService", "init", "getHauteur() doit retourner la hauteur du terrain fourni au constructeur.");
 	}
 

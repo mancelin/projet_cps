@@ -2,7 +2,6 @@ package pcps.decorators;
 
 import pcps.enums.Direction;
 import pcps.services.PositionService;
-import pcps.services.TerrainService;
 
 public class PositionDecorator implements PositionService {
 	private PositionService delegate;
@@ -13,6 +12,11 @@ public class PositionDecorator implements PositionService {
 	
 	protected PositionService getDelegate() {
 		return delegate;
+	}
+	
+	@Override
+	public PositionService copy() {
+		return getDelegate().copy();
 	}
 	
 	@Override
@@ -36,8 +40,8 @@ public class PositionDecorator implements PositionService {
 	}
 
 	@Override
-	public void init(TerrainService terrain, int x, int y) {
-		getDelegate().init(terrain, x, y);
+	public void init(int l, int h, int x, int y) {
+		getDelegate().init(l, h, x, y);
 	}
 
 	@Override
