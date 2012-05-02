@@ -1,5 +1,7 @@
 package pcps.components;
 
+import java.util.Set;
+
 import pcps.enums.Direction;
 import pcps.enums.TypeBloc;
 import pcps.services.BlocService;
@@ -14,6 +16,7 @@ public class Terrain implements
 	protected int hauteur;	
 	protected BlocService[][] matriceTerrain;
 
+	
 	@Override
 	public void init(int l, int h) {
 		largeur = l;
@@ -29,6 +32,11 @@ public class Terrain implements
 		}
 	}
 	
+	@Override
+	public TerrainService copy() {
+		// a faire...
+		return null;
+	}
 	
 	@Override
 	public int getLargeur() {
@@ -74,11 +82,11 @@ public class Terrain implements
 	@Override
 	public BlocService getBlocHero() {
 		PositionService posHero = getPosHero();
-		return getBloc(posHero);
+		return getBlocDepuisPosition(posHero);
 	}
 
 	@Override
-	public BlocService getBloc(PositionService pos) {
+	public BlocService getBlocDepuisPosition(PositionService pos) {
 		return matriceTerrain[pos.getX()-1][pos.getY()-1];
 	}
 
@@ -124,6 +132,20 @@ public class Terrain implements
 	public void fairePasDeMiseAJour() {
 		// TODO Auto-generated method stub
 
+	}
+
+
+	@Override
+	public BlocService getBloc(int x, int y) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public Set<BlocService> getBlocs() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
