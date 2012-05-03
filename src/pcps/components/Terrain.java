@@ -1,5 +1,6 @@
 package pcps.components;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import pcps.enums.Direction;
@@ -34,8 +35,9 @@ public class Terrain implements
 	
 	@Override
 	public TerrainService copy() {
-		// a faire...
-		return null;
+		TerrainService copy = new Terrain();
+		copy.init(getLargeur(), getHauteur());
+		return copy;
 	}
 	
 	@Override
@@ -92,25 +94,42 @@ public class Terrain implements
 
 	@Override
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
-		// TODO Auto-generated method stub
-		return null;
+		PositionService	posBloc = bloc.getPosition();
+		posBloc.deplacerVersDirection(dir);
+		return getBlocDepuisPosition(posBloc);
 	}
 
 	@Override
 	public boolean isHeroVivant() {
-		// TODO Auto-generated method stub
+		if(getPosHero() != null){
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isDiamantsRestants() {
-		// TODO Auto-generated method stub
+		for(int x=1;x<=largeur;x++){
+			for(int y=1;y<=hauteur;y++){
+				if(matriceTerrain[x-1][y-1].getType() == TypeBloc.DIAMANT ){
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean isDeplacementBlocPossible(BlocService bloc, Direction dir) {
-		// TODO Auto-generated method stub
+		if(bloc.isDeplacable()){
+			BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
+			if (blocVersDirection.getType() == TypeBloc.VIDE){
+				return true;
+			}
+			return false;
+		}
+		
+		// si bloc non deplaçable ( pas ROCHER )
 		return false;
 	}
 
@@ -118,14 +137,15 @@ public class Terrain implements
 
 	@Override
 	public void setBloc(TypeBloc type, int x, int y) {
-		// TODO Auto-generated method stub
-
+		getBloc(x,y).setType(type);
 	}
 
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
-		// TODO Auto-generated method stub
-
+		TypeBloc tb = bloc.getType();
+		bloc.setType(TypeBloc.VIDE);
+		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
+		blocVersDirection.setType(tb);
 	}
 
 	@Override
@@ -137,15 +157,19 @@ public class Terrain implements
 
 	@Override
 	public BlocService getBloc(int x, int y) {
-		// TODO Auto-generated method stub
-		return null;
+		return matriceTerrain[x-1][y-1];
 	}
 
 
 	@Override
 	public Set<BlocService> getBlocs() {
-		// TODO Auto-generated method stub
-		return null;
+		Set<BlocService> setBlocs = new HashSet<BlocService>();
+		for(int x=1;x<=largeur;x++){
+			for(int y=1;y<=hauteur;y++){
+				setBlocs.add(matriceTerrain[x-1][y-1]);
+			}
+		}
+		return setBlocs;
 	}
 
 }
