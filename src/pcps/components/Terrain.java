@@ -121,17 +121,8 @@ public class Terrain implements
 
 	@Override
 	public boolean isDeplacementBlocPossible(BlocService bloc, Direction dir) {
-		if(bloc.isDeplacable()){
-			BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-			if (blocVersDirection.getType() == TypeBloc.VIDE ||
-				blocVersDirection.getType() == TypeBloc.HERO ){  // un bloc peut écraser un hero 
-				return true;
-			}
-			return false;
-		}
-		
-		// si bloc non deplaçable ( pas ROCHER )
-		return false;
+		return (bloc.isDeplacable() && !getBlocVersDirection(bloc,dir).isSolide() && 
+				(getBlocVersDirection(bloc, dir).getType() == TypeBloc.TERRE));
 	}
 
 	
@@ -151,6 +142,10 @@ public class Terrain implements
 
 	@Override
 	public void fairePasDeMiseAJour() {
+		if(!isDiamantsRestants()){
+			PositionService posSortie = getPosSortie();
+			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
+		}
 		for(int x=1;x<=largeur;x++){
 			for(int y=hauteur;y>=1;y--){
 				BlocService bloc = getBloc(x,y);
