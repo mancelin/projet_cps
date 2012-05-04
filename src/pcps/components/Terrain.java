@@ -101,10 +101,7 @@ public class Terrain implements
 
 	@Override
 	public boolean isHeroVivant() {
-		if(getPosHero() != null){
-			return true;
-		}
-		return false;
+		return (getPosHero() != null);
 	}
 
 	@Override
