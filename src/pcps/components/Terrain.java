@@ -123,7 +123,8 @@ public class Terrain implements
 	public boolean isDeplacementBlocPossible(BlocService bloc, Direction dir) {
 		if(bloc.isDeplacable()){
 			BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-			if (blocVersDirection.getType() == TypeBloc.VIDE){
+			if (blocVersDirection.getType() == TypeBloc.VIDE ||
+				blocVersDirection.getType() == TypeBloc.HERO ){  // un bloc peut écraser un hero 
 				return true;
 			}
 			return false;
@@ -150,8 +151,16 @@ public class Terrain implements
 
 	@Override
 	public void fairePasDeMiseAJour() {
-		// TODO Auto-generated method stub
-
+		for(int x=1;x<=largeur;x++){
+			for(int y=hauteur;y>=1;y--){
+				BlocService bloc = getBloc(x,y);
+				if(bloc.isTombable()){
+					if(isDeplacementBlocPossible(bloc,Direction.BAS)){
+						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
+					}
+				}
+			}
+		}
 	}
 
 

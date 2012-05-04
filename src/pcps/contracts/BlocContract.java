@@ -110,7 +110,7 @@ public class BlocContract extends BlocDecorator {
 		
 		// post: getType() == tb
 		if (!(getType() == tb))
-			Contractor.defaultContractor().postconditionError("BlocService", "setType", "getType() devrait retourné le nouveau type passé en paramètre à setType().");
+			Contractor.defaultContractor().postconditionError("BlocService", "setType", "getType() devrait retourner le nouveau type passé en paramètre à setType().");
 		
 		// post: getPosition() == getPosition()@pre
 		if (!(getPosition() == getPositionAtPre))
