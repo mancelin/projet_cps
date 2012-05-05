@@ -27,7 +27,6 @@ public class Bloc implements
 	public void init(TypeBloc tb, PositionService pos) {
 		type=tb;
 		position=pos;
-		System.out.println("bloc init ");
 	}
 
 	@Override

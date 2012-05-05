@@ -22,17 +22,16 @@ public class Terrain implements
 	public void init(int l, int h) {
 		largeur = l;
 		hauteur = h;
+		matriceTerrain = new BlocService[largeur][hauteur];
 		for(int x=1;x<=largeur;x++){
 			for(int y=1;y<=hauteur;y++){
 				PositionService pos = new Position();
 				pos.init(l, h, x, y);
 				BlocService bloc = new Bloc();
 				bloc.init(TypeBloc.VIDE, pos);
-				System.out.printf("matriceTerrain[%d][%d] = bloc;\n",x-1,y-1);
 				matriceTerrain[x-1][y-1] = bloc;
 			}
 		}
-		System.out.println("terrain init");
 	}
 	
 	@Override

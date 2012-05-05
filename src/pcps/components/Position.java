@@ -27,7 +27,6 @@ public class Position implements
 		hauteur = h;
 		this.x = x % largeur;
 		this.y = y % hauteur;
-		System.out.printf("pos init : l=%d h=%d x=%d y=%d\n",l,h,x,y);
 	}
 
 	@Override
