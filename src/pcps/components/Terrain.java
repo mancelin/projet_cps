@@ -83,8 +83,11 @@ public class Terrain implements
 
 	@Override
 	public BlocService getBlocHero() {
-		PositionService posHero = getPosHero();
-		return getBlocDepuisPosition(posHero);
+		if(isHeroVivant()){
+			PositionService posHero = getPosHero();
+			return getBlocDepuisPosition(posHero);
+		}
+		return null;
 	}
 
 	@Override
@@ -131,10 +134,12 @@ public class Terrain implements
 
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
-		TypeBloc tb = bloc.getType();
-		bloc.setType(TypeBloc.VIDE);
-		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-		blocVersDirection.setType(tb);
+		if(isDeplacementBlocPossible(bloc, dir)){
+			TypeBloc tb = bloc.getType();
+			bloc.setType(TypeBloc.VIDE);
+			BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
+			blocVersDirection.setType(tb);
+		}
 	}
 
 	@Override
