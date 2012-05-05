@@ -28,9 +28,11 @@ public class Terrain implements
 				pos.init(l, h, x, y);
 				BlocService bloc = new Bloc();
 				bloc.init(TypeBloc.VIDE, pos);
+				System.out.printf("matriceTerrain[%d][%d] = bloc;\n",x-1,y-1);
 				matriceTerrain[x-1][y-1] = bloc;
 			}
 		}
+		System.out.println("terrain init");
 	}
 	
 	@Override
