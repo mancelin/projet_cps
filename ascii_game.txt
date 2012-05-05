@@ -1,4 +1,5 @@
-exemple de terrain (20,10)
+exemple de terrain (20,10) , 50 pas:
+20 10 50
 ####################
 #..x.....----O----Y-
 #------------OO-----
@@ -12,6 +13,10 @@ exemple de terrain (20,10)
 
 
 
+
+////////////////////////
+largeur hauteur nbPas
+[matriceTerrain]
 
 
 
