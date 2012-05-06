@@ -1,6 +1,8 @@
 package pcps.components;
 
 import pcps.enums.Direction;
+import pcps.enums.TypeBloc;
+import pcps.parser.TerrainParser;
 import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
 import pcps.services.TerrainService;
@@ -58,6 +60,24 @@ public class MoteurJeu implements
 			}
 			nbPasRestants--;
 		}
+	}
+	
+	public String toString(){
+		String res = "";
+		if(isPartieTerminee())
+			return "Game Over!";
+		if(isPartieGagnee())
+			return "You Win!";
+		res += Integer.toString(nbPasRestants) +" pas restants\n";
+
+		for(int y=1;y<=terrain.getHauteur();y++){
+			for(int x=1;x<=terrain.getLargeur();x++){
+				res += TerrainParser.charDeTypeBloc(terrain.getBloc(x, y).getType());
+			}
+			res +="\n";
+		}
+		
+		return res;		
 	}
 
 }
