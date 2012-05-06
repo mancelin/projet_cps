@@ -11,145 +11,127 @@ import pcps.services.TerrainService;
 
 public class TerrainParser {
 
-	public static void lireFichier()
-
+	public static void lire(String fichier) throws IOException //throws IOException
 	{
-		String fichier = "";
-		String ligne = "";
+		BufferedReader lecteurAvecBuffer = null;
+		String ligne;
 
 		try
 		{
-			BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
-
-			System.out.println("Fichier de niveau : ");
-			fichier = clavier.readLine();
-
-			// try {
-			BufferedReader ficTexte = new BufferedReader(new FileReader(new File(fichier)));
-			if (ficTexte == null) {
-				throw new FileNotFoundException("Fichier non trouvé: " + fichier);
-			}
-			//lecture ligne entéte fichier	
-			
-			/* dgb
-			
-			ligne = ficTexte.readLine();
-			String tab[] =ligne.split(" ");
-			
-			
-			System.out.print(">>>>\n");
-			int sum=0;
-			for(int i=0;i<tab.length;i++){
-				System.out.println("tab["+i+"] : " + tab[i]);
-				sum+=Integer.parseInt(tab[i]);
-			}
-			System.out.println("sum : " + sum);
-			*/
-			do {
-				ligne = ficTexte.readLine();
-				if (ligne != null) {
-					System.out.println(ligne + " => " + ligne.length());
-				}
-				
-			} while (ficTexte != null);
-			ficTexte.close();
-			System.out.println("\n");
+			lecteurAvecBuffer = new BufferedReader(new FileReader(new File(fichier)));
 		}
-
-		catch (FileNotFoundException e) {
-
-			System.out.println(e.getMessage());
+		catch(FileNotFoundException exc)
+		{
+			System.out.println("Erreur d'ouverture");
 		}
-
-		catch (IOException e) {
-
-			System.out.println(e.getMessage());
-		}
+		while ((ligne = lecteurAvecBuffer.readLine()) != null)
+			System.out.println(ligne);
+		lecteurAvecBuffer.close();
 	}
-	
+
+	public static void lireFichier(String fichier) throws IOException
+
+	{
+		//String fichier = "";
+		String ligne = "";
+		BufferedReader ficTexte = null;
+
+		try
+		{
+			ficTexte = new BufferedReader(new FileReader(new File(fichier)));
+		}
+		catch(FileNotFoundException exc)
+		{
+			System.out.println("Erreur d'ouverture");
+		}
+		while ((ligne = ficTexte.readLine()) != null)
+			System.out.println(ligne + " => " + ligne.length());
+		ficTexte.close();
+	}
+
 	public static TypeBloc typeBlocDeChar(char c){
 		switch(c){
-			case '#' : return TypeBloc.MUR;
-			case 'x' : return TypeBloc.HERO;
-			case 'O' : return TypeBloc.ROCHER;
-			case 'Y' : return TypeBloc.DIAMANT;
-			case '-' : return TypeBloc.TERRE;
-			case '.' : return TypeBloc.VIDE;
-			case '?' : return TypeBloc.SORTIE_FERMEE;
-			default : throw new IllegalArgumentException("Aucun type de bloc ne correspond au caractére "+c);
+		case '#' : return TypeBloc.MUR;
+		case 'x' : return TypeBloc.HERO;
+		case 'O' : return TypeBloc.ROCHER;
+		case 'Y' : return TypeBloc.DIAMANT;
+		case '-' : return TypeBloc.TERRE;
+		case '.' : return TypeBloc.VIDE;
+		case '?' : return TypeBloc.SORTIE_FERMEE;
+		default : throw new IllegalArgumentException("Aucun type de bloc ne correspond au caractére "+c);
 
 		}
 	}
-	
-	public static MoteurJeuService terrainDeFichier(){
-		String fichier = "";
+
+	public static MoteurJeuService terrainDeFichier(String fichier) throws IOException
+
+	{
+		//String fichier = "";
 		String ligne = "";
+		BufferedReader ficTexte = null;
+		int largeur;
+		int hauteur;
+		int nbPas=0;
 		
 		MoteurJeuService mj = new MoteurJeu();
 		TerrainService t = new Terrain();
 
+
+		
 		try
 		{
-			BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
-
-			System.out.println("Fichier de niveau : ");
-			fichier = clavier.readLine();
-
-			// try {
-			BufferedReader ficTexte = new BufferedReader(new FileReader(new File(fichier)));
-			if (ficTexte == null)
-				throw new FileNotFoundException("Fichier non trouvé: " + fichier);
-			
-			ligne = ficTexte.readLine();
-			String tabEntete[] =ligne.split(" ");
-			
-			int largeur = Integer.parseInt(tabEntete[0]);
-			int hauteur = Integer.parseInt(tabEntete[1]);
-			int nbPas = Integer.parseInt(tabEntete[2]);
-			
-			t.init(largeur, hauteur);
-			
-			int x =0;
-			int y = 0;
-			do {
-				y++;
-				x=0;
-				ligne = ficTexte.readLine();
-				if (ligne != null) {
-					x++;
-					for(int i=0;i<ligne.length();i++){
-						System.out.print(ligne.charAt(i)); 
-						t.setBloc(typeBlocDeChar(ligne.charAt(i)), x, y);
-					}
-				//	System.out.println(ligne + " => " + ligne.length());
-					System.out.println();
-				}
-				
-			} while (ficTexte != null);
-			
-			mj.init(t, nbPas);
+			ficTexte = new BufferedReader(new FileReader(new File(fichier)));
 		}
-
-		catch (FileNotFoundException e) {
-
-			System.out.println(e.getMessage());
+		catch(FileNotFoundException exc)
+		{
+			System.out.println("Erreur d'ouverture");
 		}
+		ligne = ficTexte.readLine();
+		String tabEntete[] =ligne.split(" ");
 
-		catch (IOException e) {
-
-			System.out.println(e.getMessage());
-		}		
+		largeur = Integer.parseInt(tabEntete[0]);
+		hauteur = Integer.parseInt(tabEntete[1]);
+		nbPas = Integer.parseInt(tabEntete[2]);
+		t.init(largeur, hauteur);
+		int y = 0;
+		while ((ligne = ficTexte.readLine()) != null){
+			y++;
+			for(int i=0;i<ligne.length();i++){
+				//	x++;
+				System.out.print(ligne.charAt(i)); 
+				t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);
+				System.out.printf("in the for x=%d y=%d \n", i+1,y);
+			}
+		}
+		ficTexte.close();
+		mj.init(t, nbPas);
 		return mj;
 	}
-	
-	
+		
+
+
 
 	public static void main (String[] args)
 
 	{
-	//	lireFichier();
-		terrainDeFichier();
-	//	System.exit(0);
+		BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Fichier de niveau : ");
+		String fichier;
+		try {
+			fichier = clavier.readLine();
+			MoteurJeuService mj = terrainDeFichier(fichier);
+			System.out.println("Fin");
+			System.out.println(mj.toString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//		lireFichier();
+		//	MoteurJeuService mj = terrainDeFichier();
+		//	System.out.println(">>>>");
+		//	System.out.println(mj.toString());
+			System.exit(0);
 	}
 
 }
