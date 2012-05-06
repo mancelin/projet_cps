@@ -1,7 +1,6 @@
 package pcps.parser;
 
 import java.io.*;
-import java.lang.reflect.Type;
 
 import pcps.components.MoteurJeu;
 import pcps.components.Terrain;
@@ -11,28 +10,8 @@ import pcps.services.TerrainService;
 
 public class TerrainParser {
 
-	public static void lire(String fichier) throws IOException //throws IOException
-	{
-		BufferedReader lecteurAvecBuffer = null;
-		String ligne;
 
-		try
-		{
-			lecteurAvecBuffer = new BufferedReader(new FileReader(new File(fichier)));
-		}
-		catch(FileNotFoundException exc)
-		{
-			System.out.println("Erreur d'ouverture");
-		}
-		while ((ligne = lecteurAvecBuffer.readLine()) != null)
-			System.out.println(ligne);
-		lecteurAvecBuffer.close();
-	}
-
-	public static void lireFichier(String fichier) throws IOException
-
-	{
-		//String fichier = "";
+	public static void lireFichier(String fichier) throws IOException{
 		String ligne = "";
 		BufferedReader ficTexte = null;
 
@@ -63,10 +42,7 @@ public class TerrainParser {
 		}
 	}
 
-	public static MoteurJeuService terrainDeFichier(String fichier) throws IOException
-
-	{
-		//String fichier = "";
+	public static MoteurJeuService terrainDeFichier(String fichier) throws IOException {
 		String ligne = "";
 		BufferedReader ficTexte = null;
 		int largeur;
@@ -97,7 +73,6 @@ public class TerrainParser {
 		while ((ligne = ficTexte.readLine()) != null){
 			y++;
 			for(int i=0;i<ligne.length();i++){
-				//	x++;
 				System.out.print(ligne.charAt(i)); 
 				t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);
 				System.out.printf("in the for x=%d y=%d \n", i+1,y);
@@ -111,26 +86,19 @@ public class TerrainParser {
 
 
 
-	public static void main (String[] args)
-
-	{
+	public static void main (String[] args) {
 		BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Fichier de niveau : ");
 		String fichier;
 		try {
 			fichier = clavier.readLine();
+			lireFichier(fichier);
 			MoteurJeuService mj = terrainDeFichier(fichier);
 			System.out.println("Fin");
 			System.out.println(mj.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		//		lireFichier();
-		//	MoteurJeuService mj = terrainDeFichier();
-		//	System.out.println(">>>>");
-		//	System.out.println(mj.toString());
 			System.exit(0);
 	}
 
