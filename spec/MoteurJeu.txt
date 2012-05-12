@@ -12,7 +12,7 @@ Observators:
 	isPartieGagnee : [MoteurJeu] -> boolean
 	
 Constructors:
-	init : [Terrain] * integer -> [MoteurJeu]
+	init : Terrain * integer -> [MoteurJeu]
 		pre init(t, nbPas) require nbPas > 0
 	
 Operators:

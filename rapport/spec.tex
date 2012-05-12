@@ -1,0 +1,399 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[cm]{fullpage}
+
+\usepackage{pbox}
+\usepackage{titlesec}
+% \titlespacing*{\chapter}{0pt}{0pt}{0pt}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage[colorlinks=true, urlcolor=black, linkcolor=black, citecolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{tabto}
+
+% Listings --------------------------------------------------------------------%
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{wrapfig}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+\lstset{
+	breaklines=true,
+	tabsize=4,
+	% basicstyle=\normalsize\ttfamily,
+	basicstyle=\large\ttfamily,
+	columns=fullflexible,
+	showstringspaces=false,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	extendedchars=true,
+	showspaces=false,
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	morekeywords={const, if, then, else, pre, require, const, Set, enum, let, and, in}
+}
+
+% use latex commands inside ` ... `
+\lstset{escapeinside={\`\`}}
+%------------------------------------------------------------------------------%
+
+% Todos -----------------------------------------------------------------------%
+\setlength{\marginparwidth}{1.2in}
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize #1]%
+{\raggedright\footnotesize #1}}
+\newcommand{\note}[1]{\marginpar{\colorbox{yellow}{\begin{minipage}{\linewidth}\textcolor{black}{#1}\end{minipage}}}}
+%------------------------------------------------------------------------------%
+
+\newcommand{\tb}{\textbackslash{}}
+\newcommand{\cmd}[1]{\texttt{#1}}
+\newcommand{\fleche}{$\rightarrow{}$}
+\newcommand{\X}{$\times{}$}
+\newcommand{\eqmin}{$\overset{min}{=}$}
+\newcommand{\eqdef}{$\overset{def}{=}$}
+\newcommand{\supeq}{$\geq$~}
+
+
+\newcommand{\lIN}[1]{{\tb}in \{~#1~\}}
+\newcommand{\lAND}{$\land$}
+\newcommand{\lOR}{$\lor$}
+\newcommand{\lNOT}{$\lnot$}
+\newcommand{\lFORALL}{$\forall$}
+\newcommand{\lEXISTS}{$\exists$}
+\newcommand{\lin}{$\in$}
+
+\newcommand{\specsec}[1]{\Large{\textbf{#1:}}}
+\newcommand{\service}{\specsec {Service}}
+\newcommand{\types}{\specsec {Types}}
+\newcommand{\use}{\specsec {Use}}
+
+\newcommand{\observators}{\specsec {Observators}}
+\newcommand{\constructors}{\specsec {Constructors}}
+\newcommand{\operators}{\specsec {Operators}}
+\newcommand{\observations}{\specsec {Observations}}
+\newcommand{\obsection}[1]{\textbf{[#1]}}
+
+\newcommand{\Bloc}{Bloc}
+\newcommand{\Position}{Position}
+\newcommand{\MoteurJeu}{MoteurJeu}
+\newcommand{\Terrain}{Terrain}
+\newcommand{\TypeBloc}{TypeBloc}
+\newcommand{\defTypeBloc}{\mbox{enum \TypeBloc}~\{~VIDE, TERRE, MUR, HERO, SORTIE\_FERMEE, SORTIE\_OUVERTE, ROCHER, DIAMANT~\}}
+\newcommand{\Direction}{Direction}
+\newcommand{\defDirection}{\mbox{enum \Direction}~\{~HAUT, BAS, GAUCHE, DROITE~\}}
+\newcommand{\Boolean}{\emph{boolean}}
+\newcommand{\Integer}{\emph{integer}}
+\newcommand{\tBloc}{[\Bloc]}
+\newcommand{\tPosition}{[\Position]}
+\newcommand{\tMoteurJeu}{[\MoteurJeu]}
+\newcommand{\tTerrain}{[\Terrain]}
+
+\title{Spécification du Boulder Dash}
+
+\author{}
+
+\date{}
+
+\begin{document}
+
+\begin{lstlisting}[caption=Service Bloc]
+`\service` Bloc
+
+`\types` boolean, `\defTypeBloc`
+
+`\use` Position
+
+`\observators`
+	getType: [Bloc] `\fleche`  TypeBloc
+	getPosition: [Bloc] `\fleche` Position
+	isVide: [Bloc] `\fleche` boolean
+	isSolide: [Bloc] `\fleche` boolean
+	isDeplacable: [Bloc] `\fleche` boolean
+	isTombable: [Bloc] `\fleche` boolean
+	isSortie: [Bloc] `\fleche` boolean
+	isSortieFermee: [Bloc] `\fleche` boolean
+	
+`\constructors`
+	init: TypeBloc `\X` Position `\fleche` [Bloc]
+	
+`\operators`
+	setType: [Bloc] `\X` TypeBloc `\fleche` [Bloc]
+	
+`\observations`
+`\obsection{invariant}`
+	isVide(b) `\eqmin` getType(b) = VIDE
+	isSolide(b) `\eqmin` getType(b) \in { SORTIE_FERMEE, MUR, ROCHER }
+	isDeplacable(b) `\eqmin` getType(b) = ROCHER
+	isTombable(b) `\eqmin` getType(b) \in { ROCHER, DIAMANT }
+	isSortie(b) `\eqmin` getType(b) \in { SORTIE_FERMEE, SORTIE_OUVERTE }
+	isSortieFermee(b) `\eqmin` getType(b) = SORTIE_FERMEE
+
+`\obsection{init}`
+	getType(init(tb, pos)) = tb
+	getPosition(init(tb, pos)) = pos
+
+`\obsection{setType}`
+	getType(setType(b, tb)) = tb
+	getPosition(setType(b, tb)) = getPosition(b)
+\end{lstlisting}
+	
+\hrule
+\clearpage{}
+
+\begin{lstlisting}[caption=Service Position]
+`\service` Position
+
+`\types` integer, `\defDirection`
+
+`\observators`
+	const getLargeur: [Position] `\fleche` integer
+	const getHauteur: [Position] `\fleche` integer
+	getX: [Position] `\fleche` integer
+	getY: [Position] `\fleche` integer
+	
+`\constructors`
+	init: integer `\X` integer `\X` integer `\X` integer `\fleche` [Position]
+		pre init(l, h, x, y) require (l > 0) `\lAND` (h > 0) `\lAND` (x `\supeq` 0) `\lAND` (y `\supeq` 0)
+
+`\operators`
+	deplacerVersDirection: [Position] `\X` Direction `\fleche` [Position]
+	
+`\observations`
+`\obsection{init}`
+	getLargeur(init(l, h, x, y)) = l
+	getHauteur(init(l, h, x, y)) = h
+	getX(init(l, h, x, y)) = x % l
+	getY(init(l, h, x, y)) = y % h
+
+`\obsection{deplacerVersDirection}`
+	getX(deplacerVersDirection(p, dir)) =
+		if dir = GAUCHE then
+			(getX(p) - 1) % getLargeur(p)
+		else if dir = DROITE then
+			(getX(p) + 1) % getLargeur(p)
+		else
+			getX(p)
+			
+	getY(deplacerVersDirection(p, dir)) =
+		if dir = HAUT then
+			(getY(p) - 1) % getHauteur(p)
+		else if dir = BAS then
+			(getY(p) + 1) % getHauteur(p)
+		else
+			getY(p)
+\end{lstlisting}
+
+\hrule
+\clearpage{}
+
+\begin{lstlisting}[caption=Service Terrain]
+`\service` Terrain
+
+`\types` integer, boolean, Set, `\defDirection`, `\defTypeBloc`
+
+`\use` Bloc, Position
+
+`\observators`
+	const getLargeur: [Terrain] `\fleche` integer
+	const getHauteur: [Terrain] `\fleche` integer
+	getPosSortie: [Terrain] `\fleche` Position
+	getPosHero: [Terrain] `\fleche` Position
+	getBlocHero: [Terrain] `\fleche` Bloc
+		pre getBlocHero(t) require isHeroVivant(t)
+	getBlocDepuisPosition: [Terrain] `\X` Position `\fleche` Bloc
+	getBloc: [Terrain] `\X` integer `\X` integer `\fleche` Bloc
+	getBlocVersDirection: [Terrain] `\X` Bloc `\X` Direction `\fleche` Bloc
+	getBlocs: [Terrain] `\fleche` Set<Bloc>
+	isHeroVivant: [Terrain] `\fleche` boolean
+	isDiamantsRestants: [Terrain] `\fleche` boolean
+	isDeplacementBlocPossible: [Terrain] `\X` Bloc `\X` Direction `\fleche` boolean
+	
+`\constructors`
+	init: integer `\X` integer `\fleche` [Terrain]
+		pre init(l, h) require l > 0 `\lAND` h > 0
+	
+`\operators`
+	setBloc: [Terrain] `\X` TypeBloc `\X` integer `\X` integer `\fleche` [Terrain]
+	deplacerBlocVersDirection: [Terrain] `\X` Bloc `\X` Direction `\fleche` [Terrain]
+		pre deplacerBlocVersDirection(t, bloc, dir)
+		require isDeplacementBlocPossible(t, bloc, dir)
+	fairePasDeMiseAJour: [Terrain] `\fleche` [Terrain]
+	
+`\observations`
+`\obsection{invariants}`
+	getBlocHero(t) `\eqmin` getBlocDepuisPosition(getPosHero(t))
+	
+	`\lFORALL`bloc `\lin` getBlocs(t), dir `\lin` Direction, getBlocVersDirection(t, bloc, dir) `\eqmin`
+		getBloc(t, Position::deplacerVersDirection(Bloc::getPosition(bloc), dir))
+		
+	isHeroVivant(t) `\eqmin` `\lEXISTS`bloc `\lin` getBlocs(t), Bloc::getType(bloc) = HERO
+	
+	isDiamantsRestants(t) `\eqmin` `\lEXISTS`bloc `\lin` getBlocs(t), Bloc::getType(bloc) = DIAMANT
+	
+	`\mbox{{\lFORALL}bloc \lin{} getBlocs(t), dir \lin{} Direction, isDeplacementBlocPossible(t, bloc, dir) \eqmin}`
+		`\lNOT`Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
+	
+	getBlocDepuisPosition(t, pos) `\eqmin`
+		getBloc(t, Position::getX(pos), Position::getY(pos))
+	
+	getBlocs(t) `\eqmin`
+		`$\sum$`x `\lin` [0..getLargeur() - 1], y `\lin` [0..getHauteur() - 1], getBloc(t, x, y) 
+
+`\obsection{init}`
+	getLargeur(init(l, h)) = l
+	getHauteur(init(l, h)) = h
+	getPosSortie(init(l, h)) = null
+	getPosHero(init(l, h)) = null
+	
+	getBlocHero(init(l, h)) = null
+	`\lFORALL`x `\lin` [0..getLargeur() - 1], y `\lin` [0..getHauteur() - 1],
+		let* bloc = getBloc(init(l, h), x, y)
+		and blocPos = Bloc::getPosition(bloc)
+		in Bloc::isVide(bloc) `\lAND` Position::getX(blocPos) = x
+			`\lAND` Position::getY(blocPos) = y
+
+`\obsection{setBloc}`
+	getPosSortie(setBloc(t, type, x, y)) =
+		if type \in { SORTIE_FERMEE, SORTIE_OUVERTE } then
+			Bloc::getPosition(getBloc(t, x, y))
+		else
+			getPosSortie(t)
+			
+	getPosHero(setBloc(t, type, x, y)) =
+		if type = HERO then
+			Bloc::getPosition(getBloc(t, x, y))
+		else
+			getPosHero(t)
+			
+	`\lFORALL`x' `\lin` [0..getLargeur() - 1], y' `\lin` [0..getHauteur() - 1],
+		getBloc(setBloc(t, type, x, y), x', y') =
+			if x = x' `\lAND` y = y' then
+				Bloc::setType(getBloc(t, x, y), type)
+			else
+				getBloc(t, x', y')
+
+`\obsection{deplacerBlocVersDirection}`
+	getPosSortie(deplacerBlocVersDirection(t, bloc, dir)) = getPosSortie(t)
+	
+	getPosHero(deplacerBlocVersDirection(t, bloc, dir)) =
+		if bloc = getBlocHero(t) then
+			Bloc::getPosition(getBlocVersDirection(t, bloc, dir))
+		else
+			getPosHero(t)
+			
+	`\lFORALL`x `\lin` [0..getLargeur() - 1], y `\lin` [0..getHauteur() - 1],
+	getBloc(deplacerBlocVersDirection(t, bloc, dir), x, y) =
+		let* blocPos = Bloc::getPosition(bloc)
+		and blocX = Position::getX(blocPos)
+		and blocY = Position::getY(blocPos)
+		and blocDest = getBlocVersDirection(t, bloc, dir)
+		and blocDestPos = Bloc::getPosition(blocDest)
+		and blocDestX = Position::getX(blocDestPos)
+		and blocDestY = Position::getY(blocDestPos)
+		in
+			if blocX = x `\lAND` blocY = y then
+				Bloc::setType(bloc, VIDE)
+			else if blocDestX = x `\lAND` blocY = y then
+				Bloc::setType(blocDest, Bloc::getType(bloc))
+			else
+				getBloc(x, y)
+			
+`\obsection{fairePasDeMiseAJour}`
+	getPosSortie(fairePasDeMiseAJour(t)) = getPosSortie(t)
+	getPosHero(fairePasDeMiseAJour(t)) = getPosHero(t)
+	
+	`\lFORALL`x `\lin` [0..getLargeur() - 1], y `\lin` [0..getHauteur() - 1],
+	getBloc(fairePasDeMiseAJour(t), x, y) =
+		let bloc = getBloc(t, x, y)
+		in
+			if Bloc::isSortieFermee(bloc) `\lAND` `\lNOT`isDiamantsRestants(t) then
+				Bloc::setType(bloc, SORTIE_OUVERTE)
+			else if Bloc::isTombable(bloc)
+			`\lAND` Bloc::isVide(getBlocVersDirection(t, bloc, BAS))
+				Bloc::setType(bloc, VIDE)
+			else if Bloc::isVide(bloc)
+			`\lAND` Bloc::isTombable(getBlocVersDirection(t, bloc, HAUT))
+				Bloc::setType(bloc,
+					Bloc::getType(getBlocVersDirection(t, bloc, HAUT)))
+			else
+				getBloc(t, pos)
+\end{lstlisting}
+\hrule
+\clearpage
+
+\begin{lstlisting}[caption=Service MoteurJeu]
+`\service` MoteurJeu
+
+`\types` integer, boolean, `\defDirection`, `\defTypeBloc`
+
+`\use` Terrain, Bloc, Position
+
+`\observators`
+	getTerrain: [MoteurJeu] `\fleche` Terrain
+	getPasRestants: [MoteurJeu] `\fleche` integer
+	isDeplacementHeroPossible: [MoteurJeu] `\X` Direction `\fleche` boolean
+	isPartieTerminee: [MoteurJeu] `\fleche` boolean
+	isPartieGagnee: [MoteurJeu] `\fleche` boolean
+	
+`\constructors`
+		init: Terrain `\X` integer `\fleche` [MoteurJeu]
+			pre init(t, nbPas) require nbPas > 0
+		
+`\operators`
+		deplacerHero: [MoteurJeu] `\X` Direction `\fleche` [MoteurJeu]
+			pre deplacerHero(mj, dir) require `\lNOT`isPartieTerminee(mj) `\lAND` isDeplacementHeroPossible(mj, dir)
+
+`\observations`
+`\obsection{invariant}`
+	isPartieTerminee(mj) `\eqmin`
+		getPasRestants(mj) = 0
+		`\lOR` `\lNOT`Terrain::isHeroVivant(getTerrain(mj))
+		`\mbox{{\lOR} Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))}`
+		
+	`\mbox{isPartieGagnee(mj) \eqmin{} isPartieTerminee(mj) \lAND{} Terrain::isHeroVivant(getTerrain(mj))}`
+	
+	`\lFORALL`dir `\lin` Direction, isDeplacementHeroPossible(mj, dir) `\eqmin`
+		let* terrain = getTerrain(mj)
+		and blocHero = Terrain::getBlocHero(terrain)
+		and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
+		in
+			if dir \in { GAUCHE, DROITE } then
+				`\lNOT`Bloc::isSolide(blocDest) `\lOR` (Bloc::isDeplacable(blocDest)
+				`\mbox{\lAND{} Bloc::isVide(Terrain::getBlocVersDirection(terrain, blocDest, dir))}`
+			else
+				`\lNOT`Bloc::isSolide(blocDest)
+	
+`\obsection{init}`
+	getTerrain(init(t, nbPas)) = t
+	getPasRestants(init(t, nbPas)) = nbPas
+
+`\obsection{deplacerHero}`
+	getTerrain(deplacerHero(mj, dir)) =
+		let* terrain = getTerrain(mj)
+		and blocHero = Terrain::getBlocHero(terrain)
+		and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
+		in
+			if `\lNOT`Bloc::isSolide(blocDest) then
+				Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)
+			`\mbox{\textbf{else} \textbf{if} Bloc::isDeplacable(blocDest) and dir \tb{}in { GAUCHE, DROITE } \textbf{then}}`
+				`\mbox{\textbf{let} terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)}`
+				in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
+	getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1					
+\end{lstlisting}
+
+\hrule
+
+
+
+\end{document}
+

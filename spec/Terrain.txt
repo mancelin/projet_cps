@@ -47,10 +47,11 @@ Observations:
 		getBlocHero(init(l, h)) = null
 		∀x∈[0..getLargeur() - 1],y∈[0..getHauteur() - 1],
 			let* bloc = getBloc(init(l, h), x, y)
-			and blocPos = Bloc::getPosition(bloc);
-			Bloc::isVide(bloc)
-			^ Position::getX(blocPos) = x
-			^ Position::getY(blocPos) = y
+			and blocPos = Bloc::getPosition(bloc)
+			in
+				Bloc::isVide(bloc)
+				^ Position::getX(blocPos) = x
+				^ Position::getY(blocPos) = y
 	
 	[setBloc]
 		getPosSortie(setBloc(t, type, x, y)) =
