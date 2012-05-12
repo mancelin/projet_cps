@@ -23,13 +23,13 @@ public class Terrain implements
 		largeur = l;
 		hauteur = h;
 		matriceTerrain = new BlocService[largeur][hauteur];
-		for(int x=1;x<=largeur;x++){
-			for(int y=1;y<=hauteur;y++){
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
 				PositionService pos = new Position();
 				pos.init(l, h, x, y);
 				BlocService bloc = new Bloc();
 				bloc.init(TypeBloc.VIDE, pos);
-				matriceTerrain[x-1][y-1] = bloc;
+				matriceTerrain[x][y] = bloc;
 			}
 		}
 	}
@@ -53,10 +53,10 @@ public class Terrain implements
 
 	@Override
 	public PositionService getPosSortie() {
-		for(int x=1;x<=largeur;x++){
-			for(int y=1;y<=hauteur;y++){
-				if(matriceTerrain[x-1][y-1].getType() == TypeBloc.SORTIE_FERMEE ||
-						matriceTerrain[x-1][y-1].getType() == TypeBloc.SORTIE_OUVERTE){
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
+				if(matriceTerrain[x][y].getType() == TypeBloc.SORTIE_FERMEE ||
+						matriceTerrain[x][y].getType() == TypeBloc.SORTIE_OUVERTE){
 					PositionService pos = new Position();
 					pos.init(this.largeur, this.hauteur, x, y);
 					return pos;
@@ -69,9 +69,9 @@ public class Terrain implements
 
 	@Override
 	public PositionService getPosHero() {
-		for(int x=1;x<=largeur;x++){
-			for(int y=1;y<=hauteur;y++){
-				if(matriceTerrain[x-1][y-1].getType() == TypeBloc.HERO ){
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
+				if(matriceTerrain[x][y].getType() == TypeBloc.HERO ){
 					PositionService pos = new Position();
 					pos.init(this.largeur, this.hauteur, x, y);
 					return pos;
@@ -93,7 +93,7 @@ public class Terrain implements
 
 	@Override
 	public BlocService getBlocDepuisPosition(PositionService pos) {
-		return matriceTerrain[pos.getX()-1][pos.getY()-1];
+		return matriceTerrain[pos.getX()][pos.getY()];
 	}
 
 	@Override
@@ -110,9 +110,9 @@ public class Terrain implements
 
 	@Override
 	public boolean isDiamantsRestants() {
-		for(int x=1;x<=largeur;x++){
-			for(int y=1;y<=hauteur;y++){
-				if(matriceTerrain[x-1][y-1].getType() == TypeBloc.DIAMANT ){
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
+				if(matriceTerrain[x][y].getType() == TypeBloc.DIAMANT ){
 					return true;
 				}
 			}
@@ -149,8 +149,8 @@ public class Terrain implements
 			PositionService posSortie = getPosSortie();
 			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
 		}
-		for(int x=1;x<=largeur;x++){
-			for(int y=hauteur;y>=1;y--){
+		for(int x=0;x<largeur;x++){
+			for(int y=hauteur;y>0;y--){
 				BlocService bloc = getBloc(x,y);
 				if(bloc.isTombable()){
 					if(isDeplacementBlocPossible(bloc,Direction.BAS)){
@@ -164,16 +164,16 @@ public class Terrain implements
 
 	@Override
 	public BlocService getBloc(int x, int y) {
-		return matriceTerrain[x-1][y-1];
+		return matriceTerrain[x][y];
 	}
 
 
 	@Override
 	public Set<BlocService> getBlocs() {
 		Set<BlocService> setBlocs = new HashSet<BlocService>();
-		for(int x=1;x<=largeur;x++){
-			for(int y=1;y<=hauteur;y++){
-				setBlocs.add(matriceTerrain[x-1][y-1]);
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
+				setBlocs.add(matriceTerrain[x][y]);
 			}
 		}
 		return setBlocs;

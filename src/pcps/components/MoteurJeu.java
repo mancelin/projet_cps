@@ -48,11 +48,15 @@ public class MoteurJeu implements
 	public void deplacerHero(Direction dir) {
 		if(!isPartieTerminee() && isDeplacementHeroPossible(dir)){
 			BlocService blocHero = terrain.getBlocHero();
+			System.out.printf("pos bloc hero =>  x : %d, y: %d\n", blocHero.getPosition().getX(),blocHero.getPosition().getY());
 			BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
+			System.out.printf("pos bloc dest =>  x : %d, y: %d\n", blocDest.getPosition().getX(),blocDest.getPosition().getY());
 			if(!blocDest.isSolide()){
+				System.out.println("bloc dest is not solid");
 				terrain.deplacerBlocVersDirection(blocHero, dir);
 			} else {
 				if(blocDest.isDeplacable() && ((dir == Direction.DROITE) || (dir == Direction.GAUCHE)) ){
+					System.out.println("bloc dest is deplaçable");
 					terrain.deplacerBlocVersDirection(blocDest, dir);
 					terrain.deplacerBlocVersDirection(blocHero, dir);
 				}
@@ -68,9 +72,9 @@ public class MoteurJeu implements
 		if(isPartieGagnee())
 			return "You Win!";
 		res += Integer.toString(nbPasRestants) +" pas restants\n";
-
-		for(int y=1;y<=terrain.getHauteur();y++){
-			for(int x=1;x<=terrain.getLargeur();x++){
+		System.out.println("in toString");
+		for(int y=0;y<terrain.getHauteur();y++){
+			for(int x=0;x<terrain.getLargeur();x++){
 				res += TerrainParser.charDeTypeBloc(terrain.getBloc(x, y).getType());
 			}
 			res +="\n";

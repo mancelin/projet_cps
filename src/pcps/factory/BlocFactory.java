@@ -1,7 +1,7 @@
 package pcps.factory;
 
 import pcps.components.Bloc;
-import pcps.components.Position;
+//import pcps.components.Position;
 import pcps.enums.TypeBloc;
 import pcps.services.BlocService;
 import pcps.services.PositionService;

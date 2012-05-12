@@ -26,7 +26,6 @@ public class MoteurJeuFactory {
 		TerrainService t;// = new Terrain();
 
 
-		
 		try
 		{
 			ficTexte = new BufferedReader(new FileReader(new File(fichier)));
@@ -45,17 +44,22 @@ public class MoteurJeuFactory {
 		t = TerrainFactory.create(largeur, hauteur);
 		int y = 0;
 		while ((ligne = ficTexte.readLine()) != null){
-			y++;
+			System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
+			
 			for(int i=0;i<ligne.length();i++){
-				//System.out.print(ligne.charAt(i)); 
-				PositionService pos = PositionFactory.create(largeur, hauteur, i+1, y);//
+				System.out.print(ligne.charAt(i)); 
+			
+				PositionService pos = PositionFactory.create(largeur, hauteur, i, y);//
 				BlocService bloc = BlocFactory.create(typeBlocDeChar(ligne.charAt(i)), pos);//
+				System.out.printf(">> pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
 				t.setBloc(bloc.getType(), pos.getX(), pos.getY());
 				
 				//t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);
 				
+				//System.out.printf("pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
 				//System.out.printf("in the for x=%d y=%d \n", i+1,y);
 			}
+			y++;
 		}
 		ficTexte.close();
 		//System.out.printf("mj.init(t, nbPas=%d)\n",nbPas);
