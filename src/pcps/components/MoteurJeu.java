@@ -1,7 +1,6 @@
 package pcps.components;
 
 import pcps.enums.Direction;
-import pcps.enums.TypeBloc;
 import pcps.parser.TerrainParser;
 import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
