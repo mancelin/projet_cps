@@ -150,16 +150,16 @@ public interface TerrainService {
 	 *   post:
 	 *     \forall x:integer \in [0..getLargeur()-1] {
 	 *     \forall y:integer \in [0..getHauteur()-1] {
-	 *         \let bloc = getBloc(x, y)
+	 *         \let bloc = getBloc@pre(x, y)
 	 *         \in
 	 *             \if bloc.isSortieFermee() && !isDiamantsRestants() \then
-	 *                 bloc == bloc@pre.setType(SORTIE_OUVERTE)
+	 *                 getBloc(x, y) == bloc.setType(SORTIE_OUVERTE)
 	 *             \else \if bloc.isTombable() && getBlocVersDirection(bloc, BAS).isVide() \then
-	 *                 bloc == bloc@pre.setType(VIDE)
+	 *                 getBloc(x, y) == bloc.setType(VIDE)
 	 *             \else \if bloc.isVide() && getBlocVersDirection(bloc, HAUT).isTombable() \then
-	 *                 bloc == bloc@pre.setType(bloc, getBlocVersDirection(bloc, HAUT).getType)
+	 *                 getBloc(x, y) == bloc.setType(bloc, getBlocVersDirection(bloc, HAUT).getType)
 	 *             \else
-	 *                 bloc == bloc@pre
+	 *                 getBloc(x, y) == bloc
 	 *     }
 	 *     }
 	 */
