@@ -1,0 +1,574 @@
+\documentclass[14pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage[cm]{fullpage}
+
+\usepackage{pbox}
+\usepackage{titlesec}
+% \titlespacing*{\chapter}{0pt}{0pt}{0pt}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage[colorlinks=true, urlcolor=black, linkcolor=black, citecolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{tabto}
+
+% Listings --------------------------------------------------------------------%
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{wrapfig}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
+\lstset{
+	breaklines=true,
+	tabsize=2,
+	basicstyle=\normalsize\ttfamily,
+	columns=fullflexible,
+	showstringspaces=false,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	extendedchars=true,
+	showspaces=false,
+	xleftmargin=17pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt
+}
+%------------------------------------------------------------------------------%
+
+% Todos -----------------------------------------------------------------------%
+\setlength{\marginparwidth}{1.2in}
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize #1]%
+{\raggedright\footnotesize #1}}
+\newcommand{\note}[1]{\marginpar{\colorbox{yellow}{\begin{minipage}{\linewidth}\textcolor{black}{#1}\end{minipage}}}}
+%------------------------------------------------------------------------------%
+
+\newcommand{\tb}{\textbackslash{}}
+\newcommand{\cmd}[1]{\texttt{#1}}
+\newcommand{\fleche}{~$\rightarrow{}$~}
+\newcommand{\fois}{~$\times{}$~}
+\newcommand{\eqmin}{~$\overset{min}{=}$~}
+\newcommand{\eqdef}{~$\overset{def}{=}$~}
+\newcommand{\supeq}{$\geq$~}
+
+\newenvironment{preconditions} {\begin{list}{}{}
+} {
+	\end{list}
+}
+
+\newenvironment{observators} {\servicesec{Observators}\begin{list}{\textbf{-}}{}
+} {
+	\end{list}
+}
+\newenvironment{constructors} {\servicesec{Constructors}\begin{list}{\textbf{-}}{}
+} {
+	\end{list}
+}
+\newenvironment{operators} {\servicesec{Operators}\begin{list}{\textbf{-}}{}
+} {
+	\end{list}
+}
+\newenvironment{observations} {\servicesec{Observations}\begin{list}{}{}
+} {
+	\end{list}
+}
+\newenvironment{obsection}[1] {
+	\item {\textbf{[#1]}}\begin{list}{\textbf{-}}{}
+} {
+	\end{list}\vspace{1em}
+}
+\newenvironment{invariant} {
+	\item {\textbf{[invariant]}}\begin{list}{\textbf{-}}{}
+} {
+	\end{list}\vspace{1em}
+}
+\newenvironment{lindent} {\begin{list}{}{}} {
+	\end{list}
+}
+\newenvironment{lletall}[1] {
+	\begin{lindent}
+		\item \textbf{let*} #1
+} {
+	\end{lindent}
+}
+
+\newcommand{\servicesec}[1]{{\large\textbf{#1:}}}
+\newcommand{\service}[1]{\servicesec{Service} \cmd{#1}}
+\newcommand{\types}[1]{\servicesec{Types} \cmd{#1}}
+\newcommand{\use}[1]{\servicesec{Use} \cmd{#1}}
+\newcommand{\signature}[3]{\texttt{#1: #2\fleche#3}}
+\newcommand{\observator}[3]{\item \signature{#1}{#2}{#3}}
+\newcommand{\observatorConst}[3]{\item \textbf{\texttt{const}}~\signature{#1}{#2}{#3}}
+\newcommand{\constructor}[3]{\item \signature{#1}{#2}{#3}}
+\newcommand{\operator}[3]{\item \signature{#1}{#2}{#3}}
+\newcommand{\pre}[2]{\item \cmd{\textbf{pre} #1 \textbf{require} #2}}
+\newcommand{\onepre}[2]{
+\begin{preconditions}
+	\pre{#1}{#2}
+\end{preconditions}
+}
+\newcommand{\observation}[2]{\item \texttt{#1~$=$~#2}}
+\newcommand{\minimisation}[2]{\item \texttt{#1\eqmin#2}}
+\newcommand{\definition}[2]{\item \texttt{#1\eqdef#2}}
+
+\newcommand{\lIN}[1]{{\tb}in \{#1\}}
+\newcommand{\lAND}{$\land$~}
+\newcommand{\lOR}{$\lor$~}
+\newcommand{\lNOT}{$\lnot$}
+\newcommand{\lFORALL}{$\forall$}
+\newcommand{\lEXISTS}{$\exists$}
+\newcommand{\lif}[3]{
+\begin{lindent}
+	\item if (#1) then
+		\begin{lindent}
+			\item #2
+		\end{lindent}
+	\item else
+		\begin{lindent}
+			\item #3
+		\end{lindent}
+\end{lindent}
+}
+\newcommand{\lelif}[3]{
+if (#1) then
+	\begin{lindent}
+		\item #2
+	\end{lindent}
+\item else
+	\begin{lindent}
+		\item #3
+	\end{lindent}
+}
+\newcommand{\lLET}[2]{
+\textbf{let} #1\\
+\textbf{in} #2
+}
+\newcommand{\lLETAND}[1]{\item \textbf{and} #1}
+\newcommand{\lLETIN}[1]{\item \textbf{in} #1}
+\newcommand{\lLETINBLOC}[1]{
+\item \textbf{in}
+\begin{lindent}
+	\item #1
+\end{lindent}}
+
+
+\newcommand{\Bloc}{Bloc}
+\newcommand{\Position}{Position}
+\newcommand{\MoteurJeu}{MoteurJeu}
+\newcommand{\Terrain}{Terrain}
+\newcommand{\TypeBloc}{TypeBloc}
+\newcommand{\defTypeBloc}{enum \TypeBloc~\{~VIDE, TERRE, MUR, HERO, SORTIE\_FERMEE, SORTIE\_OUVERTE, ROCHER, DIAMANT~\}}
+\newcommand{\Direction}{Direction}
+\newcommand{\defDirection}{enum \Direction~\{~HAUT, BAS, GAUCHE, DROITE~\}}
+\newcommand{\Boolean}{\emph{boolean}}
+\newcommand{\Integer}{\emph{integer}}
+\newcommand{\tBloc}{[\Bloc]}
+\newcommand{\tPosition}{[\Position]}
+\newcommand{\tMoteurJeu}{[\MoteurJeu]}
+\newcommand{\tTerrain}{[\Terrain]}
+
+\title{Spécification du Boulder Dash}
+
+\author{}
+
+\date{}
+
+\begin{document}
+
+\maketitle{}
+
+\section{Service Bloc}
+
+\service{\Bloc}
+
+\types{\Boolean, \defTypeBloc}
+
+\use{\Position}
+
+\begin{observators}
+	\observator{getType} {\tBloc} {\TypeBloc}
+	\observator{getPosition} {\tBloc} {\Position}
+	\observator{isVide} {\tBloc}  {\Boolean}
+	\observator{isSolide} {\tBloc} {\Boolean}
+	\observator{isDeplacable} {\tBloc} {\Boolean}
+	\observator{isTombable} {\tBloc} {\Boolean}
+	\observator{isSortie} {\tBloc} {\Boolean}
+		\onepre{isSortie(b)} {Test}
+	\observator{isSortieFermee} {\tBloc} {\Boolean}
+\end{observators}
+
+\begin{constructors}
+	\constructor{init} {\TypeBloc \fois \Position} {\tBloc}
+\end{constructors}
+
+\begin{operators}
+	\operator{setType}{\tBloc \fois \TypeBloc}{\tBloc}
+\end{operators}
+
+\begin{observations}
+	\begin{invariant}
+		\minimisation{isVide(b)} {getType(b) = VIDE}
+		\minimisation{isSolide(b)} {getType(b) \lIN { SORTIE\_FERMEE, MUR, ROCHER }}
+		\minimisation{isDeplacable(b)} {getType(b) = ROCHER}
+		\minimisation{isTombable(b)} {getType(b) \lIN { ROCHER, DIAMANT }}
+		\minimisation{isSortie(b)} {getType(b) \lIN { SORTIE\_FERMEE, SORTIE\_OUVERTE }}
+		\minimisation{isSortieFermee(b)} {getType(b) = SORTIE\_FERMEE}
+	\end{invariant}
+	
+	\begin{obsection}{init}
+		\observation{getType(init(tb, pos))} {tb}
+		\observation{getPosition(init(tb, pos))} {pos}
+	\end{obsection}
+	
+	\begin{obsection}{setType}
+		\observation{getType(setType(b, tb))} {tb}
+		\observation{getPosition(setType(b, tb))} {getPosition(b)}
+	\end{obsection}
+\end{observations}
+
+
+
+
+
+\section{Service Position}
+
+\service{\Position}
+
+\types{\Integer, \defDirection}
+
+\begin{observators}
+	\observatorConst{getLargeur} {\tPosition} {\Integer}
+	\observatorConst{getHauteur} {\tPosition} {\Integer}
+	\observator{getX} {\tPosition} {\Integer}
+	\observator{getY} {\tPosition} {\Integer}
+\end{observators}
+
+\begin{constructors}
+	\constructor{init} {\Integer \fois \Integer \fois \Integer \fois \Integer} {\tPosition}
+		\onepre{init(l, h, x, y)} {(l > 0) \lAND (h > 0) \lAND (x \supeq 0) \lAND (y \supeq 0)}
+\end{constructors}
+
+\begin{operators}
+	\operator{deplacerVersDirection} {\tPosition \fois \Direction} {\tPosition}
+\end{operators}
+
+\begin{observations}
+	\begin{obsection}{init}
+		\observation{getLargeur(init(l, h, x, y))} {l}
+		\observation{getHauteur(init(l, h, x, y))} {h}
+		\observation{getX(init(l, h, x, y))} {x mod l}
+		\observation{getY(init(l, h, x, y))} {y mod h}
+
+	\end{obsection}
+	
+	\begin{obsection}{deplacerVersDirection}
+		\observation{getX(deplacerVersDirection(p, dir))} {
+			\lif {dir = GAUCHE} {(getX(p) - 1) mod getLargeur(p)} {
+				\lelif {dir = DROITE} {(getX(p) + 1) mod getLargeur(p)} {
+					getX(p)
+				}
+			}
+		}
+		\observation{getY(deplacerVersDirection(p, dir))} {
+			\lif {dir = HAUT} {(getY(p) - 1) mod getHauteur(p)} {
+				\lelif {dir = BAS} {(getY(p) + 1) mod getHauteur(p)} {
+					getY(p)
+				}
+			}
+		}
+
+	\end{obsection}
+\end{observations}
+
+
+
+
+\section{Service MoteurJeu}
+
+\service{MoteurJeu}
+
+\types{\Integer, \Boolean, \defDirection, \defTypeBloc}
+
+\use{\Terrain, \Bloc, \Position}
+
+\begin{observators}
+	\observator{getTerrain} {\tMoteurJeu} {\Terrain}
+	\observator{getPasRestants} {\tMoteurJeu} {\Integer}
+	\observator{isDeplacementHeroPossible} {\tMoteurJeu \fois \Direction} {\Boolean}
+	\observator{isPartieTerminee} {\tMoteurJeu} {\Boolean}
+	\observator{isPartieGagnee} {\tMoteurJeu} {\Boolean}
+\end{observators}
+
+\begin{constructors}
+	\constructor{init} {\Terrain \fois \Integer} {\tMoteurJeu}
+		\onepre{init(t, nbPas)} {nbPas > 0}
+\end{constructors}
+
+\begin{operators}
+	\operator{deplacerHero} {\tMoteurJeu \fois \Direction} {\tMoteurJeu}
+		\onepre{deplacerHero(mj, dir)} {\lNOT{}isPartieTerminee(mj) \lAND isDeplacementHeroPossible(mj, dir)}
+\end{operators}
+
+\begin{observations}
+	\begin{invariant}
+		\minimisation{isPartieTerminee(mj)} {
+			getPasRestants(mj) = 0\\
+			\lOR \lNOT{}\Terrain::isHeroVivant(getTerrain(mj))\\
+			\lOR \Terrain::getPosSortie(getTerrain(mj)) = \Terrain::getPosHero(getTerrain(mj))}
+		\minimisation{isPartieGagnee(mj)} {isPartieTerminee(mj) \lAND \Terrain::isHeroVivant(getTerrain(mj))}
+		\minimisation{\lFORALL{}dir \lIN { GAUCHE, DROITE }, isDeplacementHeroPossible(mj, dir)} {
+			\begin{lletall}{terrain = getTerrain(mj)}
+				\lLETAND{blocHero = \Terrain::getBlocHero(terrain)}
+				\lLETAND{blocDest = \Terrain::getBlocVersDirection(terrain, blocHero, dir)}
+				\lLETINBLOC{
+					\lNOT{}\Bloc::isSolide(blocDest) \lOR
+					(\Bloc::isDeplacable(blocDest)\\ \lAND \Bloc::isVide(\Terrain::getBlocVersDirection(terrain, blocDest, dir))
+				}
+			\end{lletall}
+		}
+		\minimisation{\lFORALL{}dir \lIN { HAUT, BAS },isDeplacementHeroPossible(mj, dir)} {
+			\begin{lletall}{terrain = getTerrain(mj)}
+				\lLETAND{blocHero = \Terrain::getBlocHero(terrain)}
+				\lLETAND{blocDest = \Terrain::getBlocVersDirection(terrain, blocHero, dir)}
+				\lLETIN {\lNOT\Bloc::isSolide(blocDest)}
+			\end{lletall}
+		}
+	\end{invariant}
+	
+	\begin{obsection}{init}
+		\observation{getTerrain(init(t, nbPas))} {t}
+		\observation{getPasRestants(init(t, nbPas))} {nbPas}
+	\end{obsection}
+	
+	\begin{obsection}{deplacerHero}
+		\observation{getTerrain(deplacerHero(mj, dir))} {
+			\begin{lletall}{terrain = getTerrain(mj)}
+				\lLETAND{blocHero = \Terrain::getBlocHero(terrain)}
+				\lLETAND{blocDest = \Terrain::getBlocVersDirection(terrain, blocHero, dir)}
+				\lLETINBLOC{
+					\lif {\lNOT\Bloc::isSolide(blocDest)} {\Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)} {
+						\lelif {\Bloc::isDeplacable(blocDest) \lAND dir \lIN { GAUCHE, DROITE }} {
+							test
+						}
+					}
+				}
+			\end{lletall}
+		}
+		\observation{getPasRestants(deplacerHero(mj, dir))} {getPasRestants(mj) - 1}
+		
+	\end{obsection}
+\end{observations}
+		
+							% 
+							% \lLET{terrain' = \Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)}
+							% {\Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)}
+	
+
+
+\subsection{Exemple : spécification d'une lumière}
+
+\begin{lstlisting}
+Service: Light
+Types: boolean
+
+Observators:
+	isOn: [Light] -> boolean
+	
+Constructors:
+	init: -> [Light]
+	
+Operators:
+	switchOn: [Light] -> [Light]
+		pre: switchOn(L) require !isOn(L)
+	switchOff: [Light] -> [Light]
+		pre: switchOff(L) require isOn(L)
+		
+Observations:
+	[init]
+		isOn(init()) = false
+	[switchOn]
+		isOn(switchOn(L)) = true
+	[switchOff]
+		isOn(switchOff(L)) = false
+\end{lstlisting}
+
+\subsubsection{Raffinement}
+
+\begin{lstlisting}
+Service: TrafficLight
+Types: enum Color {RED, ORANGE, GREEN}
+Refine: Light [1]
+
+Observators: [2, 3]
+	getColor: [TrafficLight] -> Color
+		pre: getColor(L) require isOn(L)
+	
+Constructors: [4]
+	init: -> [TrafficLight]
+	
+Operators: [5, 6]
+	change: [TrafficLight] -> [TrafficLight]
+		pre: change(L) require isOn(L)
+		
+Observations:
+	[init] [7]
+		isOn(init()) = false
+		[8]
+	[switchOn]
+		getColor(switchOn(L)) = ORANGE
+		[9]
+	[change]
+		isOn(change(L)) = isOn(L)
+		if getColor(L) = RED then getColor(change(L)) = GREEN
+		else if getColor(L) = ORANGE then getColor(change(L)) = RED
+		else getColor(change(L)) = ORANGE
+		
+\end{lstlisting}
+
+\begin{enumerate}
+	\item il s'agit d'une intention, il faut vérifier que le raffinement est correct, sinon on utilise Include et pas Refine
+	\item on peut ajouter des observateurs
+	\item on peut modifier les préconditions d'un observateur \og{}hérité\fg{}
+	\item attention, on \og{}n'hérite pas\fg{} des constructeurs
+	\item on peut ajouter des opérateurs
+	\item on peut modifier les préconditions d'un opérateur \og{}hérité\fg{}
+	\item on \og{}n'hérite pas\fg{} des observations sur init, donc il faut les rajouter
+	\item pas le droit d'observer getColor(init()) car la pré-cond n'est pas vérifiée à l'initialisation
+	\item implicitement par l'héritage, on a aussi is On(switchOn(L)) = true
+\end{enumerate}
+
+\subsection{Questions à se poser lors d'un raffinement}
+
+\begin{itemize}
+	\item cohérence des modifications et des ajouts
+	\item correction du raffinement
+\end{itemize}
+
+\subsubsection{Correction du raffinement -- raffinement de fonction (notion de sous-ensemble)}
+
+\underline{\textbf{Exemple:}}
+
+	Soit une fonction \texttt{fun: T -> U, domaine(fun) = T, co-domaine(fun) = U}.
+	
+	Une fonction \texttt{rfun} raffine \texttt{fun} (\texttt{rfun $\subseteq{}$ fun}) ssi\\
+	\texttt{dom(rfun) $\supseteq{}$ dom{fun}} (-> contra-variance des arguments)\\
+	\texttt{cod{rfun} $\subseteq{}$ cod{fun}} (-> covariance de la valeur de retour)\\
+
+\underline{\textbf{Justification:}}
+
+	On doit pouvoir utiliser rfun dans tout context où on peut utiliser fun.
+	
+	\texttt{dom(rfun) $\supseteq$ dom(fun)} -> si fun accepte une valeur de type T alors rfun doit l'accepter aussi -> \og{}au moins T\fg{}
+	\texttt{cod(rfun) $\subseteq$ cod(fun)} -> tout contexte qui utilise la valeur de retour de fun s'attend à une valeur de type U, il ne peut accepter lus que U -- \og{}au moins U\fg{}
+\\
+
+\underline{\textbf{Exercice:}}
+
+\texttt{fun: R -> R (on suppose N $subseteq{}$ R $subseteq{}$ C)}
+\begin{itemize}
+	\item \texttt{rfun: R -> N, rfun $\subseteq{}$ fun} : OUI
+	\item \texttt{rfun: N -> R, contre-ex: fun(4.3): valide, rfun(4.3): invalide}
+	\item \texttt{rfun: C -> N, rfun $\subseteq{}$ fun} : OUI
+\end{itemize}
+
+\subsection{Interprétation logique du raffinement}
+
+soit une opération: \texttt{fun: T1 x ... x Tn -> U}
+
+\begin{itemize}
+	\item \texttt{dom(fun) = {(v1, ..., vn) | pre(v1, ..., vn) = true}}
+	\item \texttt{cod(fun) = {v $\in{}$ U} | obs(v1, ..., vn) = v, post(v, v1, ..., vn) = true}
+\end{itemize}
+
+on a :
+
+\begin{itemize}
+	\item \texttt{dom(rfun) $\supseteq{}$ dom(fun)} ssi \texttt{pre(v1, ..., vn) $\Rightarrow{}$ rpre(v1, ..., vn)}
+	\item \texttt{cod(rfun) $\subseteq{}$ cod(fun)} ssi \texttt{rpost(v1, ..., vn) $\Rightarrow{}$ rpre(v, v1, ..., vn)}
+\end{itemize}
+
+\subsection{Raffinement dans les spécifications}
+
+\begin{lstlisting}
+Service: S
+
+Operators:
+	op:	[S] -> [S]
+		pre: op(s) require P
+
+Observations:
+	[Invariants]
+		I
+	[op]
+		Q
+
+Service: S'
+Refine: S
+
+Operators:
+	op: [S' -> [S']]
+		pre: op(s) require P'
+Observations:
+	[Invariants]
+		I'
+	[op]
+		Q'
+\end{lstlisting}
+
+\textbf{\underline{Conditions pour la correction du raffinement (de op) :}}
+
+\begin{itemize}
+	\item P $\Rightarrow{}$ P' (sauf constructeurs)
+	\item Q' $\Rightarrow{}$ Q (sauf constructeurs et observateurs)
+	\item I' $\Rightarrow{}$ I
+\end{itemize}
+
+\textbf{\underline{Exemple :}} TrafficLight est un raffinement correct de Light
+\\
+
+\textbf{\underline{Contre-exemples :}} Dans TrafficLight,
+
+\begin{itemize}
+	\item ajout d'une pré-condition à switchOff: \texttt{pre(switchOff(L) require getColor(L) = ORANGE)} -- incorrect car true n'implique pas getColor(L) = ORANGE
+	\item changement d'une observation : \texttt{isOn(change(L)) = false} -- incorrect car isOn(change(L)) = false n'implique pas isOn(change(L)) = true
+\end{itemize}
+
+\section{Héritage dans les contrats}
+
+\subsection{Conditions à respecter pour qu'un contrat C' soit un héritage correct de C}
+
+\begin{itemize}
+	\item les invariants hérités inv$_{C'} \Rightarrow{}$ inv$_{C}$ invariant de C
+	\item pour chaque méthode \texttt{m} \emph{surdéfinie} :
+	\begin{itemize}
+		\item pré-condition de m dans C pre$_{C,m} \Rightarrow{}$ pre$_{C',m}$ pré-condition héritée
+		\item post-condition de m dans C' post$_{C',m} \Rightarrow{}$ post$_{C,m}$ post-condition dans le \og{}super-contrat\fg{}.
+	\end{itemize}
+\end{itemize}
+
+\subsection{Problème : comment déduire les tests de pre$_{C,m} \Rightarrow{}$ pre$_{C',m}$ à partir des tests de pre$_{C,m} \Rightarrow{}$ et pre$_{C',m}$}
+
+(et les post)
+
+Solutions possibles (partielles) :
+
+\begin{itemize}
+	\item percolateurs, p.ex. dans Eiffel :
+	\begin{itemize}
+		\item soit \texttt{post'' = post $\land{}$ post'} alors \texttt{post'' $\Rightarrow{}$ post} (implicite)
+		\item soit \texttt{pre'' = pre $\lor{}$ pre'} alors \texttt{pre $\Rightarrow{}$ pre''}
+		\begin{itemize}
+			\item on teste pre', si OK alors OK, sinon, on test pre.
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+
+\end{document}
+
