@@ -41,10 +41,11 @@ Observations:
 				¬Bloc::isSolide(blocDest)
 		
 	[init]
-		getTerrain(init(t, nbPas)) = t
 		getPasRestants(init(t, nbPas)) = nbPas
+		getTerrain(init(t, nbPas)) = t
 	
 	[deplacerHero]
+		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1			
 		getTerrain(deplacerHero(mj, dir)) =
 			let* terrain = getTerrain(mj)
 			and blocHero = Terrain::getBlocHero(terrain)
@@ -54,5 +55,4 @@ Observations:
 					Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)
 				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
 					let terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)
-					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
-		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1					
+					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)		
