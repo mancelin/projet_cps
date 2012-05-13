@@ -122,6 +122,8 @@
 	isTombable: [Bloc] `\fleche` boolean
 	isSortie: [Bloc] `\fleche` boolean
 	isSortieFermee: [Bloc] `\fleche` boolean
+	isHero: [Bloc] `\fleche` boolean
+	isTerre: [Bloc] `\fleche` boolean
 	
 `\constructors`
 	init: TypeBloc `\X` Position `\fleche` [Bloc]
@@ -137,7 +139,9 @@
 	isTombable(b) `\eqmin` getType(b) \in { ROCHER, DIAMANT }
 	isSortie(b) `\eqmin` getType(b) \in { SORTIE_FERMEE, SORTIE_OUVERTE }
 	isSortieFermee(b) `\eqmin` getType(b) = SORTIE_FERMEE
-
+	isHero(b) `\eqmin` getType(b) = HERO
+	isTerre(b) `\eqmin` getType(b) = TERRE
+	
 `\obsection{init}`
 	getType(init(tb, pos)) = tb
 	getPosition(init(tb, pos)) = pos

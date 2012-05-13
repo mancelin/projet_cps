@@ -13,26 +13,6 @@ public class PositionContract extends PositionDecorator {
 	public void checkInvariant() {
 		// aucun invariant
 	}
-	
-	@Override
-	public int getLargeur() {
-		return super.getLargeur();
-	}
-
-	@Override
-	public int getHauteur() {
-		return super.getHauteur();
-	}
-
-	@Override
-	public int getX() {
-		return super.getX();
-	}
-
-	@Override
-	public int getY() {
-		return super.getY();
-	}
 
 	@Override
 	public void init(int l, int h, int x, int y) {

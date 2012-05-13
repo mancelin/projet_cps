@@ -29,6 +29,11 @@ public interface BlocService {
 	/** Observator: le bloc est-il une sortie fermée ? */
 	public boolean isSortieFermee();
 	
+	/** Observator: le bloc est-il un héro ? */
+	public boolean isHero();
+	
+	/** Observator: le bloc est-il de la terre ? */
+	public boolean isTerre();
 	
 	/** Invariant */
 	// inv: isVide() == (getType() == VIDE)
@@ -37,7 +42,9 @@ public interface BlocService {
 	// inv: isTombable() == (getType() \in { ROCHER, DIAMANT })
 	// inv: isSortie() == (getType() \in { SORTIE_FERMEE, SORTIE_OUVERTE }
 	// inv: isSortieFermee() == (getType() == SORTIE_FERMEE)
-					
+	// inv: isHero() == (getType() == HERO)
+	// inv: isTerre() == (getType() == TERRE)
+	
 	
 	/**
 	 * Constructor init:

@@ -56,31 +56,6 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 		if (!(isDeplacementHeroPossible(dir) == !blocDest.isSolide()))
 			Contractor.defaultContractor().invariantError("MoteurJeuService", "Le déplacement du héro vers le BAS ne doit être possible que si le bloc de destination n'est pas solide.");	
 	}
-	
-	@Override
-	public TerrainService getTerrain() {
-		return super.getTerrain();
-	}
-
-	@Override
-	public int getPasRestants() {
-		return super.getPasRestants();
-	}
-
-	@Override
-	public boolean isDeplacementHeroPossible(Direction dir) {
-		return super.isDeplacementHeroPossible(dir);
-	}
-
-	@Override
-	public boolean isPartieTerminee() {
-		return super.isPartieTerminee();
-	}
-
-	@Override
-	public boolean isPartieGagnee() {
-		return super.isPartieGagnee();
-	}
 
 	@Override
 	public void init(TerrainService t, int nbPas) {

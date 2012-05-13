@@ -35,46 +35,14 @@ public class BlocContract extends BlocDecorator {
 		// inv: isSortieFermee() == (getType() == SORTIE_FERMEE)
 		if (!(isSortieFermee() == (getType() == TypeBloc.SORTIE_FERMEE)))
 			Contractor.defaultContractor().invariantError("BlocService", "Un bloc étant une sortie fermée doit être de type SORTIE_FERMEE.");
-	}
-	
-	@Override
-	public PositionService getPosition() {
-		return super.getPosition();
-	}
-
-	@Override
-	public boolean isVide() {
-		return super.isVide();
-	}
-
-	@Override
-	public boolean isSolide() {
-		return super.isSolide();
-	}
-
-	@Override
-	public boolean isDeplacable() {
-		return super.isDeplacable();
-	}
-
-	@Override
-	public boolean isTombable() {
-		return super.isTombable();
-	}
-
-	@Override
-	public boolean isSortie() {
-		return super.isSortie();
-	}
-	
-	@Override
-	public boolean isSortieFermee() {
-		return super.isSortieFermee();
-	}
-
-	@Override
-	public TypeBloc getType() {
-		return super.getType();
+		
+		// inv: isHero() == (getType() == HERO)
+		if (!(isHero() == (getType() == TypeBloc.HERO)))
+			Contractor.defaultContractor().invariantError("BlocService", "Un bloc étant considéré héro doit être de type HERO.");
+		
+		// inv: isTerre() == (getType() == TERRE)
+		if (!(isTerre() == (getType() == TypeBloc.TERRE)))
+			Contractor.defaultContractor().invariantError("BlocService", "Un bloc de terre doit être de type TERRE.");
 	}
 
 	@Override

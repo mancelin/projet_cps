@@ -13,6 +13,8 @@ Observators:
 	isTombable : [Bloc] -> boolean
 	isSortie : [Bloc] -> boolean
 	isSortieFermee : [Bloc] -> boolean
+	isHero : [Bloc] -> boolean
+	isTerre : [Bloc] -> boolean
 	
 Constructors:
 	init : TypeBloc * Position -> [Bloc]
@@ -28,6 +30,8 @@ Observations:
 		isTombable(b) ={min} getType(b) \in { ROCHER, DIAMANT }
 		isSortie(b) ={min} getType(b) \in { SORTIE_FERMEE, SORTIE_OUVERTE }
 		isSortieFermee(b) ={min} getType(b) = SORTIE_FERMEE
+		isHero(b) ={min} getType(b) = HERO
+		isTerre(b) ={min} getType(b) = TERRE
 		
 	[init]
 		getType(init(tb, pos)) = tb

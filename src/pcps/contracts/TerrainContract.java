@@ -93,26 +93,6 @@ public class TerrainContract extends TerrainDecorator {
 	}
 
 	@Override
-	public int getLargeur() {
-		return super.getLargeur();
-	}
-
-	@Override
-	public int getHauteur() {
-		return super.getHauteur();
-	}
-
-	@Override
-	public PositionService getPosSortie() {
-		return super.getPosSortie();
-	}
-
-	@Override
-	public PositionService getPosHero() {
-		return super.getPosHero();
-	}
-
-	@Override
 	public BlocService getBlocHero() {
 		// pre: isHeroVivant()
 		if (!(isHeroVivant()))

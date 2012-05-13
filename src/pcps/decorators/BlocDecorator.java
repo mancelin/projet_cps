@@ -56,6 +56,16 @@ public class BlocDecorator implements BlocService {
 	}
 
 	@Override
+	public boolean isHero() {
+		return getDelegate().isHero();
+	}
+	
+	@Override
+	public boolean isTerre() {
+		return getDelegate().isTerre();
+	}
+	
+	@Override
 	public TypeBloc getType() {
 		return getDelegate().getType();
 	}
