@@ -2,31 +2,14 @@ package pcps.parser;
 
 import java.io.*;
 
-import pcps.components.MoteurJeu;
-import pcps.components.Terrain;
 import pcps.enums.TypeBloc;
+import pcps.factories.IFactory;
+import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
+import pcps.services.PositionService;
 import pcps.services.TerrainService;
 
 public class TerrainParser {
-
-
-	public static void lireFichier(String fichier) throws IOException{
-		String ligne = "";
-		BufferedReader ficTexte = null;
-
-		try
-		{
-			ficTexte = new BufferedReader(new FileReader(new File(fichier)));
-		}
-		catch(FileNotFoundException exc)
-		{
-			System.out.println("Erreur d'ouverture");
-		}
-		while ((ligne = ficTexte.readLine()) != null)
-			System.out.println(ligne + " => " + ligne.length());
-		ficTexte.close();
-	}
 
 	public static TypeBloc typeBlocDeChar(char c){
 		switch(c){
@@ -55,18 +38,17 @@ public class TerrainParser {
 	}
 	
 		
-	public static MoteurJeuService terrainDeFichier(String fichier) throws IOException {
+	public static MoteurJeuService depuisFichier(String fichier, IFactory factory) throws IOException {
 		String ligne = "";
 		BufferedReader ficTexte = null;
 		int largeur;
 		int hauteur;
 		int nbPas=0;
 		
-		MoteurJeuService mj = new MoteurJeu();
-		TerrainService t = new Terrain();
+		MoteurJeuService mj = factory.creerMoteurJeu();
+		TerrainService t = factory.creerTerrain();
 
 
-		
 		try
 		{
 			ficTexte = new BufferedReader(new FileReader(new File(fichier)));
@@ -81,40 +63,33 @@ public class TerrainParser {
 		largeur = Integer.parseInt(tabEntete[0]);
 		hauteur = Integer.parseInt(tabEntete[1]);
 		nbPas = Integer.parseInt(tabEntete[2]);
-		System.out.println("nbPas : "+nbPas);
+	//	System.out.println("nbPas : "+nbPas);
 		t.init(largeur, hauteur);
 		int y = 0;
 		while ((ligne = ficTexte.readLine()) != null){
-			y++;
+			System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
+			
 			for(int i=0;i<ligne.length();i++){
-				//System.out.print(ligne.charAt(i)); 
-				t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);
+				System.out.print(ligne.charAt(i)); 
+			
+				PositionService pos = factory.creerPosition(); 
+				pos.init(largeur, hauteur, i, y);
+				BlocService bloc = factory.creerBloc();
+				bloc.init(typeBlocDeChar(ligne.charAt(i)), pos);
+				System.out.printf(">> pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
+				t.setBloc(bloc.getType(), pos.getX(), pos.getY());
+				
+				//t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);
+				
+				//System.out.printf("pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
 				//System.out.printf("in the for x=%d y=%d \n", i+1,y);
 			}
+			y++;
 		}
 		ficTexte.close();
-		System.out.printf("mj.init(t, nbPas=%d)\n",nbPas);
+		//System.out.printf("mj.init(t, nbPas=%d)\n",nbPas);
 		mj.init(t, nbPas);
 		return mj;
 	}
-		
-
-
-
-	public static void main (String[] args) {
-		BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
-		System.out.println("Fichier de niveau : ");
-		String fichier;
-		try {
-			fichier = clavier.readLine();
-			lireFichier(fichier);
-			MoteurJeuService mj = terrainDeFichier(fichier);
-			System.out.println("Fin");
-			System.out.println(mj.toString());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-			System.exit(0);
-	}
-
+	
 }

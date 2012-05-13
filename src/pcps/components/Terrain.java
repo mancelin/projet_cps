@@ -134,18 +134,33 @@ TerrainService {
 	@Override
 	public void setBloc(TypeBloc type, int x, int y) {
 		getBloc(x,y).setType(type);
+		/*
+		BlocService bloc = new Bloc();
+		PositionService pos = new Position();
+		pos.init(largeur, hauteur, x, y);
+		bloc.init(type, pos);
+		matriceTerrain[x][y] = bloc;
+		*/
 	}
 
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
 		assert(isDeplacementBlocPossible(bloc, dir));
 		TypeBloc tb = bloc.getType();
+		/*
+		PositionService posBloc = bloc.getPosition().copy();
+		setBloc(TypeBloc.VIDE, posBloc.getX(),posBloc.getY());
+		*/
 		bloc.setType(TypeBloc.VIDE);
 		System.out.println("bloc o: " + tb + " -> " + "VIDE");
 		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
 		System.out.print("bloc d: " + blocVersDirection.getType() + " -> ");
 		blocVersDirection.setType(tb);
-		System.out.println( blocVersDirection.getType() );
+		/*
+		PositionService posBlocVersDirection = blocVersDirection.getPosition().copy();
+		setBloc(tb, posBlocVersDirection.getX(),posBlocVersDirection.getY());
+		*/
+		System.out.println(	 blocVersDirection.getType() );
 	}
 
 

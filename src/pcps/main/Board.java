@@ -222,14 +222,16 @@ public class Board extends JPanel implements ActionListener {
 				int key = e.getKeyCode();
 				
 				if ((key == KeyEvent.VK_LEFT)) {
-					mj.deplacerHero(Direction.GAUCHE);
 					System.out.println("Gauche");
+					mj.deplacerHero(Direction.GAUCHE);
+					
 				//	newAction = true;
 				}
 	
 				if ((key == KeyEvent.VK_RIGHT)) {
-					mj.deplacerHero(Direction.DROITE);
 					System.out.println("Droite");
+					mj.deplacerHero(Direction.DROITE);
+					
 					//newAction = true;
 				}
 	
@@ -240,11 +242,13 @@ public class Board extends JPanel implements ActionListener {
 				}
 	
 				if (key == KeyEvent.VK_DOWN) {
+					System.out.println("Bas");
 					mj.deplacerHero(Direction.BAS);
-			//		System.out.println("Bas");
+
 //					repaint();
 				}
 				repaint();
+		//		System.out.print(mj.toString());
 			}
 		}
 	}

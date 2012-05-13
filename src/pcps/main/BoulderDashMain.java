@@ -5,16 +5,23 @@ import java.io.IOException;
 import javax.swing.JFrame;
 
 import pcps.factories.*;
+import pcps.parser.TerrainParser;
 import pcps.services.MoteurJeuService;
 
 
 public class BoulderDashMain extends JFrame {
 
-    public BoulderDashMain(String fichierNiveau) throws IOException {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public BoulderDashMain(String fichierNiveau) throws IOException {
     	IFactory factory = new Factory();
     	// IFactory factory = new FactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
     	
-    	MoteurJeuService mj = MoteurJeuFactory.depuisFichier(fichierNiveau);
+    	MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau, factory); 
+    	//		MoteurJeuFactory.depuisFichier(fichierNiveau);
         add(new Board(mj));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

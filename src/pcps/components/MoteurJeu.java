@@ -26,7 +26,7 @@ MoteurJeuService {
 	@Override
 	public boolean isDeplacementHeroPossible(Direction dir) {
 		System.out.println("isDeplacementHeroPossible, type bloc dest : " + 
-				terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType());
+				terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType() + " , dir :" + dir);
 		return !(terrain.getBlocVersDirection(terrain.getBlocHero(), dir).isSolide());
 	}
 
@@ -54,11 +54,11 @@ MoteurJeuService {
 		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
 		System.out.printf("pos bloc dest =>  x : %d, y: %d\n", blocDest.getPosition().getX(),blocDest.getPosition().getY());
 		if(!blocDest.isSolide()){
-			System.out.println("bloc dest is not solid");
+		//	System.out.println("bloc dest is not solid");
 			terrain.deplacerBlocVersDirection(blocHero, dir);
 		} else {
 			if(blocDest.isDeplacable() && ((dir == Direction.DROITE) || (dir == Direction.GAUCHE)) ){
-				System.out.println("bloc dest is deplaçable");
+			//	System.out.println("bloc dest is deplaçable");
 				terrain.deplacerBlocVersDirection(blocDest, dir);
 				terrain.deplacerBlocVersDirection(blocHero, dir);
 			}
@@ -74,9 +74,10 @@ MoteurJeuService {
 		if(isPartieGagnee())
 			return "You Win!";
 		res += Integer.toString(nbPasRestants) +" pas restants\n";
-		for(int y=0;y<terrain.getHauteur();y++){
-			for(int x=0;x<terrain.getLargeur();x++){
-				res += TerrainParser.charDeTypeBloc(terrain.getBloc(x, y).getType());
+		TerrainService t = this.getTerrain();
+		for(int y=0;y<t.getHauteur();y++){
+			for(int x=0;x<t.getLargeur();x++){
+				res += TerrainParser.charDeTypeBloc(t.getBloc(x, y).getType());
 			}
 			res +="\n";
 		}
