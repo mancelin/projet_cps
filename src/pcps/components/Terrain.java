@@ -10,14 +10,14 @@ import pcps.services.PositionService;
 import pcps.services.TerrainService;
 
 public class Terrain implements 
-	/* provide */
-	TerrainService {
-	
+/* provide */
+TerrainService {
+
 	protected int largeur;
 	protected int hauteur;	
 	protected BlocService[][] matriceTerrain;
 
-	
+
 	@Override
 	public void init(int l, int h) {
 		largeur = l;
@@ -33,14 +33,14 @@ public class Terrain implements
 			}
 		}
 	}
-	
+
 	@Override
 	public TerrainService copy() {
 		TerrainService copy = new Terrain();
 		copy.init(getLargeur(), getHauteur());
 		return copy;
 	}
-	
+
 	@Override
 	public int getLargeur() {
 		return largeur;
@@ -99,8 +99,11 @@ public class Terrain implements
 	@Override
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
 		PositionService	posBloc = bloc.getPosition();
-		posBloc.deplacerVersDirection(dir);
-		return getBlocDepuisPosition(posBloc);
+		PositionService posBlocCurrent = posBloc.copy();
+		System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
+		posBlocCurrent.deplacerVersDirection(dir);
+		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
+		return getBlocDepuisPosition(posBlocCurrent);
 	}
 
 	@Override
@@ -122,11 +125,11 @@ public class Terrain implements
 
 	@Override
 	public boolean isDeplacementBlocPossible(BlocService bloc, Direction dir) {
-		return (bloc.isDeplacable() && !getBlocVersDirection(bloc,dir).isSolide() && 
-				(getBlocVersDirection(bloc, dir).getType() == TypeBloc.TERRE));
+		BlocService blocDest = getBlocVersDirection(bloc, dir);
+		return ((blocDest.isTerre() && bloc.isHero()) || !blocDest.isSolide());
 	}
 
-	
+
 
 	@Override
 	public void setBloc(TypeBloc type, int x, int y) {
@@ -135,13 +138,16 @@ public class Terrain implements
 
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
-		if(isDeplacementBlocPossible(bloc, dir)){
-			TypeBloc tb = bloc.getType();
-			bloc.setType(TypeBloc.VIDE);
-			BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-			blocVersDirection.setType(tb);
-		}
+		assert(isDeplacementBlocPossible(bloc, dir));
+		TypeBloc tb = bloc.getType();
+		bloc.setType(TypeBloc.VIDE);
+		System.out.println("bloc o: " + tb + " -> " + "VIDE");
+		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
+		System.out.print("bloc d: " + blocVersDirection.getType() + " -> ");
+		blocVersDirection.setType(tb);
+		System.out.println( blocVersDirection.getType() );
 	}
+
 
 	@Override
 	public void fairePasDeMiseAJour() {

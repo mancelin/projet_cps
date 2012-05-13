@@ -121,7 +121,7 @@ public class Board extends JPanel implements ActionListener {
 //		super.paint(g);
 
 		if (inGame) {
-			System.out.println("painting");
+	//		System.out.println("painting");
 			//g.drawImage(c_vide , 0, 0, this);
 			TerrainService t = mj.getTerrain();
 			for(int y=0;y<hauteur;y++){
@@ -205,7 +205,7 @@ public class Board extends JPanel implements ActionListener {
 		
 		if(newAction){
 			repaint();
-			System.out.print(mj.toString());
+	//		System.out.print(mj.toString());
 			newAction = false;
 		}
 	}

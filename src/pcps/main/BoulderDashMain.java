@@ -11,9 +11,7 @@ import pcps.services.MoteurJeuService;
 public class BoulderDashMain extends JFrame {
 
     public BoulderDashMain(String fichierNiveau) throws IOException{
-    	System.out.println("first");
     	MoteurJeuService mj = MoteurJeuFactory.depuisFichier(fichierNiveau);
-    	System.out.println("here");
         add(new Board(mj));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
