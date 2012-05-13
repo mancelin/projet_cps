@@ -23,7 +23,7 @@
 \usepackage{wrapfig}
 
 \DeclareCaptionFont{white}{\color{white}}
-\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0, 0, 0, 1}{\parbox{\textwidth}{\center{#3}}}\vspace{5pt}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf, Large}}
 \lstset{
 	breaklines=true,
@@ -36,7 +36,8 @@
 	numbersep=5pt,
 	extendedchars=true,
 	showspaces=false,
-	xleftmargin=17pt,
+	xleftmargin=8pt,
+	xrightmargin=8pt,
 	framexleftmargin=17pt,
 	framexrightmargin=5pt,
 	framexbottommargin=4pt,
@@ -73,7 +74,7 @@
 \newcommand{\lin}{$\in$}
 
 % \newcommand{\specsec}[1]{\normalfont{\Large{\textbf{#1:}}}}
-\newcommand{\specsec}[1]{\normalfont{\Large{\textbf{#1:}}}}
+\newcommand{\specsec}[1]{\normalfont{\large{\textbf{#1:}}}}
 \newcommand{\service}{\specsec {Service}}
 \newcommand{\types}{\specsec {Types}}
 \newcommand{\use}{\specsec {Use}}
@@ -157,7 +158,6 @@
 	`\o{getPosition}`(`\c{setType}`(b, tb)) = `\o{getPosition}`(b)
 \end{lstlisting}
 	
-\hrule
 \clearpage{}
 
 \begin{lstlisting}[caption=Position]
@@ -203,7 +203,6 @@
 			`\o{getY}`(p)
 \end{lstlisting}
 
-\hrule
 \clearpage{}
 
 
@@ -356,7 +355,6 @@
 			else
 				`\o{getBloc}`(t, pos)
 \end{lstlisting}
-\hrule
 \clearpage
 
 \begin{lstlisting}[caption=MoteurJeu]
