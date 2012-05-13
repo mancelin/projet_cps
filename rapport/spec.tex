@@ -245,7 +245,10 @@
 	isDiamantsRestants(t) `\eqmin` `\lEXISTS`bloc `\lin` getBlocs(t), Bloc::getType(bloc) = DIAMANT
 	
 	`\mbox{{\lFORALL}bloc \lin{} getBlocs(t), dir \lin{} Direction, isDeplacementBlocPossible(t, bloc, dir) \eqmin}`
-		`\lNOT`Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
+		let blocDest = getBlocVersDirection(t, bloc, dir)
+		in
+			(Bloc::isHero(bloc) `\lAND` Bloc::isTerre(blocDest))
+			`\lOR` `\lNOT`Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
 	
 	getBlocDepuisPosition(t, pos) `\eqmin`
 		getBloc(t, Position::getX(pos), Position::getY(pos))
