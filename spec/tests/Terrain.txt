@@ -7,7 +7,7 @@ Objectif Terrain_getBlocHero_pre: précondition de getBlocHero
 		Préambule: TER1
 		Contenu: aucun
 		Oracle: ∃ T2, T2 = getBlocHero(TER1)
-	
+
 	Cas de test Terrain_getBlocHero_pre_false:
 		Préambule: Bloc::setType(getBlocHero(TER1), VIDE)
 		Contenu: aucun
@@ -18,12 +18,12 @@ Objectif Terrain_init_pre: précondition de init
 		Préambule: aucun
 		Contenu: aucun
 		Oracle: ∃ T, T = init(5, 5)
-	
+
 	Cas de test Terrain_init_pre_false1:
 		Préambule: aucun
 		Contenu: aucun
 		Oracle: ∄ T, T = init(0, 5)
-		
+
 	Cas de test Terrain_init_pre_false2:
 		Préambule: aucun
 		Contenu: aucun
@@ -34,9 +34,60 @@ Objectif Terrain_deplacerBlocVersDirection_pre: précondition de deplacerBlocVer
 		Préambule: TER1
 		Contenu: aucun
 		Oracle: ∃ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)
-		
+
 	Cas de test Terrain_deplacerBlocVersDirection_pre_false:
 		Préambule: TER1
 		Contenu: aucun
 		Oracle: ∄ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), HAUT)
 
+
+** Couverture des invariants **
+
+Soit TER1, terrain de test
+
+Objectif Terrain_invariant1: minimisation de getBlocHero
+	Cas de test Terrain_invariant1
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: getBlocHero(TER1) = getBlocDepuisPosition(getPosHero(TER1))
+
+Objectif Terrain_invariant2: minimisation de getBlocVersDirection
+	Cas de test Terrain_invariant2:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: getBlocVersDirection(getBlocHero(TER1), DROITE) = getBloc(TER1, Position::deplacerVersDirection(Bloc::getPosition(getBlocHero(TER1))))
+
+Objectif Terrain_invariant3: minimisation de isHeroVivant
+	Cas de test Terrain_invariant3:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: isHeroVivant(t) = EXISTS bloc \in getBlocs(TER1), (Bloc::getType(bloc)) = HERO)
+
+
+Objectif Terrain_invariant4: minimisation de isDiamantsRestants
+	Cas de test Terrain_invariant4:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: isDiamantsRestants(TER1) = EXISTS bloc \in getBlocs(TER1), (Bloc::getType(bloc)) = DIAMANT)
+
+Objectif Terrain_invariant5: minimisation de isDeplacementBlocPossible
+	Cas de test Terrain_invariant5:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle:
+			let* bloc = getBlocHero(TER1)
+			and blocDest = getBlocVersDirection(TER1, bloc, DROITE)
+			in
+				isDeplacementBlocPossible(TER1) = (Bloc::isHero(bloc) ^ Bloc::isTerre(blocDest) V !Bloc::isSolide(blocDest))
+
+Objectif Terrain_invariant6: minimisation de getBlocDepuisPosition
+	Cas de test Terrain_invariant6:
+		Préambule: TER1, POS1
+		Opérations: aucune
+		Oracle: getBlocDepuisPosition(TER1, POS1) = getBloc(TER1, Position::getX(POS1), Position::getY(POS1))
+
+Objectif Terrain_invariant7: minimisation de getBlocs
+	Cas de test Terrain_invariant7:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: getBlocs(TER1) = UNION (getBloc(TER1, ..., ...))
