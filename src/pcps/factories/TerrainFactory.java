@@ -1,4 +1,4 @@
-package pcps.factory;
+package pcps.factories;
 
 import pcps.components.Terrain;
 import pcps.services.TerrainService;

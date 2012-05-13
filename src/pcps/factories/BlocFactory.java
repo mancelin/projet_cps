@@ -1,4 +1,4 @@
-package pcps.factory;
+package pcps.factories;
 
 import pcps.components.Bloc;
 //import pcps.components.Position;

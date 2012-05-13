@@ -1,4 +1,4 @@
-package pcps.factory;
+package pcps.factories;
 
 import java.io.BufferedReader;
 import java.io.File;

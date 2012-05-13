@@ -1,4 +1,4 @@
-package pcps.factory;
+package pcps.factories;
 
 import pcps.components.Position;
 import pcps.services.PositionService;
