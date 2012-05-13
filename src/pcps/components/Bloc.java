@@ -46,46 +46,44 @@ public class Bloc implements
 
 	@Override
 	public boolean isVide() {
-		if(type == TypeBloc.VIDE)
-			return true;
-		return false;
+		return (type == TypeBloc.VIDE);
 	}
 
 
 	@Override
 	public boolean isSolide() {
-		if(type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.MUR || type == TypeBloc.ROCHER )
-			return true;
-		return false;
+		return (type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.MUR || type == TypeBloc.ROCHER );
 	}
 
 
 	@Override
 	public boolean isDeplacable() {
-		if(type == TypeBloc.ROCHER)
-			return true;
-		return false;
+		return (type == TypeBloc.ROCHER);
 	}
 
 
 	@Override
 	public boolean isTombable() {
-		if(type == TypeBloc.ROCHER || type == TypeBloc.DIAMANT)
-			return true;
-		return false;
+		return (type == TypeBloc.ROCHER || type == TypeBloc.DIAMANT);
 	}
 
 	@Override
 	public boolean isSortie() {
-		if (type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.SORTIE_OUVERTE)
-			return true;
-		return false;
+		return (type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.SORTIE_OUVERTE);
 	}
 
 	@Override
 	public boolean isSortieFermee() {
-		if(type == TypeBloc.SORTIE_FERMEE)
-			return true;
-		return false;
+		return (type == TypeBloc.SORTIE_FERMEE);
+	}
+
+	@Override
+	public boolean isHero() {
+		return (type == TypeBloc.HERO);
+	}
+	
+	@Override
+	public boolean isTerre() {
+		return (type == TypeBloc.TERRE);
 	}
 }
