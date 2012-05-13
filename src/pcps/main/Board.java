@@ -247,8 +247,11 @@ public class Board extends JPanel implements ActionListener {
 
 //					repaint();
 				}
+				System.out.printf("pos hero : (%d,%d) 		", mj.getTerrain().getPosHero().getX(),mj.getTerrain().getPosHero().getY());
+				System.out.printf("nbPas : %d \n", mj.getPasRestants());
 				repaint();
-		//		System.out.print(mj.toString());
+				System.out.println("--------------");
+			//	System.out.print(mj.toString());
 			}
 		}
 	}

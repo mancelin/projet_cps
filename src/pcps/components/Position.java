@@ -54,15 +54,24 @@ public class Position implements
 		switch(dir){
 			case GAUCHE:
 				x = (x - 1) % largeur;
-			
+				if(x < 0){
+					x += largeur;
+				}
+				break;
 			case DROITE:
 				x = (x + 1) % largeur;
+				break;
 				
 			case HAUT:
 				y = (y - 1) % hauteur;
+				if(y < 0){
+					y += hauteur;
+				}
+				break;
 				
 			case BAS:
 				y = (y + 1) % hauteur;
+				break;
 		}
 	}
 }

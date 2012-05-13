@@ -31,7 +31,7 @@ public class BoulderDashMain extends JFrame {
 
         setResizable(false);
         setVisible(true);
-        System.out.print(mj.toString());
+     //   System.out.print(mj.toString());
     }
 
     public static void main(String[] args) throws IOException{

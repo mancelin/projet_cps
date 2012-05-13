@@ -93,6 +93,7 @@ TerrainService {
 
 	@Override
 	public BlocService getBlocDepuisPosition(PositionService pos) {
+	//	System.out.printf(" getBlocDepuisPosition  => x: %d, y : %d\n", pos.getX(),pos.getY());
 		return matriceTerrain[pos.getX()][pos.getY()];
 	}
 
@@ -102,7 +103,7 @@ TerrainService {
 		PositionService posBlocCurrent = posBloc.copy();
 	//	System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
 		posBlocCurrent.deplacerVersDirection(dir);
-	//	System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
+//		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
 		return getBlocDepuisPosition(posBlocCurrent);
 	}
 
@@ -152,15 +153,15 @@ TerrainService {
 		setBloc(TypeBloc.VIDE, posBloc.getX(),posBloc.getY());
 		*/
 		bloc.setType(TypeBloc.VIDE);
-		System.out.println("bloc o: " + tb + " -> " + "VIDE");
+	//	System.out.println("bloc o: " + tb + " -> " + "VIDE");
 		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-		System.out.print("bloc d: " + blocVersDirection.getType() + " -> ");
+	//	System.out.print("bloc d: " + blocVersDirection.getType() + " -> ");
 		blocVersDirection.setType(tb);
 		/*
 		PositionService posBlocVersDirection = blocVersDirection.getPosition().copy();
 		setBloc(tb, posBlocVersDirection.getX(),posBlocVersDirection.getY());
 		*/
-		System.out.println(	 blocVersDirection.getType() );
+	//	System.out.println(	 blocVersDirection.getType() );
 	}
 
 
@@ -185,7 +186,10 @@ TerrainService {
 
 	@Override
 	public BlocService getBloc(int x, int y) {
-		return matriceTerrain[x][y];
+		BlocService bloc = new Bloc();
+		bloc = matriceTerrain[x][y];
+	//	System.out.printf(" (%d,%d){%s} \n",bloc.getPosition().getX(),bloc.getPosition().getY(),bloc.getType());
+		return bloc;
 	}
 
 

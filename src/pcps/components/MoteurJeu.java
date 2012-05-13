@@ -25,8 +25,8 @@ MoteurJeuService {
 
 	@Override
 	public boolean isDeplacementHeroPossible(Direction dir) {
-		System.out.println("isDeplacementHeroPossible, type bloc dest : " + 
-				terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType() + " , dir :" + dir);
+	//	System.out.println("isDeplacementHeroPossible, type bloc dest : " + 
+	//			terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType() + " , dir :" + dir);
 		return !(terrain.getBlocVersDirection(terrain.getBlocHero(), dir).isSolide());
 	}
 
@@ -50,9 +50,9 @@ MoteurJeuService {
 	public void deplacerHero(Direction dir) {
 		assert(!isPartieTerminee() && isDeplacementHeroPossible(dir));
 		BlocService blocHero = terrain.getBlocHero();
-		System.out.printf("pos bloc hero =>  x : %d, y: %d\n", blocHero.getPosition().getX(),blocHero.getPosition().getY());
+	//	System.out.printf("pos bloc hero =>  x : %d, y: %d\n", blocHero.getPosition().getX(),blocHero.getPosition().getY());
 		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
-		System.out.printf("pos bloc dest =>  x : %d, y: %d\n", blocDest.getPosition().getX(),blocDest.getPosition().getY());
+	//	System.out.printf("pos bloc dest =>  x : %d, y: %d\n", blocDest.getPosition().getX(),blocDest.getPosition().getY());
 		if(!blocDest.isSolide()){
 		//	System.out.println("bloc dest is not solid");
 			terrain.deplacerBlocVersDirection(blocHero, dir);
