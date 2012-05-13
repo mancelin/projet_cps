@@ -120,7 +120,7 @@ public class Board extends JPanel implements ActionListener {
 	public void paint(Graphics g) {
 //		super.paint(g);
 
-		if (inGame) {
+		if (!mj.isPartieTerminee()) {
 	//		System.out.println("painting");
 			//g.drawImage(c_vide , 0, 0, this);
 			TerrainService t = mj.getTerrain();
@@ -203,11 +203,13 @@ public class Board extends JPanel implements ActionListener {
 			//          checkCollision();
 		}
 		
+		/*
 		if(newAction){
 			repaint();
 	//		System.out.print(mj.toString());
 			newAction = false;
 		}
+		*/
 	}
 
 
@@ -222,25 +224,27 @@ public class Board extends JPanel implements ActionListener {
 				if ((key == KeyEvent.VK_LEFT)) {
 					mj.deplacerHero(Direction.GAUCHE);
 					System.out.println("Gauche");
-					newAction = true;
+				//	newAction = true;
 				}
 	
 				if ((key == KeyEvent.VK_RIGHT)) {
 					mj.deplacerHero(Direction.DROITE);
 					System.out.println("Droite");
-					newAction = true;
+					//newAction = true;
 				}
 	
 				if ((key == KeyEvent.VK_UP) ) {
 					mj.deplacerHero(Direction.HAUT);
 					System.out.println("Haut");
-					newAction = true;
+				//	newAction = true;
 				}
 	
 				if (key == KeyEvent.VK_DOWN) {
 					mj.deplacerHero(Direction.BAS);
-					System.out.println("Bas");
+			//		System.out.println("Bas");
+//					repaint();
 				}
+				repaint();
 			}
 		}
 	}

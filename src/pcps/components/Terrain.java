@@ -100,9 +100,9 @@ TerrainService {
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
 		PositionService	posBloc = bloc.getPosition();
 		PositionService posBlocCurrent = posBloc.copy();
-		System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
+	//	System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
 		posBlocCurrent.deplacerVersDirection(dir);
-		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
+	//	System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
 		return getBlocDepuisPosition(posBlocCurrent);
 	}
 
@@ -152,7 +152,7 @@ TerrainService {
 	@Override
 	public void fairePasDeMiseAJour() {
 		if(!isDiamantsRestants()){
-			PositionService posSortie = getPosSortie();
+			PositionService posSortie = getPosSortie().copy();
 			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
 		}
 		for(int x=0;x<largeur;x++){
