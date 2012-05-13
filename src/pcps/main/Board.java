@@ -130,6 +130,7 @@ public class Board extends JPanel implements ActionListener {
 					g.drawImage(imageDeTypeBloc(typeBlocCourant), x * 30, y *30,this);
 				}
 			}
+			mj.getTerrain().fairePasDeMiseAJour();
 			/*
             for (int z = 0; z < dots; z++) {
                 if (z == 0)
