@@ -5,29 +5,29 @@ Soit TER1, le terrain de test #1
 Objectif MoteurJeu_init_pre: précondition de init
 	Cas de test MoteurJeu_init_pre_true:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∃ MJ, MJ = init(TER1, 30)
 
 	Cas de test MoteurJeu_init_pre_false:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ, MJ = init(TER1, 0)
 
 
 Objectif MoteurJeu_deplacerHero_pre: précondition de deplacerHero
 	Cas de test MoteurJeu_deplacerHero_pre_true:
 		Préambule: MJ1 = init(TER1, 30)
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∃ MJ2, MJ2 = deplacerHero(MJ1, DROITE)
 
 	Cas de test MoteurJeu_deplacerHero_pre_false1:
 		Préambule: MJ1 = init(TER1, 30)
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ2, MJ2 = deplacerHero(MJ1, HAUT)
 
 	Cas de test MoteurJeu_deplacerHero_pre_false2:
 		Préambule: MJ1 = deplacerHero(init(TER1, 1), DROITE)
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ2, MJ2 = deplacerHero(MJ1, GAUCHE)
 
 

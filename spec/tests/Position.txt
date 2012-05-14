@@ -3,27 +3,27 @@
 Objectif Position_init_pre: précondition de init
 	Cas de test Position_init_pre_true:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∃ MJ, MJ = init(5, 5, 2, 3)
 
 	Cas de test Position_init_pre_false1:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ, MJ = init(0, 5, 2, 3)
 
 	Cas de test Position_init_pre_false2:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ, MJ = init(5, 0, 2, 3)
 
 	Cas de test Position_init_pre_false3:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ, MJ = init(5, 5, -1, 3)
 
 	Cas de test Position_init_pre_false4:
 		Préambule: aucun
-		Contenu: aucun
+		Opérations: aucun
 		Oracle: ∄ MJ, MJ = init(5, 5, 2, -1)
 
 
