@@ -1,5 +1,6 @@
 package pcps.main;
 
+import java.awt.Color;
 import java.io.IOException;
 
 import javax.swing.JFrame;
@@ -15,10 +16,12 @@ public class BoulderDashMain extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private final int TAILLE_CASE = 16;
+	
 	public BoulderDashMain(String fichierNiveau) throws IOException {
 		Factory.createFactory();
 		Factory factory = Factory.getFactory();
+		
 		
     	// Factory.createFactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
     	
@@ -27,7 +30,8 @@ public class BoulderDashMain extends JFrame {
         add(new Board(mj));
         
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(mj.getTerrain().getLargeur()*30, mj.getTerrain().getHauteur()*30);
+        setSize(mj.getTerrain().getLargeur()*TAILLE_CASE, (mj.getTerrain().getHauteur()+1)*TAILLE_CASE);
+        setBackground(Color.BLACK);
         setLocationRelativeTo(null);
         setTitle("Boulder Dash");
 

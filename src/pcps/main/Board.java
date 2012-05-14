@@ -28,7 +28,7 @@ public class Board extends JPanel implements ActionListener {
 	private int largeur;
 	private int hauteur;
 	private int nbPas;
-	private final int TAILLE_CASE = 10;
+	private final int TAILLE_CASE = 16;
 	//private final int ALL_DOTS = 900;
 	private final int DELAI = 140;
 
@@ -127,7 +127,7 @@ public class Board extends JPanel implements ActionListener {
 			for(int y=0;y<hauteur;y++){
 				for(int x=0;x<largeur;x++){
 					TypeBloc typeBlocCourant = t.getBloc(x, y).getType();
-					g.drawImage(imageDeTypeBloc(typeBlocCourant), x * 30, y *30,this);
+					g.drawImage(imageDeTypeBloc(typeBlocCourant), x * TAILLE_CASE, y *TAILLE_CASE,this);
 				}
 			}
 			mj.getTerrain().fairePasDeMiseAJour();
