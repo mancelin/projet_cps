@@ -40,6 +40,7 @@ public class PositionTest {
 	public void Position_init_pre_true() {
 		// oracle
 		position.init(5, 5, 2, 3);
+		assertTrue(true);
 		checkInvariant();
 	}
 
