@@ -1,31 +1,57 @@
 package pcps.factories;
 
-import pcps.services.BlocService;
-import pcps.services.MoteurJeuService;
-import pcps.services.PositionService;
-import pcps.services.TerrainService;
+import pcps.services.*;
 import pcps.components.*;
+import pcps.contracts.*;
 
-public class Factory implements IFactory {
-
-	@Override
+public class Factory {
+	private static Factory _instance = null;
+	protected boolean withContracts = false;
+	
+	private Factory(boolean withContracts) {
+		this.withContracts = withContracts;
+	}
+	
+	public static synchronized void createFactory() {
+		_instance = new Factory(false);
+	}
+	
+	public static synchronized void createFactoryWithContracts() {
+		_instance = new Factory(true);
+	}
+	
+	public static synchronized Factory getFactory() {
+		if (_instance == null)
+			Factory.createFactory();
+		return _instance;
+	}
+	
 	public MoteurJeuService creerMoteurJeu() {
-		return new MoteurJeu();
+		MoteurJeuService mj = new MoteurJeu();
+		if (withContracts)
+			mj = new MoteurJeuContract(mj);
+		return mj;
 	}
 
-	@Override
 	public TerrainService creerTerrain() {
-		return new Terrain();
+		TerrainService t = new Terrain();
+		if (withContracts)
+			t = new TerrainContract(t);
+		return t;
 	}
 
-	@Override
 	public BlocService creerBloc() {
-		return new Bloc();
+		BlocService b = new Bloc();
+		if (withContracts)
+			b = new BlocContract(b);
+		return b;
 	}
 
-	@Override
 	public PositionService creerPosition() {
-		return new Position();
+		PositionService p = new Position();
+		if (withContracts)
+			p = new PositionContract(p);
+		return p;
 	}
 
 }

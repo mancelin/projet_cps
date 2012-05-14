@@ -17,10 +17,10 @@ public class BoulderDashMain extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public BoulderDashMain(String fichierNiveau) throws IOException {
-    	IFactory factory = new Factory();
-    	// IFactory factory = new FactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
+		Factory.createFactory();
+    	// Factory.createFactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
     	
-    	MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau, factory); 
+    	MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau); 
     	//		MoteurJeuFactory.depuisFichier(fichierNiveau);
         add(new Board(mj));
         
