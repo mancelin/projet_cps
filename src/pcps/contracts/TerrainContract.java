@@ -1,5 +1,6 @@
 package pcps.contracts;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -16,6 +17,11 @@ public class TerrainContract extends TerrainDecorator {
 		super(delegate);
 	}
 	
+	@Override
+	public TerrainService copy() {
+		return new TerrainContract(super.copy());
+	}
+	
 	public void checkInvariant() {
 		Set<Direction> allDirections = new TreeSet<Direction>();
 		allDirections.add(Direction.HAUT);
@@ -24,9 +30,11 @@ public class TerrainContract extends TerrainDecorator {
 		allDirections.add(Direction.DROITE);
 
 		// inv: getBlocHero() == getBlocDepuisPosition(getPosHero())
-		if (!(getBlocHero() == getBlocDepuisPosition(getPosHero())))
-			Contractor.defaultContractor().invariantError("TerrainService", "getBlocHero() doit retourner le bloc à la position retournée par getPosHero().");
-
+		if (isHeroVivant()) { // pre de getBlocHero()
+			if (!(getBlocHero() == getBlocDepuisPosition(getPosHero())))
+				Contractor.defaultContractor().invariantError("TerrainService", "getBlocHero() doit retourner le bloc à la position retournée par getPosHero().");
+		}
+		
 		// inv:
 		//   \forall bloc:Bloc \in getBlocs() {
 		//       \forall dir:Direction \in { HAUT, BAS, GAUCHE, DROITE } {
@@ -82,7 +90,7 @@ public class TerrainContract extends TerrainDecorator {
 		// inv: getBlocDepuisPosition(pos) == getBloc(pos.getX(), pos.getY())
 		
 		// inv: getBlocs() == \sum { ((getBloc(x, y) \for x \in [0..getLargeur() - 1]) \for y \in [0..getHauteur() - 1]) }
-		Set<BlocService> allBlocs = new TreeSet<BlocService>();
+		Set<BlocService> allBlocs = new HashSet<BlocService>();
 		for (int x = 0; x <= getLargeur() - 1; x++) {
 			for (int y = 0; y <= getHauteur() - 1; y++) {
 				allBlocs.add(getBloc(x, y));
@@ -96,7 +104,7 @@ public class TerrainContract extends TerrainDecorator {
 	public BlocService getBlocHero() {
 		// pre: isHeroVivant()
 		if (!(isHeroVivant()))
-			Contractor.defaultContractor().postconditionError("TerrainService", "getBlocHero", "Le héro doit être vivant pour pouvoir retourner son bloc.");
+			Contractor.defaultContractor().preconditionError("TerrainService", "getBlocHero", "Le héro doit être vivant pour pouvoir retourner son bloc.");
 		
 		return super.getBlocHero();
 	}
@@ -164,10 +172,6 @@ public class TerrainContract extends TerrainDecorator {
 		if (!(getPosHero() == null))
 			Contractor.defaultContractor().postconditionError("TerrainService", "init", "La position du héro doit être null à l'initialisation.");
 		
-		// post: getBlocHero() == null
-		if (!(getBlocHero() == null))
-			Contractor.defaultContractor().postconditionError("TerrainService", "init", "Le bloc du héro doit être null à l'initialisation.");
-		
 		// post:
 		//   \forall x:integer \in [0..getLargeur()-1] {
 		//       \forall y:integer \in [0..getHauteur()-1] {
@@ -191,8 +195,12 @@ public class TerrainContract extends TerrainDecorator {
 	@Override
 	public void setBloc(TypeBloc type, int x, int y) {
 		// captures
-		PositionService getPosSortieAtPre = getPosSortie().copy();
-		PositionService getPosHeroAtPre = getPosHero().copy();
+		PositionService getPosSortieAtPre = getPosSortie();
+		if (getPosSortieAtPre != null)
+			getPosSortieAtPre = getPosSortieAtPre.copy();
+		PositionService getPosHeroAtPre = getPosHero();
+		if (getPosHeroAtPre != null)
+			getPosHeroAtPre = getPosHeroAtPre.copy();
 		BlocService getBlocXYAtPre = getBloc(x, y).copy();
 		TerrainService terrainAtPre = this.copy();
 		
@@ -214,7 +222,7 @@ public class TerrainContract extends TerrainDecorator {
 			if (!(getPosSortie().equals(getBlocXYAtPre.getPosition())))
 				Contractor.defaultContractor().postconditionError("TerrainService", "setBloc", "Si le type du bloc défini est une sortie, alors la position retournée par getPosSortie() doit être les coordonnées données.");
 		} else {
-			if (!(getPosSortie().equals(getPosSortieAtPre)))
+			if (!((getPosSortieAtPre == null && getPosSortie() == getPosSortieAtPre) || getPosSortie().equals(getPosSortieAtPre)))
 				Contractor.defaultContractor().postconditionError("TerrainService", "setBloc", "Si le type du bloc défini n'est pas une sortie, alors la position retournée par getPosSorite() ne doit pas changer.");
 		}
 		
@@ -227,7 +235,7 @@ public class TerrainContract extends TerrainDecorator {
 			if (!(getPosHero().equals(getBlocXYAtPre.getPosition())))
 				Contractor.defaultContractor().postconditionError("TerrainService", "setBloc", "Si le type du bloc défini est HERO, alors la position retournée par getPosHero() doit être les coordonnées données.");
 		} else {
-			if (!(getPosHero().equals(getPosHeroAtPre)))
+			if (!((getPosHeroAtPre == null && getPosHero() == getPosHeroAtPre) || getPosHero().equals(getPosHeroAtPre)))
 				Contractor.defaultContractor().postconditionError("TerrainService", "setBloc", "Si le type du bloc défini n'est pas HERO, alors la position retournée par getPosHero() ne doit pas changer.");
 		}
 		

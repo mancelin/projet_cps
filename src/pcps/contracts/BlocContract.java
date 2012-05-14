@@ -10,6 +10,11 @@ public class BlocContract extends BlocDecorator {
 	public BlocContract(BlocService delegate) {
 		super(delegate);
 	}
+	
+	@Override
+	public BlocService copy() {
+		return new BlocContract(super.copy());
+	}
 
 	public void checkInvariant() {
 		// inv: isVide() == (getType() == VIDE)

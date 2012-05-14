@@ -9,7 +9,12 @@ public class PositionContract extends PositionDecorator {
 	public PositionContract(PositionService delegate) {
 		super(delegate);
 	}
-
+	
+	@Override
+	public PositionService copy() {
+		return new PositionContract(super.copy());
+	}
+	
 	public void checkInvariant() {
 		// aucun invariant
 	}
