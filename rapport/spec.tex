@@ -63,6 +63,7 @@
 \newcommand{\eqmin}{$\overset{min}{=}$}
 \newcommand{\eqdef}{$\overset{def}{=}$}
 \newcommand{\supeq}{$\geq$~}
+\newcommand{\infeq}{$\leq$~}
 
 
 \newcommand{\lIN}[1]{{\tb}in \{~#1~\}}
@@ -179,6 +180,10 @@
 	`\c{deplacerVersDirection}`: [Position] `\X` Direction `\fleche` [Position]
 
 `\observations`
+`\obsection{invariant}`
+	0 `\infeq` `\o{getX}`(p) < `\o{getLargeur}`(p)
+	0 `\infeq` `\o{getY}`(p) < `\o{getHauteur}`(p)
+
 `\obsection{init}`
 	`\o{getLargeur}`(`\c{init}`(l, h, x, y)) = l
 	`\o{getHauteur}`(`\c{init}`(l, h, x, y)) = h

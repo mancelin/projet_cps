@@ -9,14 +9,20 @@ public class PositionContract extends PositionDecorator {
 	public PositionContract(PositionService delegate) {
 		super(delegate);
 	}
-	
+
 	@Override
 	public PositionService copy() {
 		return new PositionContract(super.copy());
 	}
-	
+
 	public void checkInvariant() {
-		// aucun invariant
+		// inv: 0 <= getX() < getLargeur()
+		if (!(0 <= getX() && getX() < getLargeur()))
+			Contractor.defaultContractor().invariantError("PositionService", "La valeur de x doit être compris entre 0 et la largeur du terrain exclue.");
+
+		// inv: 0 <= getY() < getHauteur()
+		if (!(0 <= getHauteur() && getY() < getHauteur()))
+			Contractor.defaultContractor().invariantError("PositionService", "La valeur de y doit être compris entre 0 et la longueur du terrain exclue.");
 	}
 
 	@Override
@@ -24,17 +30,17 @@ public class PositionContract extends PositionDecorator {
 		// pre: l > 0 && h > 0 && x >= 0 && y >= 0
 		if (!(l > 0 && h > 0 && x >= 0 && y >= 0))
 			Contractor.defaultContractor().preconditionError("PositionService", "init", "La largeur et la hauteur du terrain doivent être strictement positives et les coordonnées (x, y) doivent être positives.");
-		
+
 		// run
 		super.init(l, h, x, y);
-		
+
 		// invariant@post
 		checkInvariant();
-		
+
 		// post: getLargeur() == l
 		if (!(getLargeur() == l))
 			Contractor.defaultContractor().postconditionError("PositionService", "init", "getLargeur() doit retourner la largeur du terrain fourni au constructeur.");
-		
+
 		// post: getHauteur() == h
 		if (!(getHauteur() == h))
 			Contractor.defaultContractor().postconditionError("PositionService", "init", "getHauteur() doit retourner la hauteur du terrain fourni au constructeur.");
@@ -45,27 +51,27 @@ public class PositionContract extends PositionDecorator {
 		// captures
 		int getXAtPre = getX();
 		int getYAtPre = getY();
-		
+
 		// invariant@pre
 		checkInvariant();
-		
+
 		// run
 		super.deplacerVersDirection(dir);
-		
+
 		// invariant@post
 		checkInvariant();
-		
+
 		// post:
 		//   \if dir == GAUCHE \then
 		//       getX() == (getX()@pre - 1) mod getLargeur()
-		//       getY() == getY()@pre 
+		//       getY() == getY()@pre
 		//   \else \if dir == DROITE \then
 		//       getX() == (getX()@pre + 1) mod getLargeur()
-		//       getY() == getY()@pre 
+		//       getY() == getY()@pre
 		//   \else \if dir == HAUT \then
 		//       getX() == getX()@pre
 		//       getY() == (getY()@pre - 1) mod getHauteur()
-		//   \else \if dir == BAS \then 
+		//   \else \if dir == BAS \then
 		//       getX() == getX()@pre
 		//       getY() == (getY()@pre + 1) mod getHauteur()
 		if (dir == Direction.GAUCHE) {
