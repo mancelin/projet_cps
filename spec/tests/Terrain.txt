@@ -9,9 +9,9 @@ Objectif Terrain_getBlocHero_pre: précondition de getBlocHero
 		Oracle: ∃ T2, T2 = getBlocHero(TER1)
 
 	Cas de test Terrain_getBlocHero_pre_false:
-		Préambule: Bloc::setType(getBlocHero(TER1), VIDE)
+		Préambule: T = init(5, 5)
 		Contenu: aucun
-		Oracle: ∄ T2, T2 = getBlocHero(TER1)
+		Oracle: ∄ T2, T2 = getBlocHero(T)
 
 Objectif Terrain_init_pre: précondition de init
 	Cas de test Terrain_init_pre_true:

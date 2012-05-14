@@ -30,3 +30,63 @@ Objectif Position_init_pre: précondition de init
 ** Couverture des invariants **
 
 Pas d'invariants
+
+
+** Couverture des postconditions **
+
+Objectif Position_init_post1: postcondition de init sur getLargeur
+	Cas de test Position_init_post1:
+		Préambule: aucun
+		Opérations: P = init(5, 4, 2, 3)
+		Oracle: getLargeur(P) = 5
+
+Objectif Position_init_post2: postcondition de init sur getHauteur
+	Cas de test Position_init_post2:
+		Préambule: aucun
+		Opérations: P = init(5, 4, 2, 3)
+		Oracle: getHauteur(P) = 4
+
+
+Objectif Position_init_post3: postcondition de init sur getX
+	Cas de test Position_init_post3:
+		Préambule: aucun
+		Opérations: P = init(5, 4, 2, 3)
+		Oracle: getX(P) = 2 mod 5
+
+Objectif Position_init_post4: postcondition de init sur getY
+	Cas de test Position_init_post4:
+		Préambule: aucun
+		Opérations: P = init(5, 4, 2, 3)
+		Oracle: getY(P) = 3 mod 4
+
+Objectif Position_deplacerVersDirection_post1: postcondition de deplacerVersDirection sur getX
+	Cas de test Position_deplacerVersDirection_post1_1:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, GAUCHE)
+		Oracle: getX(P2) = (2 - 1) % 5
+
+	Cas de test Position_deplacerVersDirection_post1_2:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, DROITE)
+		Oracle: getX(P2) = (2 + 1) % 5
+
+	Cas de test Position_deplacerVersDirection_post1_3:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, HAUT)
+		Oracle: getX(P2) = 2
+
+Objectif Position_deplacerVersDirection_post2: postcondition de deplacerVersDirection sur getY
+	Cas de test Position_deplacerVersDirection_post2_1:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, HAUT)
+		Oracle: getY(P2) = (3 - 1) % 4
+
+	Cas de test Position_deplacerVersDirection_post2_2:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, BAS)
+		Oracle: getY(P2) = (3 + 1) % 4
+
+	Cas de test Position_deplacerVersDirection_post2_3:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, GAUCHE)
+		Oracle: getY(P2) = 3

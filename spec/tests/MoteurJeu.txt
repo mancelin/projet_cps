@@ -48,7 +48,7 @@ Objectif MoteurJeu_invariant1 : minimisation de isPartieTerminee
 
 Objectif MoteurJeu_invariant2 : minimisation de isPartieGagnee
 	Cas de test MoteurJeu_invariant2_true:
-		Préambule: MJ = TODO CHEMIN POUR GAGNER
+		Préambule: MJ = deplacerHero(deplacerHero(deplacerHero(init(TER1, 30), DROITE), DROITE), BAS)
 		Opérations: aucune
 		Oracle: isPartieGagnee(MJ) = true
 
@@ -64,16 +64,52 @@ Objectif MoteurJeu_invariant3: minimisation de isDeplacementHeroPossible
 		Oracle: isDeplacementHeroPossible(MJ, DROITE) = true
 
 	Cas de test MoteurJeu_invariant3_conseq_false:
-		Prambule: MJ = init(TER1, 30)
+		Prambule: MJ = deplacerHero(init(TER1, 30), GAUCHE)
 		Opérations: aucune
 		Oracle: isDeplacementHeroPossible(MJ, GAUCHE) = false
 
 	Cas de test MoteurJeu_invariant3_alt_true:
 		Préambule: MJ = init(TER1, 30)
 		Opérations: aucune
-		Oracle: isDeplacementHeroPossible(MJ, BAS) = true
+		Oracle: isDeplacementHeroPossible(MJ, DROITE) = true
 
 	Cas de test MoteurJeu_invariant3_alt_false:
 		Préambule: MJ = init(TER1, 30)
 		Opérations: aucune
 		Oracle: isDeplacementHeroPossible(MJ, HAUT) = false
+
+
+** Couverture des postconditions **
+
+Objectif MoteurJeu_init_post1: postcondition de init sur getPasRestants
+	Cas de test MoteurJeu_init_post1:
+		Préambule: aucun
+		Opérations: MJ = init(TER1, 30)
+		Oracle: getPasRestants(MJ) = 30
+
+Objectif MoteurJeu_init_post2: postcondition de init sur getTerrain
+	Cas de test MoteurJeu_init_post2:
+		Préambule: aucun
+		Opérations: MJ = init(TER1, 30)
+		Oracle: getTerrain(MJ) = TER1
+
+Objectif MoteurJeu_deplacerHero_post1: postcondition de deplacerHero sur getPasRestants
+	Cas de test MoteurJeu_deplacerHero_post1:
+		Préambule: MJ1 = init(TER1, 30)
+		Opérations: MJ2 = deplacerHero(MJ, DROITE)
+		Oracle: getPasRestants(MJ2) = 30 - 1
+
+Objectif MoteurJeu_deplacerHero_post2: postcondition de deplacerHero sur getTerrain
+	Cas de test MoteurJeu_deplacerHero_post2_1:
+		Préambule: MJ1 = init(TER1, 30)
+		Opérations: MJ2 = deplacerHero(MJ, DROITE)
+		Oracle: getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(TER1, Terrain::getBlocHero(TER1), DROITE)
+
+	Cas de test MoteurJeu_deplacerHero_post2_2:
+		Préambule: MJ = init(TER1, 30)
+		Opérations: MJ2 = deplacerHero(MJ, GAUCHE)
+		Oracle:
+			let* blocHero = Terrain::getBlocHero(TER1)
+			and blocDest = Terrain::getBlocVersDirection(TER1, blocHero, GAUCHE)
+			in
+				getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(Terrain::deplacerBlocVersDirection(TER1, blocDest, GAUCHE), blocHero, GAUCHE)

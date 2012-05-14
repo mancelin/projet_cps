@@ -53,3 +53,31 @@ Objectif Bloc_invariant8 : isTerre
 		Préambule: B = init(TERRE, POS1)
 		Opérations: aucune
 		Oracle: isTerre(B) = (getType(b) = TERRE)
+
+
+** Couverture des postconditions **
+
+Objectif Bloc_init_post1: postcondition de init sur getType
+	Cas de test Bloc_init_post1:
+		Préambule: aucun
+		Opérations: B = init(HERO, POS1)
+		Oracle: getType(B) = HERO
+
+Objectif Bloc_init_post2: postcondition de init sur getPosition
+	Cas de test Bloc_init_post2:
+		Préambule: aucun
+		Opérations: B = init(HERO, POS1)
+		Oracle: getPosition(B) = POS1
+
+Objectif Bloc_setType_post1: postcondition de setType sur getType
+	Cas de test Bloc_setType_post1:
+		Préambule: B1 = init(HERO, POS1)
+		Opérations: B2 = setType(B1, ROCHER)
+		Oracle: getType(B2) = ROCHER
+
+
+Objectif Bloc_setType_post2: postcondition de setType sur getPosition
+	Cas de test Bloc_setType_post2:
+		Préambule: B1 = init(HERO, POS1)
+		Opérations: B2 = setType(B1, ROCHER)
+		Oracle: getPosition(B2) = POS1

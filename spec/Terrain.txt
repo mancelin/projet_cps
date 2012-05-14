@@ -18,17 +18,17 @@ Observators:
 	isHeroVivant : [Terrain] -> boolean
 	isDiamantsRestants : [Terrain] -> boolean
 	isDeplacementBlocPossible : [Terrain] * Bloc * Direction -> boolean
-	
+
 Constructors:
 	init : integer * integer -> [Terrain]
 		pre init(l, h) require l > 0 ^ h > 0
-	
+
 Operators:
 	setBloc : [Terrain] * TypeBloc * integer * integer -> [Terrain]
 	deplacerBlocVersDirection : [Terrain] * Bloc * Direction -> [Terrain]
 		pre deplacerBlocVersDirection(t, bloc, dir) require isDeplacementBlocPossible(t, bloc, dir)
 	fairePasDeMiseAJour : [Terrain] -> [Terrain]
-	
+
 Observations:
 	[invariants]
 		getBlocHero(t) ={min} getBlocDepuisPosition(getPosHero(t))
@@ -41,14 +41,13 @@ Observations:
 				(Bloc::isHero(bloc) ^ Bloc::isTerre(blocDest))
 				V ¬Bloc::isSolide(getBlocVersDirection(t, bloc, dir))
 		getBlocDepuisPosition(t, pos) ={min} getBloc(t, Position::getX(pos), Position::getY(pos))
-		getBlocs(t) ={min} ∑x∈[0..getLargeur() - 1], y∈[0..getHauteur() - 1], getBloc(t, x, y) 
-		
+		getBlocs(t) ={min} ∑x∈[0..getLargeur() - 1], y∈[0..getHauteur() - 1], getBloc(t, x, y)
+
 	[init]
 		getLargeur(init(l, h)) = l
 		getHauteur(init(l, h)) = h
 		getPosSortie(init(l, h)) = null
 		getPosHero(init(l, h)) = null
-		getBlocHero(init(l, h)) = null
 		∀x∈[0..getLargeur() - 1],y∈[0..getHauteur() - 1],
 			let* bloc = getBloc(init(l, h), x, y)
 			and blocPos = Bloc::getPosition(bloc)
@@ -56,7 +55,7 @@ Observations:
 				Bloc::isVide(bloc)
 				^ Position::getX(blocPos) = x
 				^ Position::getY(blocPos) = y
-	
+
 	[setBloc]
 		getPosSortie(setBloc(t, type, x, y)) =
 			if type \in { SORTIE_FERMEE, SORTIE_OUVERTE } then
@@ -74,7 +73,7 @@ Observations:
 					Bloc::setType(getBloc(t, x, y), type)
 				else
 					getBloc(t, x', y')
-	
+
 	[deplacerBlocVersDirection]
 		getPosSortie(deplacerBlocVersDirection(t, bloc, dir)) = getPosSortie(t)
 		getPosHero(deplacerBlocVersDirection(t, bloc, dir)) =
@@ -98,7 +97,7 @@ Observations:
 						Bloc::setType(blocDest, Bloc::getType(bloc))
 					else
 						getBloc(x, y)
-				
+
 	[fairePasDeMiseAJour]
 		getPosSortie(fairePasDeMiseAJour(t)) = getPosSortie(t)
 		getPosHero(fairePasDeMiseAJour(t)) = getPosHero(t)
@@ -114,4 +113,3 @@ Observations:
 						Bloc::setType(bloc, Bloc::getType(getBlocVersDirection(t, bloc, HAUT)))
 					else
 						getBloc(t, pos)
-					

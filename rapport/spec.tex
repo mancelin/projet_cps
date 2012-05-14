@@ -131,13 +131,13 @@
 	`\o{isSortieFermee}`: [Bloc] `\fleche` boolean
 	`\o{isHero}`: [Bloc] `\fleche` boolean
 	`\o{isTerre}`: [Bloc] `\fleche` boolean
-	
+
 `\constructors`
 	`\c{init}`: TypeBloc `\X` Position `\fleche` [Bloc]
-	
+
 `\operators`
 	`\c{setType}`: [Bloc] `\X` TypeBloc `\fleche` [Bloc]
-	
+
 `\observations`
 `\obsection{invariant}`
 	`\o{isVide}`(b) `\eqmin` `\o{getType}`(b) = VIDE
@@ -148,7 +148,7 @@
 	`\o{isSortieFermee}`(b) `\eqmin` `\o{getType}`(b) = SORTIE_FERMEE
 	`\o{isHero}`(b) `\eqmin` `\o{getType}`(b) = HERO
 	`\o{isTerre}`(b) `\eqmin` `\o{getType}`(b) = TERRE
-	
+
 `\obsection{init}`
 	`\o{getType}`(`\c{init}`(tb, pos)) = tb
 	`\o{getPosition}`(`\c{init}`(tb, pos)) = pos
@@ -157,7 +157,7 @@
 	`\o{getType}`(`\c{setType}`(b, tb)) = tb
 	`\o{getPosition}`(`\c{setType}`(b, tb)) = `\o{getPosition}`(b)
 \end{lstlisting}
-	
+
 \clearpage{}
 
 \begin{lstlisting}[caption=Position]
@@ -170,14 +170,14 @@
 	const `\o{getHauteur}`: [Position] `\fleche` integer
 	`\o{getX}`: [Position] `\fleche` integer
 	`\o{getY}`: [Position] `\fleche` integer
-	
+
 `\constructors`
 	`\c{init}`: integer `\X` integer `\X` integer `\X` integer `\fleche` [Position]
 		pre `\c{init}`(l, h, x, y) require (l > 0) `\lAND` (h > 0) `\lAND` (x `\supeq` 0) `\lAND` (y `\supeq` 0)
 
 `\operators`
 	`\c{deplacerVersDirection}`: [Position] `\X` Direction `\fleche` [Position]
-	
+
 `\observations`
 `\obsection{init}`
 	`\o{getLargeur}`(`\c{init}`(l, h, x, y)) = l
@@ -193,7 +193,7 @@
 			(`\o{getX}`(p) + 1) % `\o{getLargeur}`(p)
 		else
 			`\o{getX}`(p)
-			
+
 	`\o{getY}`(`\c{deplacerVersDirection}`(p, dir)) =
 		if dir = HAUT then
 			(`\o{getY}`(p) - 1) % `\o{getHauteur}`(p)
@@ -241,48 +241,47 @@
 	`\o{isHeroVivant}`: [Terrain] `\fleche` boolean
 	`\o{isDiamantsRestants}`: [Terrain] `\fleche` boolean
 	`\o{isDeplacementBlocPossible}`: [Terrain] `\X` Bloc `\X` Direction `\fleche` boolean
-	
+
 `\constructors`
 	`\c{init}`: integer `\X` integer `\fleche` [Terrain]
 		pre `\c{init}`(l, h) require l > 0 `\lAND` h > 0
-	
+
 `\operators`
 	`\c{setBloc}`: [Terrain] `\X` TypeBloc `\X` integer `\X` integer `\fleche` [Terrain]
 	`\c{deplacerBlocVersDirection}`: [Terrain] `\X` Bloc `\X` Direction `\fleche` [Terrain]
 		pre `\c{deplacerBlocVersDirection}`(t, bloc, dir)
 		require `\o{isDeplacementBlocPossible}`(t, bloc, dir)
 	`\c{fairePasDeMiseAJour}`: [Terrain] `\fleche` [Terrain]
-	
+
 `\observations`
 `\obsection{invariants}`
 	`\o{getBlocHero}`(t) `\eqmin` `\o{getBlocDepuisPosition}`(`\o{getPosHero}`(t))
-	
+
 	`\lFORALL`bloc `\lin` `\o{getBlocs}`(t), dir `\lin` Direction, `\o{getBlocVersDirection}`(t, bloc, dir) `\eqmin`
 		`\o{getBloc}`(t, `\ec{Position::deplacerVersDirection}`(`\eo{Bloc::getPosition}`(bloc), dir))
-		
+
 	`\o{isHeroVivant}`(t) `\eqmin` `\lEXISTS`bloc `\lin` `\o{getBlocs}`(t), `\eo{Bloc::getType}`(bloc) = HERO
-	
+
 	`\o{isDiamantsRestants}`(t) `\eqmin` `\lEXISTS`bloc `\lin` `\o{getBlocs}`(t), `\eo{Bloc::getType}`(bloc) = DIAMANT
-	
+
 	`\mbox{{\lFORALL}bloc \lin{} \o{getBlocs}(t), dir \lin{} Direction, \o{isDeplacementBlocPossible}(t, bloc, dir) \eqmin}`
 		let blocDest = `\o{getBlocVersDirection}`(t, bloc, dir)
 		in
 			(`\eo{Bloc::isHero}`(bloc) `\lAND` `\eo{Bloc::isTerre}`(blocDest))
 			`\lOR` `\lNOT``\eo{Bloc::isSolide}`(`\o{getBlocVersDirection}`(t, bloc, dir))
-	
+
 	`\o{getBlocDepuisPosition}`(t, pos) `\eqmin`
 		`\o{getBloc}`(t, `\eo{Position::getX}`(pos), `\eo{Position::getY}`(pos))
-	
+
 	`\o{getBlocs}`(t) `\eqmin`
-		`$\sum$`x `\lin` [0..`\o{getLargeur}`() - 1], y `\lin` [0..`\o{getHauteur}`() - 1], `\o{getBloc}`(t, x, y) 
+		`$\sum$`x `\lin` [0..`\o{getLargeur}`() - 1], y `\lin` [0..`\o{getHauteur}`() - 1], `\o{getBloc}`(t, x, y)
 
 `\obsection{init}`
 	`\o{getLargeur}`(`\c{init}`(l, h)) = l
 	`\o{getHauteur}`(`\c{init}`(l, h)) = h
 	`\o{getPosSortie}`(`\c{init}`(l, h)) = null
 	`\o{getPosHero}`(`\c{init}`(l, h)) = null
-	
-	`\o{getBlocHero}`(`\c{init}`(l, h)) = null
+
 	`\lFORALL`x `\lin` [0..`\o{getLargeur}`() - 1], y `\lin` [0..`\o{getHauteur}`() - 1],
 		let* bloc = `\o{getBloc}`(`\c{init}`(l, h), x, y)
 		and blocPos = `\eo{Bloc::getPosition}`(bloc)
@@ -295,13 +294,13 @@
 			`\eo{Bloc::getPosition}`(`\o{getBloc}`(t, x, y))
 		else
 			`\o{getPosSortie}`(t)
-			
+
 	`\o{getPosHero}`(`\c{setBloc}`(t, type, x, y)) =
 		if type = HERO then
 			`\eo{Bloc::getPosition}`(`\o{getBloc}`(t, x, y))
 		else
 			`\o{getPosHero}`(t)
-			
+
 	`\lFORALL`x' `\lin` [0..`\o{getLargeur}`() - 1], y' `\lin` [0..`\o{getHauteur}`() - 1],
 		`\o{getBloc}`(`\c{setBloc}`(t, type, x, y), x', y') =
 			if x = x' `\lAND` y = y' then
@@ -311,13 +310,13 @@
 
 `\obsection{deplacerBlocVersDirection}`
 	`\o{getPosSortie}`(`\c{deplacerBlocVersDirection}`(t, bloc, dir)) = `\o{getPosSortie}`(t)
-	
+
 	`\o{getPosHero}`(`\c{deplacerBlocVersDirection}`(t, bloc, dir)) =
 		if bloc = `\o{getBlocHero}`(t) then
 			`\eo{Bloc::getPosition}`(`\o{getBlocVersDirection}`(t, bloc, dir))
 		else
 			`\o{getPosHero}`(t)
-			
+
 	`\lFORALL`x `\lin` [0..`\o{getLargeur}`() - 1], y `\lin` [0..`\o{getHauteur}`() - 1],
 	`\o{getBloc}`(`\c{deplacerBlocVersDirection}`(t, bloc, dir), x, y) =
 		let* blocPos = `\eo{Bloc::getPosition}`(bloc)
@@ -334,11 +333,11 @@
 				`\ec{Bloc::setType}`(blocDest, `\eo{Bloc::getType}`(bloc))
 			else
 				`\o{getBloc}`(x, y)
-			
+
 `\obsection{fairePasDeMiseAJour}`
 	`\o{getPosSortie}`(`\c{fairePasDeMiseAJour}`(t)) = `\o{getPosSortie}`(t)
 	`\o{getPosHero}`(`\c{fairePasDeMiseAJour}`(t)) = `\o{getPosHero}`(t)
-	
+
 	`\lFORALL`x `\lin` [0..`\o{getLargeur}`() - 1], y `\lin` [0..`\o{getHauteur}`() - 1],
 	`\o{getBloc}`(`\c{fairePasDeMiseAJour}`(t), x, y) =
 		let bloc = `\o{getBloc}`(t, x, y)
@@ -370,11 +369,11 @@
 	`\o{isDeplacementHeroPossible}`: [MoteurJeu] `\X` Direction `\fleche` boolean
 	`\o{isPartieTerminee}`: [MoteurJeu] `\fleche` boolean
 	`\o{isPartieGagnee}`: [MoteurJeu] `\fleche` boolean
-	
+
 `\constructors`
 		`\c{init}`: Terrain `\X` integer `\fleche` [MoteurJeu]
 			pre `\c{init}`(t, nbPas) require nbPas > 0
-		
+
 `\operators`
 		`\c{deplacerHero}`: [MoteurJeu] `\X` Direction `\fleche` [MoteurJeu]
 			pre `\c{deplacerHero}`(mj, dir) require `\lNOT\o{isPartieTerminee}`(mj) `\lAND` `\o{isDeplacementHeroPossible}`(mj, dir)
@@ -385,9 +384,9 @@
 		`\o{getPasRestants}`(mj) = 0
 		`\lOR` `\lNOT\eo{Terrain::isHeroVivant}`(`\o{getTerrain}`(mj))
 		`\mbox{{\lOR} \eo{Terrain::getPosSortie}(\o{getTerrain}(mj)) = \eo{Terrain::getPosHero}(\o{getTerrain}(mj))}`
-		
+
 	`\mbox{\o{isPartieGagnee}(mj) \eqmin{} \o{isPartieTerminee}(mj) \lAND{} \eo{Terrain::isHeroVivant}(\o{getTerrain}(mj))}`
-	
+
 	`\lFORALL`dir `\lin` Direction, `\o{isDeplacementHeroPossible}`(mj, dir) `\eqmin`
 		let* terrain = `\o{getTerrain}`(mj)
 		and blocHero = `\eo{Terrain::getBlocHero}`(terrain)
@@ -398,7 +397,7 @@
 				`\mbox{\lAND{} \eo{Bloc::isVide}(\eo{Terrain::getBlocVersDirection}(terrain, blocDest, dir))}`
 			else
 				`\lNOT\eo{Bloc::isSolide}`(blocDest)
-	
+
 `\obsection{init}`
 	`\o{getPasRestants}`(`\c{init}`(t, nbPas)) = nbPas
 	`\o{getTerrain}`(`\c{init}`(t, nbPas)) = t
@@ -414,7 +413,7 @@
 				`\ec{Terrain::deplacerBlocVersDirection}`(terrain, blocHero, dir)
 			`\mbox{\textbf{else} \textbf{if} \eo{Bloc::isDeplacable}(blocDest) and dir \tb{}in { GAUCHE, DROITE } \textbf{then}}`
 				`\mbox{\textbf{let} terrain' = \ec{Terrain::deplacerBlocVersDirection}(terrain, blocDest, dir)}`
-				in `\ec{Terrain::deplacerBlocVersDirection}`(terrain', blocHero, dir)					
+				in `\ec{Terrain::deplacerBlocVersDirection}`(terrain', blocHero, dir)
 \end{lstlisting}
 
 \hrule
