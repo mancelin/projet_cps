@@ -39,7 +39,7 @@ Objectif MoteurJeu_invariant1 : minimisation de isPartieTerminee
 	Cas de test MoteurJeu_invariant1_true:
 		Préambule: MJ = deplacerHero(init(TER1, 1), DROITE)
 		Opérations: aucune
-		Oracle: isPartieTerminee(MJ) = true
+		Oracle: isPartieTerminee(MJ)
 
 	Cas de test MoteurJeu_invariant1_false:
 		Préambule: MJ = init(TER1, 30)
@@ -50,7 +50,7 @@ Objectif MoteurJeu_invariant2 : minimisation de isPartieGagnee
 	Cas de test MoteurJeu_invariant2_true:
 		Préambule: MJ = deplacerHero(deplacerHero(deplacerHero(init(TER1, 30), DROITE), DROITE), BAS)
 		Opérations: aucune
-		Oracle: isPartieGagnee(MJ) = true
+		Oracle: isPartieGagnee(MJ)
 
 	Cas de test MoteurJeu_invariant2_false:
 		Préambule: MJ = init(TER1, 30)
@@ -58,26 +58,15 @@ Objectif MoteurJeu_invariant2 : minimisation de isPartieGagnee
 		Oracle: isPartieGagnee(MJ) = false
 
 Objectif MoteurJeu_invariant3: minimisation de isDeplacementHeroPossible
-	Cas de test MoteurJeu_invariant3_conseq_true:
+	Cas de test MoteurJeu_invariant3_conseq:
 		Préambule: MJ = init(TER1, 30)
 		Opérations: aucune
-		Oracle: isDeplacementHeroPossible(MJ, DROITE) = true
+		Oracle: isDeplacementHeroPossible(MJ, DROITE)
 
-	Cas de test MoteurJeu_invariant3_conseq_false:
-		Prambule: MJ = deplacerHero(init(TER1, 30), GAUCHE)
-		Opérations: aucune
-		Oracle: isDeplacementHeroPossible(MJ, GAUCHE) = false
-
-	Cas de test MoteurJeu_invariant3_alt_true:
+	Cas de test MoteurJeu_invariant3_alt:
 		Préambule: MJ = init(TER1, 30)
 		Opérations: aucune
-		Oracle: isDeplacementHeroPossible(MJ, DROITE) = true
-
-	Cas de test MoteurJeu_invariant3_alt_false:
-		Préambule: MJ = init(TER1, 30)
-		Opérations: aucune
-		Oracle: isDeplacementHeroPossible(MJ, HAUT) = false
-
+		Oracle: isDeplacementHeroPossible(MJ, DROITE)
 
 ** Couverture des postconditions **
 
