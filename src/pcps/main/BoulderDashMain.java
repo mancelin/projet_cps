@@ -18,9 +18,11 @@ public class BoulderDashMain extends JFrame {
 
 	public BoulderDashMain(String fichierNiveau) throws IOException {
 		Factory.createFactory();
+		Factory factory = Factory.getFactory();
+		
     	// Factory.createFactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
     	
-    	MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau); 
+    	MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau,factory); 
     	//		MoteurJeuFactory.depuisFichier(fichierNiveau);
         add(new Board(mj));
         

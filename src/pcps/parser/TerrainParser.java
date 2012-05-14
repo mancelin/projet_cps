@@ -3,7 +3,7 @@ package pcps.parser;
 import java.io.*;
 
 import pcps.enums.TypeBloc;
-import pcps.factories.IFactory;
+import pcps.factories.Factory;
 import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
 import pcps.services.PositionService;
@@ -40,7 +40,7 @@ public class TerrainParser {
 	}
 	
 		
-	public static MoteurJeuService depuisFichier(String fichier, IFactory factory) throws IOException {
+	public static MoteurJeuService depuisFichier(String fichier, Factory factory) throws IOException {
 		String ligne = "";
 		BufferedReader ficTexte = null;
 		int largeur;
