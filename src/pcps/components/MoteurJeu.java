@@ -27,7 +27,17 @@ MoteurJeuService {
 	public boolean isDeplacementHeroPossible(Direction dir) {
 	//	System.out.println("isDeplacementHeroPossible, type bloc dest : " + 
 	//			terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType() + " , dir :" + dir);
-		return !(terrain.getBlocVersDirection(terrain.getBlocHero(), dir).isSolide());
+		BlocService blocHero = terrain.getBlocHero();
+		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
+		if(!(blocDest.isSolide())){
+			return true;
+		} else{
+			if (blocDest.isDeplacable()){
+				BlocService blocDestPush = terrain.getBlocVersDirection(blocDest, dir);
+				return blocDestPush.isVide();
+			}
+			return false;
+		}
 	}
 
 	@Override

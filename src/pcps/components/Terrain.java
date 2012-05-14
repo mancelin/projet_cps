@@ -188,7 +188,11 @@ TerrainService {
 				if(bloc.isTombable()){
 					if(getBlocVersDirection(bloc, Direction.BAS).isVide()){
 						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
-					}
+					}/* later
+					else if(getBlocVersDirection(bloc, Direction.BAS).isHero()){
+						System.out.println("écrasage du héros");
+						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
+					}*/
 				}
 					//if(isDeplacementBlocPossible(bloc,Direction.BAS)){
 					//	deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
