@@ -58,23 +58,38 @@ Objectif Terrain_invariant2: minimisation de getBlocVersDirection
 		Oracle: getBlocVersDirection(getBlocHero(TER1), DROITE) = getBloc(3, 1)
 
 Objectif Terrain_invariant3: minimisation de isHeroVivant
-	Cas de test Terrain_invariant3:
+	Cas de test Terrain_invariant3_true:
 		Préambule: TER1
 		Opérations: aucune
-		Oracle: isHeroVivant(t)
+		Oracle: isHeroVivant(TER1)
+
+	Cas de test Terrain_invariant3_false:
+		Préambule: T = init(5, 5)
+		Opérations: aucune
+		Oracle: isHeroVivant(T) = false
 
 
 Objectif Terrain_invariant4: minimisation de isDiamantsRestants
-	Cas de test Terrain_invariant4:
+	Cas de test Terrain_invariant4_true:
 		Préambule: TER1
 		Opérations: aucune
 		Oracle: isDiamantsRestants(TER1)
 
+	Cas de test Terrain_invariant4_false:
+		Préambule: T = init(5, 5)
+		Opérations: aucune
+		Oracle: isDiamantsRestants(T) = false
+
 Objectif Terrain_invariant5: minimisation de isDeplacementBlocPossible
-	Cas de test Terrain_invariant5:
+	Cas de test Terrain_invariant5_true:
 		Préambule: TER1
 		Opérations: aucune
 		Oracle: isDeplacementBlocPossible(TER1, Terrain::getBlocHero(TER1), DROITE)
+
+	Cas de test Terrain_invariant5_false:
+		Préambule: TER1
+		Opérations: aucune
+		Oracle: isDeplacementBlocPossible(TER1, Terrain::getBlocHero(TER1), HAUT) = false
 
 Objectif Terrain_invariant6: minimisation de getBlocDepuisPosition
 	Cas de test Terrain_invariant6:
@@ -114,7 +129,7 @@ Objectif Terrain_init_post4: postcondition de init sur getPosHero
 	Cas de test Terrain_init_post4:
 		Préambule: aucun
 		Opérations: T = init(10, 15)
-		Oracle: getPosSortie(T) = null
+		Oracle: getPosHero(T) = null
 
 Objectif Terrain_init_post5: postcondition de init sur getBloc
 	Cas de test Terrain_init_post5:
@@ -147,7 +162,7 @@ Objectif Terrain_setBloc_post2: postcondition de setBloc sur getPosHero
 Objectif Terrain_setBloc_post3: postcondition de setBloc sur getBloc
 	Cas de test Terrain_setBloc_post3:
 		Préambule: TER1
-		Opérations: T2 = setBloc(TER1, ROCHER, 1, 1)
+		Opérations: T2 = setBloc(TER1, ROCHER, 3, 1)
 		Oracle: ...
 
 Objectif Terrain_deplacerBlocVersDirection_post1: postcondition de deplacerBlocVersDirection sur getPosSortie
@@ -163,12 +178,12 @@ Objectif Terrain_deplacerBlocVersDirection_post2: postcondition de deplacerBlocV
 		Oracle: getPosHero(T2) = Position::init(5, 3, 3, 1)
 
 	Cas de test Terrain_deplacerBlocVersDirection_post2_alt:
-		Préambule: TER2
+		Préambule: TER1
 		Opérations: T2 = deplacerBlocVersDirection(TER1, getBloc(1, 1), BAS)
 		Oracle: getPosHero(T2) = Position::init(5, 3, 2, 1)
 
 Objectif Terrain_deplacerBlocVersDirection_post3: postcondition de deplacerBlocVersDirection sur getBloc
-	Cas de test Terrain_deplacer:
+	Cas de test Terrain_deplacerBlocVersDirection_post3:
 		Préambule: TER1
 		Opérations: T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)
 		Oracle: ...

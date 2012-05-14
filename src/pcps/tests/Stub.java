@@ -1,5 +1,8 @@
 package pcps.tests;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import pcps.services.*;
 import pcps.enums.TypeBloc;
 import pcps.factories.Factory;
@@ -38,5 +41,36 @@ public class Stub {
 		TER1.setBloc(TypeBloc.VIDE, 3, 2);
 		TER1.setBloc(TypeBloc.SORTIE_FERMEE, 4, 2);
 		return TER1;
+	}
+	
+	static Set<BlocService> getTER1Blocs() {
+		Factory f = Factory.getFactory();
+		Set<BlocService> TER1Blocs = new HashSet<BlocService>();
+		
+		for(int x = 0; x < 5; x++) {
+			for(int y = 0; y < 3; y++){
+				PositionService pos = f.creerPosition();
+				pos.init(5, 3, x, y);
+				
+				TypeBloc type = TypeBloc.VIDE;
+				if (y == 0 && 1 <= x && x <= 4)
+					type = TypeBloc.MUR;
+				else if (x == 1 && y == 1)
+					type = TypeBloc.ROCHER;
+				else if (x == 2 && y == 1)
+					type = TypeBloc.HERO;
+				else if (x == 4 && y == 1)
+					type = TypeBloc.DIAMANT;
+				else if (x == 4 && y == 2)
+					type = TypeBloc.SORTIE_FERMEE;
+				
+				BlocService bloc = f.creerBloc();
+				bloc.init(type, pos);
+				
+				TER1Blocs.add(bloc);
+			}
+		}
+		
+		return TER1Blocs;
 	}
 }
