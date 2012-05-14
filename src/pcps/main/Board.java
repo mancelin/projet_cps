@@ -252,7 +252,7 @@ public class Board extends JPanel implements ActionListener {
 				System.out.printf("nbPas : %d \n", mj.getPasRestants());
 				repaint();
 				System.out.println("--------------");
-			//	System.out.print(mj.toString());
+				System.out.print(mj.toString());
 			}
 		}
 	}
