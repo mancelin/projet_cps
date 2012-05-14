@@ -55,8 +55,11 @@ TerrainService {
 	public PositionService getPosSortie() {
 		for(int x=0;x<largeur;x++){
 			for(int y=0;y<hauteur;y++){
-				if(matriceTerrain[x][y].getType() == TypeBloc.SORTIE_FERMEE){// ||
-						//matriceTerrain[x][y].getType() == TypeBloc.SORTIE_OUVERTE){
+				/*
+				if((matriceTerrain[x][y].getType() == TypeBloc.SORTIE_FERMEE) ||
+						(matriceTerrain[x][y].getType() == TypeBloc.SORTIE_OUVERTE)){
+				*/
+				if(matriceTerrain[x][y].isSortie()){
 					PositionService pos = new Position();
 					pos.init(this.largeur, this.hauteur, x, y);
 					return pos;
@@ -71,7 +74,8 @@ TerrainService {
 	public PositionService getPosHero() {
 		for(int x=0;x<largeur;x++){
 			for(int y=0;y<hauteur;y++){
-				if(matriceTerrain[x][y].getType() == TypeBloc.HERO ){
+			//	if(matriceTerrain[x][y].getType() == TypeBloc.HERO ){
+				if(matriceTerrain[x][y].isHero()){
 					PositionService pos = new Position();
 					pos.init(this.largeur, this.hauteur, x, y);
 					return pos;
@@ -175,11 +179,14 @@ TerrainService {
 		System.out.printf("posSor : (%d,%d)\n",posSor.getX(),posSor.getY());
 		if(!isDiamantsRestants()){
 			System.out.print("plus de diamants restants\n");
-			PositionService posSortie = getPosSortie().copy();
+		//	PositionService posSortie = getPosSortie().copy();
+			PositionService posSortie = getPosSortie();
+			/*
 			System.out.printf("posSortie : (%d,%d)\n",posSortie.getX(),posSortie.getY());
 			BlocService blocSortie = getBlocDepuisPosition(posSortie);
 			blocSortie.setType(TypeBloc.SORTIE_OUVERTE);
-		//	//setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
+			*/
+			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
 		}
 		for(int x=0;x<largeur;x++){
 			for(int y=hauteur-1;y>0;y--){

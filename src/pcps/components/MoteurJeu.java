@@ -38,7 +38,7 @@ MoteurJeuService {
 			}
 			return false;
 		}
-	}
+ 	}
 
 	@Override
 	public boolean isPartieTerminee() {

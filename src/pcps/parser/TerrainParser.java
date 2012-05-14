@@ -20,6 +20,7 @@ public class TerrainParser {
 			case '-' : return TypeBloc.TERRE;
 			case '.' : return TypeBloc.VIDE;
 			case '?' : return TypeBloc.SORTIE_FERMEE;
+			case '!' : return TypeBloc.SORTIE_OUVERTE;
 			default : throw new IllegalArgumentException("Aucun type de bloc ne correspond au caractére "+c);
 		}
 	}
@@ -33,6 +34,7 @@ public class TerrainParser {
 			case TERRE : return '-';
 			case VIDE : return '.';
 			case SORTIE_FERMEE : return '?';
+			case SORTIE_OUVERTE : return '!';
 			default : throw new IllegalArgumentException("Aucun caractére ne correspond au type de bloc  "+tb);
 		}
 	}
