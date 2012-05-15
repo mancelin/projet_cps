@@ -175,7 +175,6 @@ public class Board extends JPanel implements ActionListener {
 		g.clearRect(0, hauteur*TAILLE_CASE, largeur*TAILLE_CASE, (hauteur+ 1)*TAILLE_CASE);
 		String msg = ""+mj.getPasRestants(); //+ "pas restants : ";
 		Font small = new Font("Helvetica", Font.BOLD, 14);
-		FontMetrics metr = this.getFontMetrics(small);
 
 		g.setColor(Color.green);
 		g.setFont(small);
