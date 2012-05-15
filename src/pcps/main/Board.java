@@ -56,6 +56,7 @@ public class Board extends JPanel implements ActionListener {
 	private Image c_sortie_fermee;
 	
 	private Image game_over;
+	private Image you_win;
 
 	public Board(MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
 		this.mj = mj;
@@ -96,6 +97,10 @@ public class Board extends JPanel implements ActionListener {
 		
 		ImageIcon iic_go = new ImageIcon(this.getClass().getResource("game_over.png"));
 		game_over = iic_go.getImage();
+		
+		ImageIcon iic_win = new ImageIcon(this.getClass().getResource("you_win.png"));
+		you_win = iic_win.getImage();
+		
 
 
 		setFocusable(true);
@@ -143,6 +148,7 @@ public class Board extends JPanel implements ActionListener {
 			g.dispose();
 
 		} else {
+			System.out.println("in the else");
 			if(mj.isPartieGagnee()){
 				youWin(g);
 			} else {
@@ -153,31 +159,14 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void gameOver(Graphics g) {
-		setSize(400, 400);
-		
 		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
-	//	System.out.println("game over");
 		g.drawImage(game_over, 0, 0,this);
-		/*
-		String msg = "Game Over";
-		Font small = new Font("Helvetica", Font.BOLD, 34);
-	//	FontMetrics metr = this.getFontMetrics(small);
 
-		g.setColor(Color.white);
-		g.setFont(small);
-		g.drawString(msg, 0,0);
-		*/
 	}
 	
 	public void youWin(Graphics g) {
-		String msg = "Gagné";
-		Font small = new Font("Helvetica", Font.BOLD, 14);
-		FontMetrics metr = this.getFontMetrics(small);
-
-		g.setColor(Color.white);
-		g.setFont(small);
-		g.drawString(msg, (WIDTH - metr.stringWidth(msg)) / 2,
-				HEIGHT / 2);
+		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
+		g.drawImage(you_win, 0, 0,this);
 	}
 	
 	
@@ -190,7 +179,7 @@ public class Board extends JPanel implements ActionListener {
 
 		g.setColor(Color.green);
 		g.setFont(small);
-		g.drawString(msg, (TAILLE_CASE*largeur) - 70,(hauteur+ 1)*TAILLE_CASE+5);
+		g.drawString(msg, (TAILLE_CASE*largeur) - 30,(hauteur+ 1)*TAILLE_CASE+5);
 	}
 
 
@@ -285,7 +274,8 @@ public class Board extends JPanel implements ActionListener {
 
 //					repaint();
 				}
-				System.out.printf("nbPas : %d \n", mj.getPasRestants());
+			//	System.out.printf("nbPas : %d \n", mj.getPasRestants());
+				System.out.println("--------------");
 		//		repaint();
 				/*
 				System.out.printf("pos hero : (%d,%d) 		", mj.getTerrain().getPosHero().getX(),mj.getTerrain().getPosHero().getY());

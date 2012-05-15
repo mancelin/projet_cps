@@ -1,7 +1,7 @@
 package pcps.components;
 
-import pcps.enums.Direction;
-import pcps.parser.TerrainParser;
+import pcps.enums.Direction;	
+import pcps.enums.TypeBloc;
 import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
 import pcps.services.TerrainService;
@@ -42,13 +42,36 @@ MoteurJeuService {
 
 	@Override
 	public boolean isPartieTerminee() {
-		return ((nbPasRestants==0) || !terrain.isHeroVivant() || (terrain.getPosSortie() == terrain.getPosHero()) );
+		//return ((nbPasRestants==0) || !terrain.isHeroVivant() || (terrain.getPosSortie().equals(terrain.getPosHero())) );
+		// version verbeuse, pour test ou ça plantait
+		if(nbPasRestants==0){
+			System.out.println("game over : plus de pas restants");
+			return true;
+		}
+		if(!terrain.isHeroVivant()){
+			System.out.println("game over : héros écrasé");
+			return true;
+		}
+		System.out.printf("pos hero (%d,%d)\npos sortie (%d,%d)\n", terrain.getPosHero().getX(),
+				terrain.getPosHero().getY(),terrain.getPosSortie().getX(),
+				terrain.getPosSortie().getY());
+		
+		if(terrain.getPosSortie().equals(terrain.getPosHero()) ){
+			System.out.println("game over : sortie atteinte");
+			return true;
+		}
+		
+		return false;
+		
 	}
 
 	@Override
 	public boolean isPartieGagnee() {
+		System.out.printf("partie gagne ? %b\n",(terrain.getPosSortie().equals(terrain.getPosHero())));
 		System.out.println(getTerrain().toString());
-		return (isPartieTerminee() && terrain.isHeroVivant());
+		//return (isPartieTerminee() && terrain.isHeroVivant());
+		
+		return (terrain.getPosSortie().equals(terrain.getPosHero()));
 	}
 
 	@Override
@@ -81,6 +104,11 @@ MoteurJeuService {
 			}
 		}
 		nbPasRestants--;
+		
+		// Si plus de pas restants, "tuer" le héros
+		if(nbPasRestants == 0){
+			blocHero.setType(TypeBloc.VIDE);
+		}
 	}
 
 
