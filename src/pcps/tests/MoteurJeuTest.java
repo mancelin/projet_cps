@@ -157,8 +157,11 @@ public class MoteurJeuTest {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
 		mj.deplacerHero(Direction.DROITE);
+		mj.getTerrain().fairePasDeMiseAJour();
 		mj.deplacerHero(Direction.DROITE);
+		mj.getTerrain().fairePasDeMiseAJour();
 		mj.deplacerHero(Direction.BAS);
+		mj.getTerrain().fairePasDeMiseAJour();
 		
 		// oracle
 		assertTrue(mj.isPartieGagnee());
