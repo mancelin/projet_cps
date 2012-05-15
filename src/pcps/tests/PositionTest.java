@@ -209,4 +209,59 @@ public class PositionTest {
 		// oracle
 		assertTrue(position.getY() == 3);
 	}
+	
+	
+	/** Couverture des transitions **/
+
+	@Test
+	public void Position_deplacerVersDirection_trans1() {
+		// préambule
+		position.init(5, 4, 2, 3);
+		
+		// contenu
+		position.deplacerVersDirection(Direction.HAUT);
+		
+		// oracle
+		assertTrue(position.getX() == 2 && position.getY() == (3 - 1) % 4);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Position_deplacerVersDirection_trans2() {
+		// préambule
+		position.init(5, 4, 2, 3);
+		
+		// contenu
+		position.deplacerVersDirection(Direction.BAS);
+		
+		// oracle
+		assertTrue(position.getX() == 2 && position.getY() == (3 + 1) % 4);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Position_deplacerVersDirection_trans3() {
+		// préambule
+		position.init(5, 4, 2, 3);
+		
+		// contenu
+		position.deplacerVersDirection(Direction.GAUCHE);
+		
+		// oracle
+		assertTrue(position.getX() == (2 - 1) % 5 && position.getY() == 3);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Position_deplacerVersDirection_trans4() {
+		// préambule
+		position.init(5, 4, 2, 3);
+		
+		// contenu
+		position.deplacerVersDirection(Direction.DROITE);
+		
+		// oracle
+		assertTrue(position.getX() == (2 + 1) % 5 && position.getY() == 3);
+		checkInvariant();
+	}
 }

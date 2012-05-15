@@ -173,4 +173,21 @@ public class BlocTest {
 		assertTrue(bloc.getPosition().equals(Stub.getPOS1()));
 		checkInvariant();
 	}
+	
+	
+	
+	/** Couverture des transitions **/
+	
+	@Test
+	public void Bloc_setType_trans() {
+		// préambule
+		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		
+		// contenu
+		bloc.setType(TypeBloc.ROCHER);
+		
+		// oracle
+		assertTrue(bloc.getType() == TypeBloc.ROCHER && bloc.getPosition().equals(Stub.getPOS1()));
+		checkInvariant();
+	}
 }

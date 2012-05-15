@@ -81,3 +81,12 @@ Objectif Bloc_setType_post2: postcondition de setType sur getPosition
 		Préambule: B1 = init(HERO, POS1)
 		Opérations: B2 = setType(B1, ROCHER)
 		Oracle: getPosition(B2) = POS1
+
+
+** Couverture des transitions **
+
+Objectif Bloc_setType_trans: transition de setType
+	Cas de test Bloc_setType_trans:
+		Préambule: B1 = init(HERO, POS1)
+		Opérations: B2 = setType(B1, ROCHER)
+		Oracle: getType(B2) = ROCHER ^ getPosition(B2) = POS1

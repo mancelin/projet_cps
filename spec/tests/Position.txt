@@ -90,3 +90,29 @@ Objectif Position_deplacerVersDirection_post2: postcondition de deplacerVersDire
 		Préambule: P1 = init(5, 4, 2, 3)
 		Opérations: P2 = deplacerVersDirection(P1, GAUCHE)
 		Oracle: getY(P2) = 3
+
+
+** Couverture des transitions **
+
+Objectif Position_deplacerVersDirection_trans: transition de deplacerVersDirection
+	Cas de test Position_deplacerVersDirection_trans1:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, HAUT)
+		Oracle: getY(P2) = (3 - 1) % 4 ^ getX(P2) = 2
+
+	Cas de test Position_deplacerVersDirection_trans2:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, BAS)
+		Oracle: getY(P2) = (3 + 1) % 4 ^ getX(P2) = 2
+
+
+	Cas de test Position_deplacerVersDirection_trans3:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, GAUCHE)
+		Oracle: getY(P2) = 3 ^ getX(P2) = (2 - 1) % 5
+
+
+	Cas de test Position_deplacerVersDirection_trans4:
+		Préambule: P1 = init(5, 4, 2, 3)
+		Opérations: P2 = deplacerVersDirection(P1, DROITE)
+		Oracle: getY(P2) = 3 ^ getX(P2) = (2 + 1) % 5
