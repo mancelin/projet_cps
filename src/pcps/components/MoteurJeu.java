@@ -40,18 +40,12 @@ MoteurJeuService {
 
 	@Override
 	public boolean isPartieTerminee() {
-		return ((nbPasRestants==0) || !terrain.isHeroVivant() || (terrain.getPosSortie().equals(terrain.getPosHero())) );
+		return ((nbPasRestants==0) || !terrain.isHeroVivant() || isPartieGagnee() );
 	}
 
 	@Override
 	public boolean isPartieGagnee() {
-		/*
-		System.out.printf("partie gagne ? %b\n",(terrain.getPosSortie().equals(terrain.getPosHero())));
-		System.out.println(getTerrain().toString());
-		*/
-	//	return (isPartieTerminee() && terrain.isHeroVivant());
-		
-		return (terrain.getPosSortie().equals(terrain.getPosHero()) && (nbPasRestants > 0));
+		return (terrain.getPosSortie().equals(terrain.getPosHero()));
 	}
 
 	@Override
