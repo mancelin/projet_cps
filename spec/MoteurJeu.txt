@@ -10,11 +10,11 @@ Observators:
 	isDeplacementHeroPossible : [MoteurJeu] * Direction -> boolean
 	isPartieTerminee : [MoteurJeu] -> boolean
 	isPartieGagnee : [MoteurJeu] -> boolean
-	
+
 Constructors:
 	init : Terrain * integer -> [MoteurJeu]
 		pre init(t, nbPas) require nbPas > 0
-	
+
 Operators:
 	deplacerHero : [MoteurJeu] * Direction -> [MoteurJeu]
 		pre deplacerHero(mj, dir) require ¬isPartieTerminee(mj) ^ isDeplacementHeroPossible(mj, dir)
@@ -25,8 +25,8 @@ Observations:
 		isPartieTerminee(mj) ={min}
 			getPasRestants(mj) = 0
 			V ¬Terrain::isHeroVivant(getTerrain(mj))
-			V Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))
-		isPartieGagnee(mj) ={min} isPartieTerminee(mj) ^ Terrain::isHeroVivant(getTerrain(mj))
+			V isPartieGagnee(mj)
+		isPartieGagnee(mj) ={min} Terrain::getPosSortie(getTerrain(mj)) = Terrain::getPosHero(getTerrain(mj))
 		∀dir ⊆ { GAUCHE, DROITE }, isDeplacementHeroPossible(mj, dir) ={min}
 			let* terrain = getTerrain(mj)
 			and blocHero = Terrain::getBlocHero(terrain)
@@ -39,13 +39,13 @@ Observations:
 			and blocDest = Terrain::getBlocVersDirection(terrain, blocHero, dir)
 			in
 				¬Bloc::isSolide(blocDest)
-		
+
 	[init]
 		getPasRestants(init(t, nbPas)) = nbPas
 		getTerrain(init(t, nbPas)) = t
-	
+
 	[deplacerHero]
-		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1			
+		getPasRestants(deplacerHero(mj, dir)) = getPasRestants(mj) - 1
 		getTerrain(deplacerHero(mj, dir)) =
 			let* terrain = getTerrain(mj)
 			and blocHero = Terrain::getBlocHero(terrain)
@@ -55,4 +55,4 @@ Observations:
 					Terrain::deplacerBlocVersDirection(terrain, blocHero, dir)
 				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
 					let terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)
-					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)		
+					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)

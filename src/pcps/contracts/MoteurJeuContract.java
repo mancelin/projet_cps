@@ -18,12 +18,12 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 		BlocService blocDest;
 		Direction dir;
 		
-		// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || getTerrain().getPosSortie == getTerrain().getPosHero())
-		if (!(isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || getTerrain().getPosSortie() == getTerrain().getPosHero())))
+		// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || isPartieGagnee)
+		if (!(isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || isPartieGagnee())))
 			Contractor.defaultContractor().invariantError("MoteurJeuService", "La partie doit être considérée terminée quand il n'y a plus de pas restants, quand le héro est mort ou quand la position du héro est situé sur la position de la sortie.");
 		
-		// inv: isPartieGagnee() == (isPartieTerminee() && getTerrain().isHeroVivant() 
-		if (!(isPartieGagnee() == (isPartieTerminee() && getTerrain().isHeroVivant())))
+		// inv: isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())
+		if (!(isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())))
 			Contractor.defaultContractor().invariantError("MoteurJeuService", "La partie doit être considérée gagnée lorsqu'elle est terminée et que le héro est toujours vivant.");
 		
 		// inv: \forall dir:Direction \in { GAUCHE, DROITE }, isDeplacementHeroPossible(dir) ==

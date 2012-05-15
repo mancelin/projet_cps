@@ -31,12 +31,12 @@ public class MoteurJeuTest {
 		BlocService blocDest;
 		Direction dir;
 		
-		// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || getTerrain().getPosSortie == getTerrain().getPosHero())
-		assertTrue(mj.isPartieTerminee() == (mj.getPasRestants() == 0 || !terrain.isHeroVivant() || terrain.getPosSortie() == terrain.getPosHero()));
-		
-		// inv: isPartieGagnee() == (isPartieTerminee() && getTerrain().isHeroVivant() 
-		assertTrue(mj.isPartieGagnee() == (mj.isPartieTerminee() && terrain.isHeroVivant()));
-		
+		// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || isPartieGagnee)
+		assertTrue(mj.isPartieTerminee() == (mj.getPasRestants() == 0 || !mj.getTerrain().isHeroVivant() || mj.isPartieGagnee()));
+				
+		// inv: isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())
+		assertTrue(mj.isPartieGagnee() == (mj.getTerrain().getPosSortie() == mj.getTerrain().getPosHero()));
+				
 		// inv: \forall dir:Direction \in { GAUCHE, DROITE }, isDeplacementHeroPossible(dir) ==
 		//          \let* terrain = getTerrain()
 		//          \and blocHero = terrain.getBlocHero()
