@@ -1,7 +1,7 @@
 package pcps.components;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import pcps.enums.Direction;
 import pcps.enums.TypeBloc;
@@ -244,7 +244,7 @@ TerrainService {
 
 	@Override
 	public Set<BlocService> getBlocs() {
-		Set<BlocService> setBlocs = new HashSet<BlocService>();
+		Set<BlocService> setBlocs = new TreeSet<BlocService>();
 		for(int x=0;x<largeur;x++){
 			for(int y=0;y<hauteur;y++){
 				setBlocs.add(matriceTerrain[x][y]);

@@ -1,7 +1,7 @@
 package pcps.tests;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import pcps.services.*;
 import pcps.enums.TypeBloc;
@@ -45,7 +45,7 @@ public class Stub {
 	
 	static Set<BlocService> getTER1Blocs() {
 		Factory f = Factory.getFactory();
-		Set<BlocService> TER1Blocs = new HashSet<BlocService>();
+		Set<BlocService> TER1Blocs = new TreeSet<BlocService>();
 		
 		for(int x = 0; x < 5; x++) {
 			for(int y = 0; y < 3; y++){

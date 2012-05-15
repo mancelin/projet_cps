@@ -7,7 +7,7 @@ import pcps.services.PositionService;
 
 public class Bloc implements 
 /* provide */
-BlocService {
+BlocService, Comparable<BlocService> {
 
 	protected TypeBloc type;
 	protected PositionService position;
@@ -30,6 +30,24 @@ BlocService {
 			return false;
 		BlocService otherBloc = (BlocService)other;
 		return (otherBloc.getType() == getType() && otherBloc.getPosition().equals(getPosition()));
+	}
+
+	@Override
+	public int compareTo(BlocService other) {
+		PositionService maPos = getPosition();
+		PositionService otherPos = other.getPosition();
+		if (maPos.getX() < otherPos.getX())
+			return -1;
+		else if (maPos.getX() > otherPos.getX())
+			return 1;
+		else {
+			if (maPos.getY() < otherPos.getY())
+				return -1;
+			else if (maPos.getY() > otherPos.getY())
+				return 1;
+			else
+				return getType().compareTo(other.getType());
+		}
 	}
 	
 	@Override

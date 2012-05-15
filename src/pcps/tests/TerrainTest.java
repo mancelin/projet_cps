@@ -276,7 +276,7 @@ public class TerrainTest {
 		// todo: compare values of blocs in sets
 		Set<BlocService> terBlocs = ter.getBlocs();
 		Set<BlocService> ter1Blocs = Stub.getTER1Blocs();
-		assertTrue(terBlocs.containsAll(ter1Blocs) && ter1Blocs.containsAll(terBlocs));
+		assertTrue(terBlocs.equals(ter1Blocs));
 	}
 	
 	
