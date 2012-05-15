@@ -231,8 +231,7 @@ public class Board extends JPanel implements ActionListener {
     }
 	 */
 	public void actionPerformed(ActionEvent e) {
-		mj.getTerrain().fairePasDeMiseAJour();
-		repaint();
+		
 		/*
 		if (inGame) {
 			//System.out.println("game over : false");
@@ -240,13 +239,14 @@ public class Board extends JPanel implements ActionListener {
 			//          checkCollision();
 		}
 		*/
-		/*
+
 		if(newAction){
+			mj.getTerrain().fairePasDeMiseAJour();
 			repaint();
 	//		System.out.print(mj.toString());
 			newAction = false;
 		}
-		*/
+
 	}
 
 
@@ -262,25 +262,26 @@ public class Board extends JPanel implements ActionListener {
 					//System.out.println("Gauche");
 					mj.deplacerHero(Direction.GAUCHE);
 					
-				//	newAction = true;
+					newAction = true;
 				}
 	
 				if ((key == KeyEvent.VK_RIGHT)) {
 //					System.out.println("Droite");
 					mj.deplacerHero(Direction.DROITE);
 					
-					//newAction = true;
+					newAction = true;
 				}
 	
 				if ((key == KeyEvent.VK_UP) ) {
 					mj.deplacerHero(Direction.HAUT);
 			//		System.out.println("Haut");
-				//	newAction = true;
+					newAction = true;
 				}
 	
 				if (key == KeyEvent.VK_DOWN) {
 		//			System.out.println("Bas");
 					mj.deplacerHero(Direction.BAS);
+					newAction = true;
 
 //					repaint();
 				}

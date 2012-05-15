@@ -52,6 +52,7 @@ MoteurJeuService {
 
 	@Override
 	public void init(TerrainService t, int nbPas) {
+		assert(nbPas > 0);
 		terrain = t;
 		nbPasRestants = nbPas;
 	}

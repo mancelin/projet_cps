@@ -22,6 +22,7 @@ TerrainService {
 
 	@Override
 	public void init(int l, int h) {
+		assert(l>0 && h>0);
 		largeur = l;
 		hauteur = h;
 		matriceTerrain = new BlocService[largeur][hauteur];
