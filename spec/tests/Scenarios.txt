@@ -1,0 +1,65 @@
+
+** Suite de scénarios utilisateurs **
+
+Objectif Scenario1_PartieGagnee: Récupérer le diamant et rejoindre la sortie
+	Cas de test Scenario1_PartieGagnee:
+		Préambule: MJ = init(TER1, 30), T = getTerrain(MJ)
+		Opérations:
+			MJ2 = deplacerHero(deplacerHero(MJ, DROITE), DROITE))
+			T2 = fairePasDeMiseAJour(T)
+			MJ4 = deplacerHero(MJ3, BAS)
+			T3 = fairePasDeMiseAJour(T2)
+		Oracle:
+			1) Préconditions avant MJ2
+			2) Postconditions + invariant après MJ2
+			3) Postconditions + invariant après T2
+			4) Préconditions avant MJ3
+			5) Postconditions + invariant après MJ3
+			6) Postconditions + invariant après T3
+			7) isPartieGagnee(MJ)
+
+Objectif Scenario2_PartiePerdue_ManqueDePas: Se déplacer jusqu'à épuiser le nombre de pas et ainsi perdre la partie
+	Cas de test Scenario2_PartiePerdue_ManqueDePas
+		Préambule: MJ = init(TER1, 2), T = getTerrain(MJ)
+		Opérations:
+			MJ2 = deplacerHero(deplacerHero(MJ, DROITE), DROITE)
+			T2 = fairePasDeMiseAJour(T)
+		Oracle:
+			1) Préconditions avant MJ2
+			2) Postconditions + invariant après MJ2
+			3) Préconditions avant T2
+			4) Postconditions + invariant après T2
+			5) isPartieTerminee(MJ) ^ !isPartieGagnee(MJ)
+
+Objectif Scenario3_PartiePerdue_MortDuHero: Se déplacer sous le rocher, puis mourir
+	Cas de test Scenario3_PartiePerdue_MortDuHero:
+		Préambule: MJ = init(TER1, 30), T = getTerrain(MJ)
+		Opérations:
+			MJ2 = deplacerHero(deplacerHero(MJ, BAS), GAUCHE)
+			T2 = fairePasDeMiseAJour(T)
+		Oracle:
+			1) Préconditions avant MJ2
+			2) Postconditions + invariant après MJ2
+			3) Préconditions avant T2
+			4) Postconditions + invariant après T2
+			5) isPartieTerminee(MJ) ^ !isPartieGagnee(MJ)
+
+
+Objectif Scenario4_DeplacerUnRocher: Contourner le rocher, puis le pousser vers la droite
+	Cas de test Scenario4_DeplacerUnRocher:
+		Préambule: MJ = init(TER1, 30), T = getTerrain(MJ)
+		Opérations:
+			MJ2 = deplacerHero(deplacerHero(deplacerHero(deplacerHero(MJ, BAS), GAUCHE), GAUCHE), HAUT)
+			T2 = fairePasDeMiseAJour(T)
+			MJ3 = deplacerHero(MJ2, DROITE)
+			T3 = fairePasDeMiseAJour(T2)
+		Oracle:
+			1) Préconditions avant MJ2
+			2) Postconditions + invariant après MJ2
+			3) Préconditions avant T2
+			4) Postconditions + invariant après T2
+			5) Préconditions avant MJ3
+			6) Postconditions + invariant après MJ3
+			7) Préconditions avant T3
+			8) Postconditions + invariant après T3
+			9) getType(getBloc(T3, 2, 1)) = ROCHER

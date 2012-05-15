@@ -35,7 +35,7 @@ public class MoteurJeuTest {
 		assertTrue(mj.isPartieTerminee() == (mj.getPasRestants() == 0 || !mj.getTerrain().isHeroVivant() || mj.isPartieGagnee()));
 				
 		// inv: isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())
-		assertTrue(mj.isPartieGagnee() == (mj.getTerrain().getPosSortie() == mj.getTerrain().getPosHero()));
+		assertTrue(mj.isPartieGagnee() == (mj.getTerrain().getPosSortie().equals(mj.getTerrain().getPosHero())));
 				
 		// inv: \forall dir:Direction \in { GAUCHE, DROITE }, isDeplacementHeroPossible(dir) ==
 		//          \let* terrain = getTerrain()

@@ -14,6 +14,11 @@ public class BlocDecorator implements BlocService {
 	protected BlocService getDelegate() {
 		return delegate;
 	}
+
+	@Override
+	public int compareTo(BlocService o) {
+		return getDelegate().compareTo(o);
+	}
 	
 	@Override
 	public BlocService copy() {

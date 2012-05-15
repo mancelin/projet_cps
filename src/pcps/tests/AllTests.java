@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
 	BlocTest.class,
 	PositionTest.class,
 	TerrainTest.class,
-	MoteurJeuTest.class
+	MoteurJeuTest.class,
+	ScenariosTest.class
 })
 
 public class AllTests {}

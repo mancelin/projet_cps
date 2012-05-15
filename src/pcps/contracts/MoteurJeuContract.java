@@ -23,7 +23,7 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 			Contractor.defaultContractor().invariantError("MoteurJeuService", "La partie doit être considérée terminée quand il n'y a plus de pas restants, quand le héro est mort ou quand la position du héro est situé sur la position de la sortie.");
 		
 		// inv: isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())
-		if (!(isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())))
+		if (!(isPartieGagnee() == (getTerrain().getPosSortie().equals(getTerrain().getPosHero()))))
 			Contractor.defaultContractor().invariantError("MoteurJeuService", "La partie doit être considérée gagnée lorsqu'elle est terminée et que le héro est toujours vivant.");
 		
 		// inv: \forall dir:Direction \in { GAUCHE, DROITE }, isDeplacementHeroPossible(dir) ==

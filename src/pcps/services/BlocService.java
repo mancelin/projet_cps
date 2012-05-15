@@ -2,7 +2,7 @@ package pcps.services;
 
 import pcps.enums.TypeBloc;
 
-public interface BlocService {
+public interface BlocService extends Comparable<BlocService> {
 	public BlocService copy();
 	
 	/** Observator: type du bloc */

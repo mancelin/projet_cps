@@ -56,3 +56,4 @@ Observations:
 				else if Bloc::isDeplacable(blocDest) and dir \in { GAUCHE, DROITE } then
 					let terrain' = Terrain::deplacerBlocVersDirection(terrain, blocDest, dir)
 					in Terrain::deplacerBlocVersDirection(terrain', blocHero, dir)
+
