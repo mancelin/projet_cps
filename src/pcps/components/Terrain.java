@@ -122,7 +122,6 @@ TerrainService {
 
 	@Override
 	public BlocService getBlocDepuisPosition(PositionService pos) {
-		//	System.out.printf(" getBlocDepuisPosition  => x: %d, y : %d\n", pos.getX(),pos.getY());
 		return matriceTerrain[pos.getX()][pos.getY()];
 	}
 
@@ -130,9 +129,7 @@ TerrainService {
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
 		PositionService	posBloc = bloc.getPosition();
 		PositionService posBlocCurrent = posBloc.copy();
-		//	System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
 		posBlocCurrent.deplacerVersDirection(dir);
-		//		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
 		return getBlocDepuisPosition(posBlocCurrent);
 	}
 
@@ -178,14 +175,6 @@ TerrainService {
 			posHero.init(largeur, hauteur, x, y);
 		}
 		getBloc(x,y).setType(type);
-
-		/*
-		BlocService bloc = new Bloc();
-		PositionService pos = new Position();
-		pos.init(largeur, hauteur, x, y);
-		bloc.init(type, pos);
-		matriceTerrain[x][y] = bloc;
-		 */
 	}
 
 	@Override
@@ -207,33 +196,21 @@ TerrainService {
 	@Override
 	public void fairePasDeMiseAJour() {
 		if(getBlocDepuisPosition(getPosSortie()).isSortieFermee() && !isDiamantsRestants()) {
-			//	System.out.print("plus de diamants restants\n");
-			//	PositionService posSortie = getPosSortie().copy();
 			PositionService posSortie = getPosSortie();
-			/*
-			System.out.printf("posSortie : (%d,%d)\n",posSortie.getX(),posSortie.getY());
-			BlocService blocSortie = getBlocDepuisPosition(posSortie);
-			blocSortie.setType(TypeBloc.SORTIE_OUVERTE);
-			 */
 			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
 		}
 		for(int x=0;x<largeur;x++){
 			for(int y=hauteur-1;y>0;y--){
-				//		System.out.printf("getBloc(x:%d,y:%d)\n",x,y);
 				BlocService bloc = getBloc(x,y);
 				if(bloc.isTombable()){
 					if(getBlocVersDirection(bloc, Direction.BAS).isVide()){
-						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
+						deplacerBlocVersDirection(bloc,Direction.BAS);
 					}
 					else if(getBlocVersDirection(bloc, Direction.BAS).isHero()){
-						System.out.println("écrasage du héros");
+						System.out.println("écrasage du héros");	////
 						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
 					}
 				}
-				//if(isDeplacementBlocPossible(bloc,Direction.BAS)){
-				//	deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
-				//}
-				//}
 			}
 		}
 	}

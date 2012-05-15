@@ -25,14 +25,12 @@ MoteurJeuService {
 
 	@Override
 	public boolean isDeplacementHeroPossible(Direction dir) {
-	//	System.out.println("isDeplacementHeroPossible, type bloc dest : " + 
-	//			terrain.getBlocVersDirection(terrain.getBlocHero(), dir).getType() + " , dir :" + dir);
 		BlocService blocHero = terrain.getBlocHero();
 		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
 		if(!(blocDest.isSolide())){
 			return true;
 		} else{
-			if (blocDest.isDeplacable()){
+			if (blocDest.isDeplacable() && ((dir == Direction.GAUCHE) || (dir == Direction.DROITE))){
 				BlocService blocDestPush = terrain.getBlocVersDirection(blocDest, dir);
 				return blocDestPush.isVide();
 			}
@@ -42,36 +40,18 @@ MoteurJeuService {
 
 	@Override
 	public boolean isPartieTerminee() {
-		//return ((nbPasRestants==0) || !terrain.isHeroVivant() || (terrain.getPosSortie().equals(terrain.getPosHero())) );
-		// version verbeuse, pour test ou ça plantait
-		if(nbPasRestants==0){
-			System.out.println("game over : plus de pas restants");
-			return true;
-		}
-		if(!terrain.isHeroVivant()){
-			System.out.println("game over : héros écrasé");
-			return true;
-		}
-		System.out.printf("pos hero (%d,%d)\npos sortie (%d,%d)\n", terrain.getPosHero().getX(),
-				terrain.getPosHero().getY(),terrain.getPosSortie().getX(),
-				terrain.getPosSortie().getY());
-		
-		if(terrain.getPosSortie().equals(terrain.getPosHero()) ){
-			System.out.println("game over : sortie atteinte");
-			return true;
-		}
-		
-		return false;
-		
+		return ((nbPasRestants==0) || !terrain.isHeroVivant() || (terrain.getPosSortie().equals(terrain.getPosHero())) );
 	}
 
 	@Override
 	public boolean isPartieGagnee() {
+		/*
 		System.out.printf("partie gagne ? %b\n",(terrain.getPosSortie().equals(terrain.getPosHero())));
 		System.out.println(getTerrain().toString());
-		//return (isPartieTerminee() && terrain.isHeroVivant());
+		*/
+	//	return (isPartieTerminee() && terrain.isHeroVivant());
 		
-		return (terrain.getPosSortie().equals(terrain.getPosHero()));
+		return (terrain.getPosSortie().equals(terrain.getPosHero()) && (nbPasRestants > 0));
 	}
 
 	@Override
@@ -90,15 +70,11 @@ MoteurJeuService {
 		}
 		
 		BlocService blocHero = terrain.getBlocHero();
-	//	System.out.printf("pos bloc hero =>  x : %d, y: %d\n", blocHero.getPosition().getX(),blocHero.getPosition().getY());
 		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
-	//	System.out.printf("pos bloc dest =>  x : %d, y: %d\n", blocDest.getPosition().getX(),blocDest.getPosition().getY());
 		if(!blocDest.isSolide()){
-		//	System.out.println("bloc dest is not solid");
 			terrain.deplacerBlocVersDirection(blocHero, dir);
 		} else {
 			if(blocDest.isDeplacable() && ((dir == Direction.DROITE) || (dir == Direction.GAUCHE)) ){
-			//	System.out.println("bloc dest is deplaçable");
 				terrain.deplacerBlocVersDirection(blocDest, dir);
 				terrain.deplacerBlocVersDirection(blocHero, dir);
 			}
@@ -106,9 +82,11 @@ MoteurJeuService {
 		nbPasRestants--;
 		
 		// Si plus de pas restants, "tuer" le héros
+		/*
 		if(nbPasRestants == 0){
 			blocHero.setType(TypeBloc.VIDE);
 		}
+		*/
 	}
 
 
