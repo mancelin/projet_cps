@@ -102,3 +102,23 @@ Objectif MoteurJeu_deplacerHero_post2: postcondition de deplacerHero sur getTerr
 			and blocDest = Terrain::getBlocVersDirection(TER1, blocHero, GAUCHE)
 			in
 				getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(Terrain::deplacerBlocVersDirection(TER1, blocDest, GAUCHE), blocHero, GAUCHE)
+
+
+** Couverture des transitions **
+
+Objectif MoteurJeu_deplacerHero_trans: transition de deplacerHero
+	Cas de test MoteurJeu_deplacerHero_trans1:
+		Préambule: MJ1 = init(TER1, 30)
+		Opérations: MJ2 = deplacerHero(MJ, DROITE)
+		Oracle: getPasRestants(MJ2) = 30 - 1 ^ getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(TER1, Terrain::getBlocHero(TER1), DROITE)
+
+	Cas de test MoteurJeu_deplacerHero_trans2:
+		Préambule: MJ = init(TER1, 30)
+		Opérations: MJ2 = deplacerHero(MJ, GAUCHE)
+		Oracle:
+			let* blocHero = Terrain::getBlocHero(TER1)
+			and blocDest = Terrain::getBlocVersDirection(TER1, blocHero, GAUCHE)
+			in
+				getPasRestants(MJ2) = 30 - 1
+				^ getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(Terrain::deplacerBlocVersDirection(TER1, blocDest, GAUCHE), blocHero, GAUCHE)
+

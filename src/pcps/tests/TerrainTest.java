@@ -556,4 +556,161 @@ public class TerrainTest {
 		assertTrue(valid);
 		checkInvariant();
 	}
+	
+	
+	/** Couverture des transitions **/
+
+	@Test
+	public void Terrain_setBloc_trans1() {
+		// préambule
+		ter = Stub.getTER1();
+		
+		// contenu
+		ter.setBloc(TypeBloc.SORTIE_FERMEE, 1, 2);
+		
+		// oracle
+		PositionService posSortie = Factory.getFactory().creerPosition();
+		posSortie.init(5, 3, 1, 2);
+		PositionService posHero = Factory.getFactory().creerPosition();
+		posHero.init(5, 3, 2, 1);
+		boolean valid = true;
+		TerrainService ter1 = Stub.getTER1();
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (x == 1 && y == 2) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.SORTIE_FERMEE)
+						valid = false;
+				} else if (!ter.getBloc(x, y).equals(ter1.getBloc(x, y))) {
+						valid = false;
+				}
+			}
+		}
+		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero) && valid);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Terrain_setBloc_trans2() {
+		// préambule
+		ter = Stub.getTER1();
+		
+		// contenu
+		ter.setBloc(TypeBloc.HERO, 1, 2);
+		
+		// oracle
+		PositionService posSortie = Factory.getFactory().creerPosition();
+		posSortie.init(5, 3, 4, 2);
+		PositionService posHero = Factory.getFactory().creerPosition();
+		posHero.init(5, 3, 1, 2);
+		boolean valid = true;
+		TerrainService ter1 = Stub.getTER1();
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (x == 1 && y == 2) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.HERO)
+						valid = false;
+				} else if (!ter.getBloc(x, y).equals(ter1.getBloc(x, y))) {
+						valid = false;
+				}
+			}
+		}
+		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero) && valid);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Terrain_deplacerBlocVersDirection_trans1() {
+		// préambule
+		ter = Stub.getTER1();
+		
+		// contenu
+		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
+		
+		// oracle
+		PositionService posSortie = Factory.getFactory().creerPosition();
+		posSortie.init(5, 3, 4, 2);
+		PositionService posHero = Factory.getFactory().creerPosition();
+		posHero.init(5, 3, 3, 1);
+		boolean valid = true;
+		TerrainService ter1 = Stub.getTER1();
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (x == 2 && y == 1) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.VIDE)
+						valid = false;
+				} else if (x == 3 && y == 1) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.HERO)
+						valid = false;
+				} else if (!ter.getBloc(x, y).equals(ter1.getBloc(x, y))) {
+						valid = false;
+				}
+			}
+		}
+		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero) && valid);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Terrain_deplacerBlocVersDirection_trans2() {
+		// préambule
+		ter = Stub.getTER1();
+		
+		// contenu
+		ter.deplacerBlocVersDirection(ter.getBloc(1, 1), Direction.BAS);
+		
+		// oracle
+		PositionService posSortie = Factory.getFactory().creerPosition();
+		posSortie.init(5, 3, 4, 2);
+		PositionService posHero = Factory.getFactory().creerPosition();
+		posHero.init(5, 3, 2, 1);
+		boolean valid = true;
+		TerrainService ter1 = Stub.getTER1();
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (x == 1 && y == 1) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.VIDE)
+						valid = false;
+				} else if (x == 1 && y == 2) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.ROCHER)
+						valid = false;
+				} else if (!ter.getBloc(x, y).equals(ter1.getBloc(x, y))) {
+						valid = false;
+				}
+			}
+		}
+		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero) && valid);
+		checkInvariant();
+	}
+	
+	@Test
+	public void Terrain_fairePasDeMiseAJour_trans() {
+		// préambule
+		ter = Stub.getTER1();
+		
+		// contenu
+		ter.fairePasDeMiseAJour();
+		
+		// oracle
+		PositionService posSortie = Factory.getFactory().creerPosition();
+		posSortie.init(5, 3, 4, 2);
+		PositionService posHero = Factory.getFactory().creerPosition();
+		posHero.init(5, 3, 2, 1);
+		boolean valid = true;
+		TerrainService ter1 = Stub.getTER1();
+		for (int x = 0; x < 5; x++) {
+			for (int y = 0; y < 3; y++) {
+				if (x == 1 && y == 1) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.VIDE)
+						valid = false;
+				} else if (x == 1 && y == 2) {
+					if (ter.getBloc(x, y).getType() != TypeBloc.ROCHER)
+						valid = false;
+				} else if (!ter.getBloc(x, y).equals(ter1.getBloc(x, y))) {
+					valid = false;
+				}
+			}
+		}
+		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero) && valid);
+		checkInvariant();
+	}
 }

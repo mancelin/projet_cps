@@ -262,4 +262,40 @@ public class MoteurJeuTest {
 		assertTrue(mj.getTerrain().equals(ter1));
 		checkInvariant();
 	}
+	
+	
+	/** Couverture des transitions **/
+
+	@Test
+	public void MoteurJeu_deplacerHero_trans1() {
+		// préambule
+		mj.init(Stub.getTER1(), 30);
+		
+		// contenu
+		mj.deplacerHero(Direction.DROITE);
+		
+		// oracle
+		TerrainService ter1 = Stub.getTER1();
+		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
+		assertTrue(mj.getPasRestants() == 30 - 1 && mj.getTerrain().equals(ter1));
+		checkInvariant();
+	}
+	
+	@Test
+	public void MoteurJeu_deplacerHero_trans2() {
+		// préambule
+		mj.init(Stub.getTER1(), 30);
+		
+		//contenu
+		mj.deplacerHero(Direction.GAUCHE);
+		
+		// oracle
+		TerrainService ter1 = Stub.getTER1();
+		BlocService blocHero = ter1.getBlocHero();
+		BlocService blocDest = ter1.getBlocVersDirection(blocHero, Direction.GAUCHE);
+		ter1.deplacerBlocVersDirection(blocDest, Direction.GAUCHE);
+		ter1.deplacerBlocVersDirection(blocHero, Direction.GAUCHE);
+		assertTrue(mj.getPasRestants() == 30 - 1 && mj.getTerrain().equals(ter1));
+		checkInvariant();
+	}
 }
