@@ -251,3 +251,60 @@ Objectif Terrain_fairePasDeMiseAJour_trans: transition de fairePasDeMiseAJour
 			getPosSortie(T2) = Position::init(5, 3, 4, 2)
 			^ getPosHero(T2) = Position::init(5, 3, 2, 1)
 			^ getBloc(T2) = ...
+
+
+** Couverture des paires de transitions **
+
+Objectif Terrain_setBloc_deplacerBlocVersDirection_trans: transitions de setBloc puis deplacerBlocVersDirection
+	Cas de test Terrain_setBloc_deplacerBlocVersDirection_trans:
+		Préambule: TER1
+		Opérations: T2 = deplacerBlocVersDirection(setBloc(TER1, TERRE, 0, 0) getBlocHero(TER1), DROITE)
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 3, 1)
+			^ getBloc(T2) = ...
+
+Objectif Terrain_setBloc_fairePasDeMiseAJour_trans: transitions de setBloc puis fairePasDeMiseAJour
+	Cas de test Terrain_setBloc_fairePasDeMiseAJour_trans:
+		Préambule: TER1
+		Opérations: T2 = fairePasDeMiseAJour(setBloc(TER1, TERRE, 0, 0))
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 2, 1)
+			^ getBloc(T2) = ...
+
+Objectif Terrain_deplacerBlocVersDirection_setBloc_trans: transitions de deplacerBlocVersDirection puis setBloc
+	Cas de test Terrain_deplacerBlocVersDirection_setBloc_trans:
+		Préambule: TER1
+		Opérations: T2 = setBloc(deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE), TERRE, 0, 0)
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 3, 1)
+			^ getBloc(T2) = ...
+
+Objectif Terrain_deplacerBlocVersDirection_fairePasDeMiseAJour_trans: transitions de deplacerBlocVersDirection puis fairePasDeMiseAJour
+	Cas de test Terrain_deplacerBlocVersDirection_fairePasDeMiseAJour_trans:
+		Préambule: TER1
+		Opérations: T2 = fairePasDeMiseAJour(deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE))
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 3, 1)
+			^ getBloc(T2) = ...
+
+Objectif Terrain_fairePasDeMiseAJour_deplacerBlocVersDirection_trans: transitions de fairePasDeMiseAJour puis deplacerBlocVersDirection
+	Cas de test Terrain_fairePasDeMiseAJour_deplacerBlocVersDirection_trans:
+		Préambule: TER1
+		Opérations: T2 = deplacerBlocVersDirection(fairePasDeMiseAJour(TER1), getBlocHero(TER1), DROITE)
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 3, 1)
+			^ getBloc(T2) = ...
+
+Objectif Terrain_fairePasDeMiseAJour_setBloc_trans: transitions de fairePasDeMiseAJour puis setBloc
+	Cas de test Terrain_fairePasDeMiseAJour_setBloc_trans:
+		Préambule: TER1
+		Opérations: T2 = setBloc(fairePasDeMiseAJour(TER1), TERRE, 0, 0)
+		Oracle:
+			getPosSortie(T2) = Position::init(5, 3, 4, 2)
+			^ getPosHero(T2) = Position::init(5, 3, 2, 1)
+			^ getBloc(T2) = ...
