@@ -34,7 +34,7 @@ PositionService {
 
 	@Override
 	public void init(int l, int h, int x, int y) {
-		assert((l > 0) && (h > 0) && (x >= 0) && (y >= 0));
+		Assert.assertTrue((l > 0) && (h > 0) && (x >= 0) && (y >= 0));
 		/*
 		if((l > 0) && (h > 0) && (x >= 0) && (y >= 0)){
 			throw new IllegalArgumentException("Valeurs de position incorrectes");
