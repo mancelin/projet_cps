@@ -1,5 +1,6 @@
 package pcps.components;
 
+import junit.framework.Assert;
 import pcps.enums.Direction;
 import pcps.factories.Factory;
 import pcps.services.PositionService;
@@ -33,6 +34,12 @@ PositionService {
 
 	@Override
 	public void init(int l, int h, int x, int y) {
+		assert((l > 0) && (h > 0) && (x >= 0) && (y >= 0));
+		/*
+		if((l > 0) && (h > 0) && (x >= 0) && (y >= 0)){
+			throw new IllegalArgumentException("Valeurs de position incorrectes");
+		}
+		*/
 		largeur = l;
 		hauteur = h;
 		this.x = x % largeur;
