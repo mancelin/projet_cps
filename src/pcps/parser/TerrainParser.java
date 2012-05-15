@@ -69,16 +69,16 @@ public class TerrainParser {
 		t.init(largeur, hauteur);
 		int y = 0;
 		while ((ligne = ficTexte.readLine()) != null){
-			System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
+		//	System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
 			
 			for(int i=0;i<ligne.length();i++){
-				System.out.print(ligne.charAt(i)); 
+			//	System.out.print(ligne.charAt(i)); 
 			
 				PositionService pos = factory.creerPosition(); 
 				pos.init(largeur, hauteur, i, y);
 				BlocService bloc = factory.creerBloc();
 				bloc.init(typeBlocDeChar(ligne.charAt(i)), pos);
-				System.out.printf(">> pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
+			//	System.out.printf(">> pos.getX : %d pos.getY : %d \n", pos.getX(),pos.getY());
 				t.setBloc(bloc.getType(), pos.getX(), pos.getY());
 				
 				//t.setBloc(typeBlocDeChar(ligne.charAt(i)), i+1, y);

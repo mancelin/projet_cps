@@ -165,7 +165,7 @@ TerrainService {
 	@Override
 	public void fairePasDeMiseAJour() {
 		if(!isDiamantsRestants()){
-			System.out.print("plus de diamants restants\n");
+		//	System.out.print("plus de diamants restants\n");
 		//	PositionService posSortie = getPosSortie().copy();
 			PositionService posSortie = getPosSortie();
 			/*
