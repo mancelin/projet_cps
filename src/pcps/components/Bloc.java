@@ -31,6 +31,11 @@ BlocService {
 		BlocService otherBloc = (BlocService)other;
 		return (otherBloc.getType() == getType() && otherBloc.getPosition().equals(getPosition()));
 	}
+	
+	@Override
+	public String toString() {
+		return "Bloc " + getType().name() + " " + getPosition().toString();
+	}
 
 	@Override
 	public void init(TypeBloc tb, PositionService pos) {

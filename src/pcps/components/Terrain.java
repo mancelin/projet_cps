@@ -6,6 +6,7 @@ import java.util.Set;
 import pcps.enums.Direction;
 import pcps.enums.TypeBloc;
 import pcps.factories.Factory;
+import pcps.parser.TerrainParser;
 import pcps.services.BlocService;
 import pcps.services.PositionService;
 import pcps.services.TerrainService;
@@ -22,7 +23,10 @@ TerrainService {
 
 	@Override
 	public void init(int l, int h) {
-		assert(l>0 && h>0);
+		if (!(l > 0 && h > 0)) {
+			throw new IllegalArgumentException("La largeur et la hauteur du terrain doivent être strictement positifs.");
+		}
+		
 		largeur = l;
 		hauteur = h;
 		matriceTerrain = new BlocService[largeur][hauteur];
@@ -35,6 +39,46 @@ TerrainService {
 				matriceTerrain[x][y] = bloc;
 			}
 		}
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof TerrainService))
+			return false;
+		TerrainService otherTer = (TerrainService)other;
+		
+		// comparaison de la largeur et la hauteur
+		if (otherTer.getLargeur() != largeur || otherTer.getHauteur() != hauteur)
+			return false;
+		
+		// comparaison de la position de sortie
+		if (posSortie != otherTer.getPosSortie()) {
+			if (posSortie == null || otherTer.getPosSortie() == null
+			|| !(posSortie.equals(otherTer.getPosSortie())))
+				return false;
+		}
+
+		// comparaison des blocs
+		for (int x = 0; x < largeur; x++){
+			for (int y = 0; y < hauteur; y++){
+				if (!getBloc(x, y).equals(otherTer.getBloc(x, y)))
+					return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuffer ter = new StringBuffer();
+		for(int y = 0; y < hauteur; y++) {
+			for(int x = 0; x < largeur; x++) {
+				ter.append(TerrainParser.charDeTypeBloc(getBloc(x, y).getType()));
+			}
+			ter.append("\n");
+		}
+		return ter.toString();
 	}
 
 	@Override
@@ -63,7 +107,6 @@ TerrainService {
 	public PositionService getPosHero() {
 		for(int x=0;x<largeur;x++){
 			for(int y=0;y<hauteur;y++){
-			//	if(matriceTerrain[x][y].getType() == TypeBloc.HERO ){
 				if(matriceTerrain[x][y].isHero()){
 					PositionService pos = Factory.getFactory().creerPosition();
 					pos.init(this.largeur, this.hauteur, x, y);
@@ -144,28 +187,20 @@ TerrainService {
 
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
-		assert(isDeplacementBlocPossible(bloc, dir));
+		if (!isDeplacementBlocPossible(bloc, dir)) {
+			throw new RuntimeException("Le déplacement du bloc dans cette direction est impossible.");
+		}
+		
 		TypeBloc tb = bloc.getType();
-		/*
-		PositionService posBloc = bloc.getPosition().copy();
-		setBloc(TypeBloc.VIDE, posBloc.getX(),posBloc.getY());
-		*/
 		bloc.setType(TypeBloc.VIDE);
-	//	System.out.println("bloc o: " + tb + " -> " + "VIDE");
 		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
-	//	System.out.print("bloc d: " + blocVersDirection.getType() + " -> ");
 		blocVersDirection.setType(tb);
-		/*
-		PositionService posBlocVersDirection = blocVersDirection.getPosition().copy();
-		setBloc(tb, posBlocVersDirection.getX(),posBlocVersDirection.getY());
-		*/
-	//	System.out.println(	 blocVersDirection.getType() );
 	}
 
 
 	@Override
 	public void fairePasDeMiseAJour() {
-		if(!isDiamantsRestants()){
+		if(getBlocDepuisPosition(getPosSortie()).isSortieFermee() && !isDiamantsRestants()) {
 		//	System.out.print("plus de diamants restants\n");
 		//	PositionService posSortie = getPosSortie().copy();
 			PositionService posSortie = getPosSortie();

@@ -38,7 +38,7 @@ MoteurJeuService {
 			}
 			return false;
 		}
- 	}
+	}
 
 	@Override
 	public boolean isPartieTerminee() {
@@ -47,19 +47,25 @@ MoteurJeuService {
 
 	@Override
 	public boolean isPartieGagnee() {
+		System.out.println(getTerrain().toString());
 		return (isPartieTerminee() && terrain.isHeroVivant());
 	}
 
 	@Override
 	public void init(TerrainService t, int nbPas) {
-		assert(nbPas > 0);
+		if (!(nbPas > 0)) {
+			throw new IllegalArgumentException("Le nombre de pas doit être strictement positif");
+		}
 		terrain = t;
 		nbPasRestants = nbPas;
 	}
 
 	@Override
 	public void deplacerHero(Direction dir) {
-		assert(!isPartieTerminee() && isDeplacementHeroPossible(dir));
+		if (!(!isPartieTerminee() && isDeplacementHeroPossible(dir))) {
+			throw new RuntimeException("La partie est terminée ou le déplacement est impossible");
+		}
+		
 		BlocService blocHero = terrain.getBlocHero();
 	//	System.out.printf("pos bloc hero =>  x : %d, y: %d\n", blocHero.getPosition().getX(),blocHero.getPosition().getY());
 		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
@@ -85,13 +91,7 @@ MoteurJeuService {
 		if(isPartieGagnee())
 			return "You Win!";
 		res += Integer.toString(nbPasRestants) +" pas restants\n";
-		TerrainService t = this.getTerrain();
-		for(int y=0;y<t.getHauteur();y++){
-			for(int x=0;x<t.getLargeur();x++){
-				res += TerrainParser.charDeTypeBloc(t.getBloc(x, y).getType());
-			}
-			res +="\n";
-		}
+		res += getTerrain().toString();
 
 		return res;		
 	}
