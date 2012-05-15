@@ -388,9 +388,10 @@
 	`\o{isPartieTerminee}`(mj) `\eqmin`
 		`\o{getPasRestants}`(mj) = 0
 		`\lOR` `\lNOT\eo{Terrain::isHeroVivant}`(`\o{getTerrain}`(mj))
-		`\mbox{{\lOR} \eo{Terrain::getPosSortie}(\o{getTerrain}(mj)) = \eo{Terrain::getPosHero}(\o{getTerrain}(mj))}`
+		`\lOR` `\o{isPartieGagnee}`()
 
-	`\mbox{\o{isPartieGagnee}(mj) \eqmin{} \o{isPartieTerminee}(mj) \lAND{} \eo{Terrain::isHeroVivant}(\o{getTerrain}(mj))}`
+	`\o{isPartieGagnee}`(mj) `\eqmin`
+		`\eo{Terrain::getPosSortie}`(`\o{getTerrain}`(mj)) = `\eo{Terrain::getPosHero}`(`\o{getTerrain}`(mj))
 
 	`\lFORALL`dir `\lin` Direction, `\o{isDeplacementHeroPossible}`(mj, dir) `\eqmin`
 		let* terrain = `\o{getTerrain}`(mj)
@@ -402,7 +403,7 @@
 				`\mbox{\lAND{} \eo{Bloc::isVide}(\eo{Terrain::getBlocVersDirection}(terrain, blocDest, dir))}`
 			else
 				`\lNOT\eo{Bloc::isSolide}`(blocDest)
-`\vspace{0.5cm}`
+
 `\obsection{init}`
 	`\o{getPasRestants}`(`\c{init}`(t, nbPas)) = nbPas
 	`\o{getTerrain}`(`\c{init}`(t, nbPas)) = t
