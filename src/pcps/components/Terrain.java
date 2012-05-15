@@ -19,6 +19,7 @@ TerrainService {
 	protected int hauteur;	
 	protected BlocService[][] matriceTerrain;
 	protected PositionService posSortie = null;
+	protected PositionService posHero = null;
 
 
 	@Override
@@ -26,7 +27,7 @@ TerrainService {
 		if (!(l > 0 && h > 0)) {
 			throw new IllegalArgumentException("La largeur et la hauteur du terrain doivent être strictement positifs.");
 		}
-		
+
 		largeur = l;
 		hauteur = h;
 		matriceTerrain = new BlocService[largeur][hauteur];
@@ -40,21 +41,21 @@ TerrainService {
 			}
 		}
 	}
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (!(other instanceof TerrainService))
 			return false;
 		TerrainService otherTer = (TerrainService)other;
-		
+
 		// comparaison de la largeur et la hauteur
 		if (otherTer.getLargeur() != largeur || otherTer.getHauteur() != hauteur)
 			return false;
-		
+
 		// comparaison de la position de sortie
 		if (posSortie != otherTer.getPosSortie()) {
 			if (posSortie == null || otherTer.getPosSortie() == null
-			|| !(posSortie.equals(otherTer.getPosSortie())))
+					|| !(posSortie.equals(otherTer.getPosSortie())))
 				return false;
 		}
 
@@ -65,10 +66,10 @@ TerrainService {
 					return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer ter = new StringBuffer();
@@ -105,31 +106,21 @@ TerrainService {
 
 	@Override
 	public PositionService getPosHero() {
-		for(int x=0;x<largeur;x++){
-			for(int y=0;y<hauteur;y++){
-				if(matriceTerrain[x][y].isHero()){
-					PositionService pos = Factory.getFactory().creerPosition();
-					pos.init(this.largeur, this.hauteur, x, y);
-					return pos;
-				}
-			}
-		}
-		// si hero non trouvé
-		return null;
+		return posHero;
 	}
 
 	@Override
 	public BlocService getBlocHero() {
-		if(isHeroVivant()){
-			PositionService posHero = getPosHero();
-			return getBlocDepuisPosition(posHero);
+		if(!(isHeroVivant())){
+			throw new RuntimeException("getBlocHero ne peut être appellée si le héros n' est plus vivant");
 		}
-		return null;
+		PositionService posHero = getPosHero();
+		return getBlocDepuisPosition(posHero);
 	}
 
 	@Override
 	public BlocService getBlocDepuisPosition(PositionService pos) {
-	//	System.out.printf(" getBlocDepuisPosition  => x: %d, y : %d\n", pos.getX(),pos.getY());
+		//	System.out.printf(" getBlocDepuisPosition  => x: %d, y : %d\n", pos.getX(),pos.getY());
 		return matriceTerrain[pos.getX()][pos.getY()];
 	}
 
@@ -137,15 +128,22 @@ TerrainService {
 	public BlocService getBlocVersDirection(BlocService bloc, Direction dir) {
 		PositionService	posBloc = bloc.getPosition();
 		PositionService posBlocCurrent = posBloc.copy();
-	//	System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
+		//	System.out.printf("getBlocVersDirection\n   o => x: %d, y : %d, type :%s\n", posBlocCurrent.getX(),posBlocCurrent.getY(), bloc.getType());
 		posBlocCurrent.deplacerVersDirection(dir);
-//		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
+		//		System.out.printf("   d => x: %d, y : %d\n", posBlocCurrent.getX(),posBlocCurrent.getY());
 		return getBlocDepuisPosition(posBlocCurrent);
 	}
 
 	@Override
 	public boolean isHeroVivant() {
-		return (getPosHero() != null);
+		for(int x=0;x<largeur;x++){
+			for(int y=0;y<hauteur;y++){
+				if(matriceTerrain[x][y].isHero()){
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -173,16 +171,19 @@ TerrainService {
 		if(type == TypeBloc.SORTIE_FERMEE || type == TypeBloc.SORTIE_OUVERTE){
 			posSortie = Factory.getFactory().creerPosition();
 			posSortie.init(largeur, hauteur, x, y);
+		} else if(type == TypeBloc.HERO){
+			posHero = Factory.getFactory().creerPosition();
+			posHero.init(largeur, hauteur, x, y);
 		}
 		getBloc(x,y).setType(type);
-		
+
 		/*
 		BlocService bloc = new Bloc();
 		PositionService pos = new Position();
 		pos.init(largeur, hauteur, x, y);
 		bloc.init(type, pos);
 		matriceTerrain[x][y] = bloc;
-		*/
+		 */
 	}
 
 	@Override
@@ -190,7 +191,7 @@ TerrainService {
 		if (!isDeplacementBlocPossible(bloc, dir)) {
 			throw new RuntimeException("Le déplacement du bloc dans cette direction est impossible.");
 		}
-		
+
 		TypeBloc tb = bloc.getType();
 		bloc.setType(TypeBloc.VIDE);
 		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
@@ -201,19 +202,19 @@ TerrainService {
 	@Override
 	public void fairePasDeMiseAJour() {
 		if(getBlocDepuisPosition(getPosSortie()).isSortieFermee() && !isDiamantsRestants()) {
-		//	System.out.print("plus de diamants restants\n");
-		//	PositionService posSortie = getPosSortie().copy();
+			//	System.out.print("plus de diamants restants\n");
+			//	PositionService posSortie = getPosSortie().copy();
 			PositionService posSortie = getPosSortie();
 			/*
 			System.out.printf("posSortie : (%d,%d)\n",posSortie.getX(),posSortie.getY());
 			BlocService blocSortie = getBlocDepuisPosition(posSortie);
 			blocSortie.setType(TypeBloc.SORTIE_OUVERTE);
-			*/
+			 */
 			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
 		}
 		for(int x=0;x<largeur;x++){
 			for(int y=hauteur-1;y>0;y--){
-		//		System.out.printf("getBloc(x:%d,y:%d)\n",x,y);
+				//		System.out.printf("getBloc(x:%d,y:%d)\n",x,y);
 				BlocService bloc = getBloc(x,y);
 				if(bloc.isTombable()){
 					if(getBlocVersDirection(bloc, Direction.BAS).isVide()){
@@ -224,9 +225,9 @@ TerrainService {
 						deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
 					}
 				}
-					//if(isDeplacementBlocPossible(bloc,Direction.BAS)){
-					//	deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
-					//}
+				//if(isDeplacementBlocPossible(bloc,Direction.BAS)){
+				//	deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
+				//}
 				//}
 			}
 		}
@@ -237,7 +238,7 @@ TerrainService {
 	public BlocService getBloc(int x, int y) {
 		BlocService bloc = new Bloc();
 		bloc = matriceTerrain[x][y];
-	//	System.out.printf(" (%d,%d){%s} \n",bloc.getPosition().getX(),bloc.getPosition().getY(),bloc.getType());
+		//	System.out.printf(" (%d,%d){%s} \n",bloc.getPosition().getX(),bloc.getPosition().getY(),bloc.getType());
 		return bloc;
 	}
 
