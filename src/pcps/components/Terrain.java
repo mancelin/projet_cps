@@ -109,6 +109,7 @@ TerrainService {
 		return posHero;
 	}
 
+
 	@Override
 	public BlocService getBlocHero() {
 		if(!(isHeroVivant())){
@@ -196,6 +197,9 @@ TerrainService {
 		bloc.setType(TypeBloc.VIDE);
 		BlocService blocVersDirection = getBlocVersDirection(bloc,dir);
 		blocVersDirection.setType(tb);
+		if(tb == TypeBloc.HERO){
+			posHero = blocVersDirection.getPosition();
+		}
 	}
 
 
