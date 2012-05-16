@@ -13,6 +13,7 @@
 \usepackage[parfill]{parskip}
 \usepackage[colorlinks=true, urlcolor=black, linkcolor=black, citecolor=black]{hyperref}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{tabto}
 
 % Listings --------------------------------------------------------------------%
@@ -72,6 +73,7 @@
 \newcommand{\lNOT}{$\lnot$}
 \newcommand{\lFORALL}{$\forall$}
 \newcommand{\lEXISTS}{$\exists$}
+\newcommand{\lNEXISTS}{$\nexists{}$}
 \newcommand{\lin}{$\in$}
 
 \renewcommand{\o}[1]{\textcolor{blue}{#1}}
@@ -85,7 +87,7 @@
 	\hspace{1em}\textbf{Cas de test} \cmd{#1} :
 	\begin{list}{}{}
 }{
-	\end{list}
+	\end{list}\vspace{1em}
 }
 \newcommand{\pre}[1]{\item \textbf{Préambule :} \cmd{#1}}
 \newcommand{\npre}{\item \textbf{Préambule :} aucun}
@@ -145,9 +147,13 @@ Avec pour blocs :
 
 \section{Bloc}
 
+\subsection{Couverture des préconditions}
+
+Aucune précondition dans Bloc.
+
 \subsection{Couverture des invariants}
 
-\obj{Bloc\_invariant1} {Minimisation de isVide}
+\obj{Bloc\_invariant1} {minimisation de isVide}
 
 	\begin{cas}{Bloc\_invariant1}
 		\pre{B = init(VIDE, POS1)}
@@ -156,7 +162,7 @@ Avec pour blocs :
 	\end{cas}
 
 
-\obj{Bloc\_invariant2} {Minimisation de isSolide}
+\obj{Bloc\_invariant2} {minimisation de isSolide}
 
 	\begin{cas}{Bloc\_invariant2}
 		\pre{B = init(ROCHER, POS1)}
@@ -165,42 +171,42 @@ Avec pour blocs :
 	\end{cas}
 
 
-\obj{Bloc\_invariant3} {Minimisation de isDeplacable}
+\obj{Bloc\_invariant3} {minimisation de isDeplacable}
 	\begin{cas}{Bloc\_invariant3}
 		\pre{B = init(ROCHER, POS1)}
 		\nope{}
 		\ora{isDeplacable(B)}
 	\end{cas}
 
-\obj{Bloc\_invariant4} {Minimisation de isTombable}
+\obj{Bloc\_invariant4} {minimisation de isTombable}
 	\begin{cas}{Bloc\_invariant4}
 		\pre{B = init(ROCHER, POS1)}
 		\nope{}
 		\ora{isTombable(B)}
 	\end{cas}
 
-\obj{Bloc\_invariant5} {Minimisation de isSortie}
+\obj{Bloc\_invariant5} {minimisation de isSortie}
 	\begin{cas}{Bloc\_invariant5}
 		\pre{B = init(SORTIE\_OUVERTE, POS1)}
 		\nope{}
 		\ora{isSortie(B)}
 	\end{cas}
 
-\obj{Bloc\_invariant6} {Minimisation de isSortieFermee}
+\obj{Bloc\_invariant6} {minimisation de isSortieFermee}
 	\begin{cas}{Bloc\_invariant6}
 		\pre{B = init(SORTIE\_FERMEE, POS1)}
 		\nope{}
 		\ora{isSortieFermee(B)}
 	\end{cas}
 
-\obj{Bloc\_invariant7} {Minimisation de isHero}
+\obj{Bloc\_invariant7} {minimisation de isHero}
 	\begin{cas}{Bloc\_invariant7}
 		\pre{B = init(HERO, POS1)}
 		\nope{}
 		\ora{isHero(B)}
 	\end{cas}
 
-\obj{Bloc\_invariant8} {Minimisation de isTerre}
+\obj{Bloc\_invariant8} {minimisation de isTerre}
 	\begin{cas}{Bloc\_invariant8}
 		\pre{B = init(TERRE, POS1)}
 		\nope{}
@@ -210,21 +216,21 @@ Avec pour blocs :
 
 \subsection{Couverture des postconditions}
 
-\obj{Bloc\_init\_post1} {Postcondition de init sur getType}
+\obj{Bloc\_init\_post1} {postcondition de init sur getType}
 	\begin{cas}{Bloc\_init\_post1}
 		\pre{aucun}
 		\ope{B = init(HERO, POS1)}
 		\ora{getType(B) = HERO}
 	\end{cas}
 
-\obj{Bloc\_init\_post2} {Postcondition de init sur getPosition}
+\obj{Bloc\_init\_post2} {postcondition de init sur getPosition}
 	\begin{cas}{Bloc\_init\_post2}
 		\pre{aucun}
 		\ope{B = init(HERO, POS1)}
 		\ora{getPosition(B) = POS1}
 	\end{cas}
 
-\obj{Bloc\_setType\_post1} {Postcondition de setType sur getType}
+\obj{Bloc\_setType\_post1} {postcondition de setType sur getType}
 	\begin{cas}{Bloc\_setType\_post1}
 		\pre{B1 = init(HERO, POS1)}
 		\ope{B2 = setType(B1, ROCHER)}
@@ -232,7 +238,7 @@ Avec pour blocs :
 	\end{cas}
 
 
-\obj{Bloc\_setType\_post2} {Postcondition de setType sur getPosition}
+\obj{Bloc\_setType\_post2} {postcondition de setType sur getPosition}
 	\begin{cas}{Bloc\_setType\_post2}
 		\pre{B1 = init(HERO, POS1)}
 		\ope{B2 = setType(B1, ROCHER)}
@@ -242,12 +248,175 @@ Avec pour blocs :
 
 \subsection{Couverture des transitions}
 
-\obj{Bloc\_setType\_trans} {Transition de setType}
+\obj{Bloc\_setType\_trans} {transition de setType}
 	\begin{cas}{Bloc\_setType\_trans}
 		\pre{B1 = init(HERO, POS1)}
 		\ope{B2 = setType(B1, ROCHER)}
 		\ora{getType(B2) = ROCHER \lAND{} getPosition(B2) = POS1}
 	\end{cas}
+
+\clearpage{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Position}
+
+\subsection{Couverture des préconditions}
+
+\obj{Position\_init\_pre} {précondition de init}
+
+	\begin{cas}{Position\_init\_pre\_true}
+		\npre{}
+		\nope{}
+		\ora{\lEXISTS{} MJ, MJ = init(5, 5, 2, 3)}
+	\end{cas}
+
+	\begin{cas}{Position\_init\_pre\_false1}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} MJ, MJ = init(0, 5, 2, 3)}
+	\end{cas}
+
+	\begin{cas}{Position\_init\_pre\_false2}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} MJ, MJ = init(5, 0, 2, 3)}
+	\end{cas}
+
+	\begin{cas}{Position\_init\_pre\_false3}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} MJ, MJ = init(5, 5, -1, 3)}
+	\end{cas}
+
+	\begin{cas}{Position\_init\_pre\_false4}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} MJ, MJ = init(5, 5, 2, -1)}
+	\end{cas}
+
+
+\subsection{Couverture des invariants}
+
+Aucun invariant dans Position.
+
+\subsection{Couverture des postconditions}
+
+\obj{Position\_init\_post1} {postcondition de init sur getLargeur}
+	\begin{cas} {Position\_init\_post1}
+		\npre{}
+		\ope{P = init(5, 4, 2, 3)}
+		\ora{getLargeur(P) = 5}
+	\end{cas}
+
+\obj{Position\_init\_post2} {postcondition de init sur getHauteur}
+	\begin{cas} {Position\_init\_post2}
+		\npre{}
+		\ope{P = init(5, 4, 2, 3)}
+		\ora{getHauteur(P) = 4}
+	\end{cas}
+
+
+\obj{Position\_init\_post3} {postcondition de init sur getX}
+	\begin{cas} {Position\_init\_post3}
+		\npre{}
+		\ope{P = init(5, 4, 2, 3)}
+		\ora{getX(P) = 2 \% 5}
+	\end{cas}
+
+\obj{Position\_init\_post4} {postcondition de init sur getY}
+	\begin{cas} {Position\_init\_post4}
+		\npre{}
+		\ope{P = init(5, 4, 2, 3)}
+		\ora{getY(P) = 3 \% 4}
+	\end{cas}
+
+\obj{Position\_deplacerVersDirection\_post1} {postcondition de deplacerVersDirection sur getX}
+	\begin{cas} {Position\_deplacerVersDirection\_post1\_1}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, GAUCHE)}
+		\ora{getX(P2) = (2 - 1) \% 5}
+	\end{cas}
+
+	\begin{cas} {Position\_deplacerVersDirection\_post1\_2}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, DROITE)}
+		\ora{getX(P2) = (2 + 1) \% 5}
+	\end{cas}
+
+	\begin{cas} {Position\_deplacerVersDirection\_post1\_3}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, HAUT)}
+		\ora{getX(P2) = 2}
+	\end{cas}
+
+\obj{Position\_deplacerVersDirection\_post2} {postcondition de deplacerVersDirection sur getY}
+	\begin{cas} {Position\_deplacerVersDirection\_post2\_1}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, HAUT)}
+		\ora{getY(P2) = (3 - 1) \% 4}
+	\end{cas}
+
+	\begin{cas} {Position\_deplacerVersDirection\_post2\_2}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, BAS)}
+		\ora{getY(P2) = (3 + 1) \% 4}
+	\end{cas}
+
+	\begin{cas} {Position\_deplacerVersDirection\_post2\_3}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, GAUCHE)}
+		\ora{getY(P2) = 3}
+	\end{cas}
+
+
+\subsection{Couverture des transitions}
+
+\obj{Position\_deplacerVersDirection\_trans} {transition de deplacerVersDirection}
+	\begin{cas} {Position\_deplacerVersDirection\_trans1}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, HAUT)}
+		\ora{getY(P2) = (3 - 1) \% 4 \lAND{} getX(P2) = 2}
+	\end{cas}
+
+	\begin{cas} {Position\_deplacerVersDirection\_trans2}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, BAS)}
+		\ora{getY(P2) = (3 + 1) \% 4 \lAND{} getX(P2) = 2}
+	\end{cas}
+
+
+	\begin{cas} {Position\_deplacerVersDirection\_trans3}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, GAUCHE)}
+		\ora{getY(P2) = 3 \lAND{} getX(P2) = (2 - 1) \% 5}
+	\end{cas}
+
+
+	\begin{cas} {Position\_deplacerVersDirection\_trans4}
+		\pre{P1 = init(5, 4, 2, 3)}
+		\ope{P2 = deplacerVersDirection(P1, DROITE)}
+		\ora{getY(P2) = 3 \lAND{} getX(P2) = (2 + 1) \% 5}
+	\end{cas}
+
 
 \end{document}
 
