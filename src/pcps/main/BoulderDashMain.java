@@ -22,7 +22,9 @@ public class BoulderDashMain extends JFrame {
 		Factory factory = Factory.getFactory();
 
 		final JFileChooser fc = new JFileChooser();
-		fc.setCurrentDirectory(new File(fc.getCurrentDirectory().getAbsolutePath()+File.separator +"workspace" + File.separator +"projet_cps"));
+		String repCourant = System.getProperty("user.dir" );
+		fc.setDialogTitle("Ouvrir fichier de niveau");
+		fc.setCurrentDirectory(new File(repCourant + File.separator +"niveaux"));
 		int returnVal = fc.showOpenDialog(BoulderDashMain.this);
 		
 
