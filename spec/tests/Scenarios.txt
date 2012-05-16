@@ -27,9 +27,8 @@ Objectif Scenario2_PartiePerdue_ManqueDePas: Se déplacer jusqu'à épuiser le n
 		Oracle:
 			1) Préconditions avant MJ2
 			2) Postconditions + invariant après MJ2
-			3) Préconditions avant T2
-			4) Postconditions + invariant après T2
-			5) isPartieTerminee(MJ) ^ !isPartieGagnee(MJ)
+			3) Postconditions + invariant après T2
+			4) isPartieTerminee(MJ) ^ !isPartieGagnee(MJ)
 
 Objectif Scenario3_PartiePerdue_MortDuHero: Se déplacer sous le rocher, puis mourir
 	Cas de test Scenario3_PartiePerdue_MortDuHero:
@@ -40,26 +39,18 @@ Objectif Scenario3_PartiePerdue_MortDuHero: Se déplacer sous le rocher, puis mo
 		Oracle:
 			1) Préconditions avant MJ2
 			2) Postconditions + invariant après MJ2
-			3) Préconditions avant T2
-			4) Postconditions + invariant après T2
-			5) isPartieTerminee(MJ) ^ !isPartieGagnee(MJ)
+			3) Postconditions + invariant après T2
+			4) !isHeroVivant(T2)
 
 
-Objectif Scenario4_DeplacerUnRocher: Contourner le rocher, puis le pousser vers la droite
+Objectif Scenario4_DeplacerUnRocher: Pousser le rocher vers la gauche
 	Cas de test Scenario4_DeplacerUnRocher:
 		Préambule: MJ = init(TER1, 30), T = getTerrain(MJ)
 		Opérations:
-			MJ2 = deplacerHero(deplacerHero(deplacerHero(deplacerHero(MJ, BAS), GAUCHE), GAUCHE), HAUT)
+			MJ2 = deplacerHero(MJ, GAUCHE)
 			T2 = fairePasDeMiseAJour(T)
-			MJ3 = deplacerHero(MJ2, DROITE)
-			T3 = fairePasDeMiseAJour(T2)
 		Oracle:
 			1) Préconditions avant MJ2
 			2) Postconditions + invariant après MJ2
-			3) Préconditions avant T2
+			3) getType(getBloc(T3, 0, 1)) = ROCHER
 			4) Postconditions + invariant après T2
-			5) Préconditions avant MJ3
-			6) Postconditions + invariant après MJ3
-			7) Préconditions avant T3
-			8) Postconditions + invariant après T3
-			9) getType(getBloc(T3, 2, 1)) = ROCHER
