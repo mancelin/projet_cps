@@ -3,7 +3,6 @@ package pcps.main;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -24,26 +23,16 @@ import pcps.services.TerrainService;
 
 public class Board extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+
 	private MoteurJeuService mj;
 	private int largeur;
 	private int hauteur;
-	private int nbPas;
 	private final int TAILLE_CASE = 16;
 	private final int DELAI = 250;
 	private int largeur_fenetre;
 	private int hauteur_fenetre;
-	
 
-	// private int dots;
-	/*
-    private int apple_x;
-    private int apple_y;
-	 */
-	private boolean left = false;
-	private boolean right = true;
-	private boolean up = false;
-	private boolean down = false;
-	private boolean inGame = true;
 	private boolean newAction = true;
 
 	private Timer timer;
@@ -55,7 +44,7 @@ public class Board extends JPanel implements ActionListener {
 	private Image c_terre;
 	private Image c_sortie_ouverte;
 	private Image c_sortie_fermee;
-	
+
 	private Image game_over;
 	private Image you_win;
 
@@ -63,8 +52,7 @@ public class Board extends JPanel implements ActionListener {
 		this.mj = mj;
 		this.largeur = mj.getTerrain().getLargeur();
 		this.hauteur = mj.getTerrain().getHauteur();
-		this.nbPas = mj.getPasRestants();
-		
+
 		this.largeur_fenetre = largeur_fenetre;
 		this.hauteur_fenetre = hauteur_fenetre;
 
@@ -95,14 +83,12 @@ public class Board extends JPanel implements ActionListener {
 
 		ImageIcon iic_sf = new ImageIcon(this.getClass().getResource("c_sortie_fermee.png"));
 		c_sortie_fermee = iic_sf.getImage();
-		
+
 		ImageIcon iic_go = new ImageIcon(this.getClass().getResource("game_over.png"));
 		game_over = iic_go.getImage();
-		
+
 		ImageIcon iic_win = new ImageIcon(this.getClass().getResource("you_win.png"));
 		you_win = iic_win.getImage();
-		
-
 
 		setFocusable(true);
 		initGame();
@@ -110,20 +96,11 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void initGame() {
-		
-		//timer = new Timer(DELAI, this);
-	
 		timer = new Timer(DELAI, this);
 		timer.start();
-		
+
 	}
 
-	public void miseAJourTerrain() {
-		mj.getTerrain().fairePasDeMiseAJour();
-		repaint();
-	}
-
-	//public static Image imageDeTypeBloc(TypeBloc tb){
 	public Image imageDeTypeBloc(TypeBloc tb){
 		switch(tb){
 		case MUR : return c_mur;
@@ -141,8 +118,6 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void paint(Graphics g) {
-//		super.paint(g);
-
 		if (!mj.isPartieTerminee()) {
 			TerrainService t = mj.getTerrain();
 			for(int y=0;y<hauteur;y++){
@@ -156,7 +131,6 @@ public class Board extends JPanel implements ActionListener {
 			g.dispose();
 
 		} else {
-			System.out.println("in the else");
 			if(mj.isPartieGagnee()){
 				youWin(g);
 			} else {
@@ -169,15 +143,14 @@ public class Board extends JPanel implements ActionListener {
 	public void gameOver(Graphics g) {
 		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
 		g.drawImage(game_over, 0, 0,this);
-
 	}
-	
+
 	public void youWin(Graphics g) {
 		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
 		g.drawImage(you_win, 0, 0,this);
 	}
-	
-	
+
+
 
 	public void printNbPasRestants(Graphics g) {
 		g.clearRect(0, hauteur*TAILLE_CASE, largeur*TAILLE_CASE, (hauteur+ 1)*TAILLE_CASE);
@@ -188,58 +161,8 @@ public class Board extends JPanel implements ActionListener {
 		g.setFont(small);
 		g.drawString(msg, (TAILLE_CASE*largeur) - 30,(hauteur+ 1)*TAILLE_CASE+5);
 	}
-
-
-
-	/*
-
-    public void checkCollision() {
-
-          for (int z = dots; z > 0; z--) {
-
-              if ((z > 4) && (x[0] == x[z]) && (y[0] == y[z])) {
-                  inGame = false;
-              }
-          }
-
-        if (y[0] > HEIGHT) {
-            inGame = false;
-        }
-
-        if (y[0] < 0) {
-            inGame = false;
-        }
-
-        if (x[0] > WIDTH) {
-            inGame = false;
-        }
-
-        if (x[0] < 0) {
-            inGame = false;
-        }
-    }
-
-    public void locateApple() {
-        int r = (int) (Math.random() * RAND_POS);
-        apple_x = ((r * DOT_SIZE));
-        r = (int) (Math.random() * RAND_POS);
-        apple_y = ((r * DOT_SIZE));
-    }
-	 */
 	public void actionPerformed(ActionEvent e) {
-		
-		/*
-		if (inGame) {
-			//System.out.println("game over : false");
-			//       
-			//          checkCollision();
-		}
-		*/
-
 		if(newAction){
-		//	mj.getTerrain().fairePasDeMiseAJour();
-			repaint();
-	//		System.out.print(mj.toString());
 			newAction = false;
 		} else {
 			timer.restart();
@@ -253,50 +176,25 @@ public class Board extends JPanel implements ActionListener {
 	private class TAdapter extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
-			
-		//	if(!mj.isPartieTerminee()){
-	
-				int key = e.getKeyCode();
-				
-				if ((key == KeyEvent.VK_LEFT)) {
-					//System.out.println("Gauche");
-					mj.deplacerHero(Direction.GAUCHE);
-					
-					newAction = true;
-				}
-	
-				if ((key == KeyEvent.VK_RIGHT)) {
-//					System.out.println("Droite");
-					mj.deplacerHero(Direction.DROITE);
-					
-					newAction = true;
-				}
-	
-				if ((key == KeyEvent.VK_UP) ) {
-					mj.deplacerHero(Direction.HAUT);
-			//		System.out.println("Haut");
-					newAction = true;
-				}
-	
-				if (key == KeyEvent.VK_DOWN) {
-		//			System.out.println("Bas");
-					mj.deplacerHero(Direction.BAS);
-					newAction = true;
+			int key = e.getKeyCode();				
 
-//					repaint();
-				}
-			//	System.out.printf("nbPas : %d \n", mj.getPasRestants());
-				System.out.println("--------------");
-		//		repaint();
-				/*
-				System.out.printf("pos hero : (%d,%d) 		", mj.getTerrain().getPosHero().getX(),mj.getTerrain().getPosHero().getY());
-				System.out.printf("nbPas : %d \n", mj.getPasRestants());
-				
-				System.out.println("--------------");
-				System.out.print(mj.toString());
-				*/
-	//		}
+			if ((key == KeyEvent.VK_LEFT)) {
+				mj.deplacerHero(Direction.GAUCHE);
+				newAction = true;
+			}
+			if ((key == KeyEvent.VK_RIGHT)) {
+				mj.deplacerHero(Direction.DROITE);					
+				newAction = true;
+			}
+			if ((key == KeyEvent.VK_UP) ) {
+				mj.deplacerHero(Direction.HAUT);
+				newAction = true;
+			}
+			if (key == KeyEvent.VK_DOWN) {
+				mj.deplacerHero(Direction.BAS);
+				newAction = true;
+
+			}
 		}
 	}
-
 }

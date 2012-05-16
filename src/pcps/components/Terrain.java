@@ -195,7 +195,6 @@ TerrainService {
 
 	@Override
 	public void fairePasDeMiseAJour() {
-		System.out.println(toString());
 		if(getBlocDepuisPosition(getPosSortie()).isSortieFermee() && !isDiamantsRestants()) {
 			PositionService posSortie = getPosSortie();
 			setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
@@ -203,33 +202,18 @@ TerrainService {
 		boolean listIgnoreUpX[] = new boolean[largeur];
 		for(int x=0;x<largeur;x++){
 			for(int y=hauteur-1;y>=0;y--){
-			
-			// pour ne pas redeplacer bloc qui viennet de tomber de la derniére ligen du bas,
-			// on mémorise la position x de ces blocs dans une liste
-			
-			for(int i=0;i<largeur;i++){
-				System.out.println(listIgnoreUpX[i]);
-			}
-			System.out.printf("(%d,%d) - ", x,y);
+
+				// pour ne pas redeplacer bloc qui viennet de tomber de la derniére ligen du bas,
+				// on mémorise la position x de ces blocs dans une liste
 				BlocService bloc = getBloc(x,y);
 				if(bloc.isTombable()){
-					System.out.printf("y:%d, hauteur-1 :%d\n", y, hauteur-1);
 					if(y == hauteur-1){
-						System.out.println("add to list");
 						listIgnoreUpX[x]= true;
 					}
-					System.out.printf("(%d,%d) - ", x,y);
-					System.out.println("bloc is tombable");
-					if(y==0 && listIgnoreUpX[x]){
-						System.out.println("Ce bloc a déja bougé");
-					} else {
-						if(getBlocVersDirection(bloc, Direction.BAS).isVide()){
-							System.out.println("bloc vers bas is vide");
+					if(!(y==0 && listIgnoreUpX[x])){
+						if(getBlocVersDirection(bloc, Direction.BAS).isVide() ||	 // diamants et rochers tombent tous d' un cran	
+								getBlocVersDirection(bloc, Direction.BAS).isHero()){ // Hero peut être écrasé
 							deplacerBlocVersDirection(bloc,Direction.BAS);
-						}
-						else if(getBlocVersDirection(bloc, Direction.BAS).isHero()){
-							System.out.println("écrasage du héros");	////
-							deplacerBlocVersDirection(bloc,Direction.BAS);  // Hero peut être écrasé, diamants et rochers tombent tous d' un cran
 						}
 					}
 				}
@@ -242,7 +226,6 @@ TerrainService {
 	public BlocService getBloc(int x, int y) {
 		BlocService bloc = new Bloc();
 		bloc = matriceTerrain[x][y];
-	//	System.out.printf(" (%d,%d){%s} \n",bloc.getPosition().getX(),bloc.getPosition().getY(),bloc.getType());
 		return bloc;
 	}
 
