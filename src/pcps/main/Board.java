@@ -29,9 +29,10 @@ public class Board extends JPanel implements ActionListener {
 	private int hauteur;
 	private int nbPas;
 	private final int TAILLE_CASE = 16;
-	private final int DELAI = 140;
+	private final int DELAI = 250;
 	private int largeur_fenetre;
 	private int hauteur_fenetre;
+	
 
 	// private int dots;
 	/*
@@ -109,11 +110,18 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void initGame() {
-
+		
+		//timer = new Timer(DELAI, this);
+	
 		timer = new Timer(DELAI, this);
 		timer.start();
+		
 	}
 
+	public void miseAJourTerrain() {
+		mj.getTerrain().fairePasDeMiseAJour();
+		repaint();
+	}
 
 	//public static Image imageDeTypeBloc(TypeBloc tb){
 	public Image imageDeTypeBloc(TypeBloc tb){
@@ -229,10 +237,14 @@ public class Board extends JPanel implements ActionListener {
 		*/
 
 		if(newAction){
-			mj.getTerrain().fairePasDeMiseAJour();
+		//	mj.getTerrain().fairePasDeMiseAJour();
 			repaint();
 	//		System.out.print(mj.toString());
 			newAction = false;
+		} else {
+			timer.restart();
+			mj.getTerrain().fairePasDeMiseAJour();
+			repaint();
 		}
 
 	}
