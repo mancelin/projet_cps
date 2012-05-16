@@ -24,7 +24,7 @@ public class BoulderDashMain extends JFrame {
 		final JFileChooser fc = new JFileChooser();
 		String repCourant = System.getProperty("user.dir" );
 		fc.setDialogTitle("Ouvrir fichier de niveau");
-		fc.setCurrentDirectory(new File(repCourant));
+		fc.setCurrentDirectory(new File(repCourant + File.separator +"niveaux"));
 		int returnVal = fc.showOpenDialog(BoulderDashMain.this);
 		
 
