@@ -29,8 +29,8 @@
 \lstset{
 	breaklines=true,
 	tabsize=4,
-	% basicstyle=\normalsize\ttfamily,
-	basicstyle=\large\ttfamily,
+	basicstyle=\normalsize\ttfamily,
+	% basicstyle=\large\ttfamily,
 	columns=fullflexible,
 	showstringspaces=false,
 	numberstyle=\tiny,
@@ -46,7 +46,7 @@
 }
 
 % use latex commands inside ` ... `
-\lstset{escapeinside={\`\`}}
+\lstset{escapeinside={\`\'}}
 %------------------------------------------------------------------------------%
 
 % Todos -----------------------------------------------------------------------%
@@ -65,6 +65,7 @@
 \newcommand{\eqdef}{$\overset{def}{=}$}
 \newcommand{\supeq}{$\geq$~}
 \newcommand{\infeq}{$\leq$~}
+\newcommand{\noteq}{$\neq$~}
 
 
 \newcommand{\lIN}[1]{{\tb}in \{~#1~\}}
@@ -90,16 +91,13 @@
 	\end{list}\vspace{1em}
 }
 \newcommand{\pre}[1]{\item \textbf{Préambule :} \cmd{#1}}
-\newcommand{\npre}{\item \textbf{Préambule :} aucun}
+\newcommand{\npre}{\item \textbf{Préambule :} $\emptyset$}
 \newcommand{\ope}[1]{\item \textbf{Contenu :} \cmd{#1}}
-\newcommand{\nope}{\item \textbf{Contenu :} aucun}
+\newcommand{\nope}{\item \textbf{Contenu :} $\emptyset$}
 \newcommand{\ora}[1]{\item \textbf{Oracle :} \cmd{#1}}
-\newcommand{\nora}{\item \textbf{Oracle} : aucun}
-\newcommand{\oram}[1]{\item \textbf{Oracle :}\\
-\begin{lstlisting}
-#1
-\end{lstlisting}
-}
+\newcommand{\oram}{\item \textbf{Oracle :}}
+\newcommand{\opem}{\item \textbf{Contenu :}}
+
 
 \title{Objectifs de Tests}
 
@@ -415,6 +413,577 @@ Aucun invariant dans Position.
 		\pre{P1 = init(5, 4, 2, 3)}
 		\ope{P2 = deplacerVersDirection(P1, DROITE)}
 		\ora{getY(P2) = 3 \lAND{} getX(P2) = (2 + 1) \% 5}
+	\end{cas}
+
+\clearpage{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Terrain}
+
+\subsection{Couverture des préconditions}
+
+\obj{Terrain\_getBlocHero\_pre} {précondition de getBlocHero}
+	\begin{cas} {Terrain\_getBlocHero\_pre\_true}
+		\pre{TER1}
+		\nope{}
+		\ora{isHeroVivant(TER1) \lAND{} \lEXISTS{} B, B = getBlocHero(TER1)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_getBlocHero\_pre\_false}
+		\pre{T = init(5, 5)}
+		\nope{}
+		\ora{\lNOT{}isHeroVivant(TER1) \lAND{} \lNEXISTS{} B, B = getBlocHero(T)}
+	\end{cas}
+
+\obj{Terrain\_init\_pre} {précondition de init}
+	\begin{cas} {Terrain\_init\_pre\_true}
+		\npre{}
+		\nope{}
+		\ora{\lEXISTS{} T, T = init(5, 5)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_init\_pre\_false1}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} T, T = init(0, 5)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_init\_pre\_false2}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} T, T = init(5, 0)}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_pre} {précondition de deplacerBlocVersDirection}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_pre\_true}
+		\pre{TER1}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+isDeplacementBlocPossible(TER1, getBlocHero(TER1), DROITE)
+`\lAND' `\lEXISTS' T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_pre\_false}
+		\pre{TER1}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+`\lNOT'isDeplacementBlocPossible(TER1, getBlocHero(TER1), HAUT)
+`\lAND' `\lNEXISTS' T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), HAUT)
+		\end{lstlisting}
+	\end{cas}
+
+\subsection{Couverture des invariants}
+
+\obj{Terrain\_invariant1} {minimisation de getBlocHero}
+	\begin{cas} {Terrain\_invariant1}
+		\pre{TER1}
+		\nope{}
+		\ora{getBlocHero(TER1) = getBloc(2, 1)}
+	\end{cas}
+
+\obj{Terrain\_invariant2} {minimisation de getBlocVersDirection}
+	\begin{cas} {Terrain\_invariant2}
+		\pre{TER1}
+		\nope{}
+		\ora{getBlocVersDirection(getBlocHero(TER1), DROITE) = getBloc(3, 1)}
+	\end{cas}
+
+\obj{Terrain\_invariant3} {minimisation de isHeroVivant}
+	\begin{cas} {Terrain\_invariant3\_true}
+		\pre{TER1}
+		\nope{}
+		\ora{isHeroVivant(TER1)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_invariant3\_false}
+		\pre{T = init(5, 5)}
+		\nope{}
+		\ora{\lNOT{}isHeroVivant(T)}
+	\end{cas}
+
+
+\obj{Terrain\_invariant4} {minimisation de isDiamantsRestants}
+	\begin{cas} {Terrain\_invariant4\_true}
+		\pre{TER1}
+		\nope{}
+		\ora{isDiamantsRestants(TER1)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_invariant4\_false}
+		\pre{T = init(5, 5)}
+		\nope{}
+		\ora{\lNOT{}isDiamantsRestants(T)}
+	\end{cas}
+
+\obj{Terrain\_invariant5} {minimisation de isDeplacementBlocPossible}
+	\begin{cas} {Terrain\_invariant5\_true}
+		\pre{TER1}
+		\nope{}
+		\ora{isDeplacementBlocPossible(TER1, Terrain::getBlocHero(TER1), DROITE)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_invariant5\_false}
+		\pre{TER1}
+		\nope{}
+		\ora{\lNOT{}isDeplacementBlocPossible(TER1, Terrain::getBlocHero(TER1), HAUT)}
+	\end{cas}
+
+\obj{Terrain\_invariant6} {minimisation de getBlocDepuisPosition}
+	\begin{cas} {Terrain\_invariant6}
+		\pre{TER1, POS1}
+		\nope{}
+		\ora{getBlocDepuisPosition(TER1, POS1) = getBloc(1, 1)}
+	\end{cas}
+
+\obj{Terrain\_invariant7} {minimisation de getBlocs}
+	\begin{cas} {Terrain\_invariant7}
+		\pre{TER1}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+getBlocs(TER1) = {
+	Bloc::init(VIDE, Position::init(0, 0))
+	Bloc::init(MUR, Position::init(1, 0))
+	Bloc::init(MUR, Position::init(2, 0))
+	Bloc::init(MUR, Position::init(3, 0))
+	Bloc::init(MUR, Position::init(4, 0))
+	Bloc::init(VIDE, Position::init(0, 1))
+	Bloc::init(ROCHER, Position::init(1, 1))
+	Bloc::init(HERO, Position::init(2, 1))
+	Bloc::init(VIDE, Position::init(3, 1))
+	Bloc::init(DIAMANT, Position::init(4, 1))
+	Bloc::init(VIDE, Position::init(0, 2))
+	Bloc::init(VIDE, Position::init(1, 2))
+	Bloc::init(VIDE, Position::init(2, 2))
+	Bloc::init(VIDE, Position::init(3, 2))
+	Bloc::init(SORTIE_FERMEE, Position::init(4, 2))
+}
+		\end{lstlisting}
+	\end{cas}
+
+
+\subsection{Couverture des postconditions}
+
+\obj{Terrain\_init\_post1} {postcondition de init sur getLargeur}
+	\begin{cas} {Terrain\_init\_post1}
+		\npre{}
+		\ope{T = init(10, 15)}
+		\ora{getLargeur(T) = 10}
+	\end{cas}
+
+
+\obj{Terrain\_init\_post2} {postcondition de init sur getHauteur}
+	\begin{cas} {Terrain\_init\_post2}
+		\npre{}
+		\ope{T = init(10, 15)}
+		\ora{getHauteur(T) = 15}
+	\end{cas}
+
+\obj{Terrain\_init\_post3} {postcondition de init sur getPosSortie}
+	\begin{cas} {Terrain\_init\_post3}
+		\npre{}
+		\ope{T = init(10, 15)}
+		\ora{getPosSortie(T) = $\emptyset{}$}
+	\end{cas}
+
+\obj{Terrain\_init\_post4} {postcondition de init sur getPosHero}
+	\begin{cas} {Terrain\_init\_post4}
+		\npre{}
+		\ope{T = init(10, 15)}
+		\ora{getPosHero(T) = $\emptyset{}$}
+	\end{cas}
+
+\obj{Terrain\_init\_post5} {postcondition de init sur getBloc}
+	\begin{cas} {Terrain\_init\_post5}
+		\npre{}
+		\ope{T = init(10, 15)}
+		\ora{\lFORALL x $\in$ [0..9], \lFORALL y $\in$ [0..14], getBloc(T, x, y) = $\emptyset{}$}
+	\end{cas}
+
+\obj{Terrain\_setBloc\_post1} {postcondition de setBloc sur getPosSortie}
+	\begin{cas} {Terrain\_setBloc\_post1\_conseq}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, SORTIE\_FERMEE, 1, 2)}
+		\ora{getPosSortie(T2) = Position::init(5, 3, 1, 2)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_setBloc\_post1\_alt}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, ROCHER, 1, 2)}
+		\ora{getPosSortie(T2) = Position::init(5, 3, 4, 2)}
+	\end{cas}
+
+\obj{Terrain\_setBloc\_post2} {postcondition de setBloc sur getPosHero}
+	\begin{cas} {Terrain\_setBloc\_post2\_conseq}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, HERO, 1, 2)}
+		\ora{getPosHero(T2) = Position::init(5, 3, 1, 2)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_setBloc\_post2\_alt}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, VIDE, 1, 2)}
+		\ora{getPosHero(T2) = Position::init(5, 3, 2, 1)}
+	\end{cas}
+
+\obj{Terrain\_setBloc\_post3} {postcondition de setBloc sur getBloc}
+	\begin{cas} {Terrain\_setBloc\_post3}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, ROCHER, 3, 1)}
+		\oram{}
+		\begin{lstlisting}
+`\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+let bloc = getBloc(T2, x, y)
+in
+	if x = 3 `\lAND' y = 1 then
+		Bloc::getType(bloc) = ROCHER
+	else
+		bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_post1} {postcondition de deplacerBlocVersDirection sur getPosSortie}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_post1}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)}
+		\ora{getPosSortie(T2) = Position::init(5, 3, 4, 2)}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_post2} {postcondition de deplacerBlocVersDirection sur getPosHero}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_post2\_conseq}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)}
+		\ora{getPosHero(T2) = Position::init(5, 3, 3, 1)}
+	\end{cas}
+
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_post2\_alt}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBloc(1, 1), BAS)}
+		\ora{getPosHero(T2) = Position::init(5, 3, 2, 1)}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_post3} {postcondition de deplacerBlocVersDirection sur getBloc}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_post3}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)}
+		\oram{}
+		\begin{lstlisting}
+`\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+let bloc = getBloc(T2, x, y)
+in
+	if x = 2 `\lAND' y = 1 then
+		Bloc::isVide(bloc)
+	else if x = 3 `\lAND' y = 1 then
+		Bloc::isHero(bloc)
+	else
+		bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_post1} {postcondition de fairePasDeMiseAJour sur getPosSortie}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_post1}
+		\pre{TER1}
+		\ope{T2 = fairePasDeMiseAJour(TER1)}
+		\ora{getPosSortie(T2) = Position::init(5, 3, 4, 2)}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_post2} {postcondition de fairePasDeMiseAJour sur getPosHero}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_post2}
+		\pre{TER1}
+		\ope{T2 = fairePasDeMiseAJour(TER1)}
+		\ora{getPosHero(T2) = Position::init(5, 3, 2, 1)}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_post3} {postcondition de fairePasDeMiseAJour sur getBloc}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_post3}
+		\pre{TER1}
+		\ope{T2 = fairePasDeMiseAJour(TER1)}
+		\oram{}
+		\begin{lstlisting}
+`\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+let bloc = getBloc(T2, x, y)
+in
+	if x = 1 `\lAND' y = 1 then
+		Bloc::isVide(bloc)
+	else if x = 1 `\lAND' y = 2 then
+		Bloc::getType(bloc) = ROCHER
+	else
+		bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+
+\subsection{Couverture des transitions}
+
+\obj{Terrain\_setBloc\_trans} {transition de setBloc}
+	\begin{cas} {Terrain\_setBloc\_trans1}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, SORTIE\_FERMEE, 1, 2)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 1, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 2, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 1 `\lAND' y = 2 then
+			Bloc::isSortieFermee(bloc)
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {Terrain\_setBloc\_trans2}
+		\pre{TER1}
+		\ope{T2 = setBloc(TER1, HERO, 1, 2)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 1, 2)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 1 `\lAND' y = 2 then
+			Bloc::isHero(bloc)
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_trans} {transition de deplacerBlocVersDirection}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_trans1}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 3, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 2 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 3 `\lAND' y = 1 then
+			Bloc::isHero(bloc)
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_trans2}
+		\pre{TER1}
+		\ope{T2 = deplacerBlocVersDirection(TER1, getBloc(1, 1), BAS)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 2, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_trans} {transition de fairePasDeMiseAJour}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_trans}
+		\pre{TER1}
+		\ope{T2 = fairePasDeMiseAJour(TER1)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 2, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+
+\subsection{Couverture des paires de transitions}
+
+\obj{Terrain\_setBloc\_deplacerBlocVersDirection\_trans} {transitions de setBloc puis deplacerBlocVersDirection}
+	\begin{cas} {Terrain\_setBloc\_deplacerBlocVersDirection\_trans}
+		\pre{TER1}
+		\opem{}
+		\begin{lstlisting}
+T2 = deplacerBlocVersDirection(setBloc(TER1, TERRE, 0, 0),
+		getBlocHero(TER1), DROITE)
+		\end{lstlisting}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 3, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 0 `\lAND' y = 0 then
+			Bloc::isTerre(bloc)
+		else if x = 2 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 3 `\lAND' y = 1 then
+			Bloc::isHero(bloc)
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_setBloc\_fairePasDeMiseAJour\_trans} {transitions de setBloc puis fairePasDeMiseAJour}
+	\begin{cas} {Terrain\_setBloc\_fairePasDeMiseAJour\_trans}
+		\pre{TER1}
+		\ope{T2 = fairePasDeMiseAJour(setBloc(TER1, TERRE, 0, 0))}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 2, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 0 `\lAND' y = 0 then
+			Bloc::isTerre(bloc)
+		else if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_setBloc\_trans} {transitions de deplacerBlocVersDirection puis setBloc}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_setBloc\_trans}
+		\pre{TER1}
+		\opem{}
+		\begin{lstlisting}
+T2 = setBloc(deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE),
+		TERRE, 0, 0)
+		\end{lstlisting}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 3, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 0 `\lAND' y = 0 then
+			Bloc::isTerre(bloc)
+		else if x = 2 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 3 `\lAND' y = 1 then
+			Bloc::isHero(bloc)
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_deplacerBlocVersDirection\_fairePasDeMiseAJour\_trans\\} {transitions de deplacerBlocVersDirection puis fairePasDeMiseAJour}
+	\begin{cas} {Terrain\_deplacerBlocVersDirection\_fairePasDeMiseAJour\_trans}
+		\pre{TER1}
+		\opem{}
+		\begin{lstlisting}
+T2 = fairePasDeMiseAJour(
+		deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE))
+		\end{lstlisting}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 3, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 2 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 3 `\lAND' y = 1 then
+			Bloc::isHero(bloc)
+		else if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_deplacerBlocVersDirection\_trans\\} {transitions de fairePasDeMiseAJour puis deplacerBlocVersDirection}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_deplacerBlocVersDirection\_trans}
+		\pre{TER1}
+		\opem{}
+		\begin{lstlisting}
+T2 = deplacerBlocVersDirection(fairePasDeMiseAJour(TER1),
+		getBlocHero(TER1), DROITE)
+		\end{lstlisting}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 3, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 2 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 3 `\lAND' y = 1 then
+			Bloc::isHero(bloc)
+		else if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
+	\end{cas}
+
+\obj{Terrain\_fairePasDeMiseAJour\_setBloc\_trans} {transitions de fairePasDeMiseAJour puis setBloc}
+	\begin{cas} {Terrain\_fairePasDeMiseAJour\_setBloc\_trans}
+		\pre{TER1}
+		\ope{T2 = setBloc(fairePasDeMiseAJour(TER1), TERRE, 0, 0)}
+		\oram{}
+		\begin{lstlisting}
+getPosSortie(T2) = Position::init(5, 3, 4, 2)
+`\lAND' getPosHero(T2) = Position::init(5, 3, 2, 1)
+`\lAND' `\lFORALL'x `$\in$' [0..4], `\lFORALL'y `$\in$' [0..2],
+	let bloc = getBloc(T2, x, y)
+	in
+		if x = 0 `\lAND' y = 0 then
+			Bloc::isTerre(bloc)
+		else if x = 1 `\lAND' y = 1 then
+			Bloc::isVide(bloc)
+		else if x = 1 `\lAND' y = 2 then
+			Bloc::getType(bloc) = ROCHER
+		else
+			bloc = getBloc(TER1, x, y)
+		\end{lstlisting}
 	\end{cas}
 
 
