@@ -1,0 +1,253 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{lmodern}
+\usepackage{fullpage}
+
+\usepackage{pbox}
+\usepackage{titlesec}
+% \titlespacing*{\chapter}{0pt}{0pt}{0pt}
+\usepackage{graphicx}
+\usepackage[parfill]{parskip}
+\usepackage[colorlinks=true, urlcolor=black, linkcolor=black, citecolor=black]{hyperref}
+\usepackage{amsmath}
+\usepackage{tabto}
+
+% Listings --------------------------------------------------------------------%
+\usepackage{color}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{wrapfig}
+
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0, 0, 0, 1}{\parbox{\textwidth}{\center{#3}}}\vspace{5pt}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf, Large}}
+\lstset{
+	breaklines=true,
+	tabsize=4,
+	% basicstyle=\normalsize\ttfamily,
+	basicstyle=\large\ttfamily,
+	columns=fullflexible,
+	showstringspaces=false,
+	numberstyle=\tiny,
+	numbersep=5pt,
+	extendedchars=true,
+	showspaces=false,
+	xleftmargin=8pt,
+	xrightmargin=8pt,
+	framexleftmargin=17pt,
+	framexrightmargin=5pt,
+	framexbottommargin=4pt,
+	morekeywords={const, if, then, else, pre, require, const, Set, enum, let, and, in}
+}
+
+% use latex commands inside ` ... `
+\lstset{escapeinside={\`\`}}
+%------------------------------------------------------------------------------%
+
+% Todos -----------------------------------------------------------------------%
+\setlength{\marginparwidth}{1.2in}
+\let\oldmarginpar\marginpar
+\renewcommand\marginpar[1]{\-\oldmarginpar[\raggedleft\footnotesize #1]%
+{\raggedright\footnotesize #1}}
+\newcommand{\note}[1]{\marginpar{\colorbox{yellow}{\begin{minipage}{\linewidth}\textcolor{black}{#1}\end{minipage}}}}
+%------------------------------------------------------------------------------%
+
+\newcommand{\tb}{\textbackslash{}}
+\newcommand{\cmd}[1]{\texttt{#1}}
+\newcommand{\fleche}{$\rightarrow{}$}
+\newcommand{\X}{$\times{}$}
+\newcommand{\eqmin}{$\overset{min}{=}$}
+\newcommand{\eqdef}{$\overset{def}{=}$}
+\newcommand{\supeq}{$\geq$~}
+\newcommand{\infeq}{$\leq$~}
+
+
+\newcommand{\lIN}[1]{{\tb}in \{~#1~\}}
+\newcommand{\lAND}{$\land$}
+\newcommand{\lOR}{$\lor$}
+\newcommand{\lNOT}{$\lnot$}
+\newcommand{\lFORALL}{$\forall$}
+\newcommand{\lEXISTS}{$\exists$}
+\newcommand{\lin}{$\in$}
+
+\renewcommand{\o}[1]{\textcolor{blue}{#1}}
+\renewcommand{\c}[1]{\textcolor{red}{#1}}
+\newcommand{\eo}[1]{\textcolor{RoyalPurple}{#1}}
+\newcommand{\ec}[1]{\textcolor{BrickRed}{#1}}
+
+\newcommand{\obj}[2]{\subsubsection*{\large{\textbf{Objectif {\cmd{#1} (#2)}}}}}
+\newenvironment{cas}[1]
+{
+	\hspace{1em}\textbf{Cas de test} \cmd{#1} :
+	\begin{list}{}{}
+}{
+	\end{list}
+}
+\newcommand{\pre}[1]{\item \textbf{Préambule :} \cmd{#1}}
+\newcommand{\npre}{\item \textbf{Préambule :} aucun}
+\newcommand{\ope}[1]{\item \textbf{Contenu :} \cmd{#1}}
+\newcommand{\nope}{\item \textbf{Contenu :} aucun}
+\newcommand{\ora}[1]{\item \textbf{Oracle :} \cmd{#1}}
+\newcommand{\nora}{\item \textbf{Oracle} : aucun}
+\newcommand{\oram}[1]{\item \textbf{Oracle :}\\
+\begin{lstlisting}
+#1
+\end{lstlisting}
+}
+
+\title{Objectifs de Tests}
+
+\author{}
+
+\date{}
+
+\begin{document}
+
+\maketitle{}
+
+\section{\emph{Stubs} utilisés}
+
+Les objets de test suivant peuvent-être référencés dans les cas de test :
+
+\subsection{Le terrain TER1}
+
+\cmd{TER1 \eqdef{} Terrain::init(5, 3)}
+
+Avec pour blocs :
+
+\begin{verbatim}
+.####
+.OX.Y
+....?
+\end{verbatim}
+
+\begin{itemize}
+	\item \cmd{X} héro
+	\item \cmd{\#} mur
+	\item \cmd{.} vide
+	\item \cmd{O} rocher
+	\item \cmd{Y} diamant
+	\item \cmd{?} sortie fermée
+\end{itemize}
+
+\subsection{La position POS1}
+
+\cmd{POS1 \eqdef{} Position::init(5, 3, 1, 1)}
+
+\clearpage{}
+
+
+
+
+\section{Bloc}
+
+\subsection{Couverture des invariants}
+
+\obj{Bloc\_invariant1} {Minimisation de isVide}
+
+	\begin{cas}{Bloc\_invariant1}
+		\pre{B = init(VIDE, POS1)}
+		\nope{}
+		\ora{isVide(B)}
+	\end{cas}
+
+
+\obj{Bloc\_invariant2} {Minimisation de isSolide}
+
+	\begin{cas}{Bloc\_invariant2}
+		\pre{B = init(ROCHER, POS1)}
+		\nope{}
+		\ora{isSolide(B)}
+	\end{cas}
+
+
+\obj{Bloc\_invariant3} {Minimisation de isDeplacable}
+	\begin{cas}{Bloc\_invariant3}
+		\pre{B = init(ROCHER, POS1)}
+		\nope{}
+		\ora{isDeplacable(B)}
+	\end{cas}
+
+\obj{Bloc\_invariant4} {Minimisation de isTombable}
+	\begin{cas}{Bloc\_invariant4}
+		\pre{B = init(ROCHER, POS1)}
+		\nope{}
+		\ora{isTombable(B)}
+	\end{cas}
+
+\obj{Bloc\_invariant5} {Minimisation de isSortie}
+	\begin{cas}{Bloc\_invariant5}
+		\pre{B = init(SORTIE\_OUVERTE, POS1)}
+		\nope{}
+		\ora{isSortie(B)}
+	\end{cas}
+
+\obj{Bloc\_invariant6} {Minimisation de isSortieFermee}
+	\begin{cas}{Bloc\_invariant6}
+		\pre{B = init(SORTIE\_FERMEE, POS1)}
+		\nope{}
+		\ora{isSortieFermee(B)}
+	\end{cas}
+
+\obj{Bloc\_invariant7} {Minimisation de isHero}
+	\begin{cas}{Bloc\_invariant7}
+		\pre{B = init(HERO, POS1)}
+		\nope{}
+		\ora{isHero(B)}
+	\end{cas}
+
+\obj{Bloc\_invariant8} {Minimisation de isTerre}
+	\begin{cas}{Bloc\_invariant8}
+		\pre{B = init(TERRE, POS1)}
+		\nope{}
+		\ora{isTerre(B)}
+	\end{cas}
+
+
+\subsection{Couverture des postconditions}
+
+\obj{Bloc\_init\_post1} {Postcondition de init sur getType}
+	\begin{cas}{Bloc\_init\_post1}
+		\pre{aucun}
+		\ope{B = init(HERO, POS1)}
+		\ora{getType(B) = HERO}
+	\end{cas}
+
+\obj{Bloc\_init\_post2} {Postcondition de init sur getPosition}
+	\begin{cas}{Bloc\_init\_post2}
+		\pre{aucun}
+		\ope{B = init(HERO, POS1)}
+		\ora{getPosition(B) = POS1}
+	\end{cas}
+
+\obj{Bloc\_setType\_post1} {Postcondition de setType sur getType}
+	\begin{cas}{Bloc\_setType\_post1}
+		\pre{B1 = init(HERO, POS1)}
+		\ope{B2 = setType(B1, ROCHER)}
+		\ora{getType(B2) = ROCHER}
+	\end{cas}
+
+
+\obj{Bloc\_setType\_post2} {Postcondition de setType sur getPosition}
+	\begin{cas}{Bloc\_setType\_post2}
+		\pre{B1 = init(HERO, POS1)}
+		\ope{B2 = setType(B1, ROCHER)}
+		\ora{getPosition(B2) = POS1}
+	\end{cas}
+
+
+\subsection{Couverture des transitions}
+
+\obj{Bloc\_setType\_trans} {Transition de setType}
+	\begin{cas}{Bloc\_setType\_trans}
+		\pre{B1 = init(HERO, POS1)}
+		\ope{B2 = setType(B1, ROCHER)}
+		\ora{getType(B2) = ROCHER \lAND{} getPosition(B2) = POS1}
+	\end{cas}
+
+\end{document}
+
