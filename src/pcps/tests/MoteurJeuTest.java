@@ -9,34 +9,34 @@ import pcps.factories.Factory;
 
 public class MoteurJeuTest {
 	private MoteurJeuService mj;
-	
+
 	public MoteurJeuTest() {
 		Factory.createFactory();
 		mj = null;
 	}
-	
+
 	@Before
 	public void beforeTests() {
 		mj = Factory.getFactory().creerMoteurJeu();
 	}
-	
+
 	@After
 	public void afterTests() {
 		mj = null;
 	}
-	
+
 	public void checkInvariant() {
 		TerrainService terrain = mj.getTerrain();
 		BlocService blocHero = terrain.getBlocHero();
 		BlocService blocDest;
 		Direction dir;
-		
+
 		// inv: isPartieTerminee() == (getPasRestants() == 0 || !getTerrain().isHeroVivant() || isPartieGagnee)
 		assertTrue(mj.isPartieTerminee() == (mj.getPasRestants() == 0 || !mj.getTerrain().isHeroVivant() || mj.isPartieGagnee()));
-				
+
 		// inv: isPartieGagnee() == (getTerrain().getPosSortie() == getTerrain().getPosHero())
 		assertTrue(mj.isPartieGagnee() == (mj.getTerrain().getPosSortie().equals(mj.getTerrain().getPosHero())));
-				
+
 		// inv: \forall dir:Direction \in { GAUCHE, DROITE }, isDeplacementHeroPossible(dir) ==
 		//          \let* terrain = getTerrain()
 		//          \and blocHero = terrain.getBlocHero()
@@ -49,7 +49,7 @@ public class MoteurJeuTest {
 		dir = Direction.DROITE;
 		blocDest = terrain.getBlocVersDirection(blocHero, dir);
 		assertTrue(mj.isDeplacementHeroPossible(dir) == (!blocDest.isSolide() || (blocDest.isDeplacable() && terrain.getBlocVersDirection(blocDest, dir).isVide())));
-		
+
 		// inv: \forall dir:Direction \in { HAUT, BAS }, isDeplacementHeroPossible(dir) ==
 		//          \let* terrain = getTerrain()
 		//          \and blocHero = terrain.getBlocHero()
@@ -58,13 +58,13 @@ public class MoteurJeuTest {
 		dir = Direction.HAUT;
 		blocDest  = terrain.getBlocVersDirection(blocHero, dir);
 		assertTrue(mj.isDeplacementHeroPossible(dir) == !blocDest.isSolide());
-		
+
 		dir = Direction.BAS;
 		blocDest  = terrain.getBlocVersDirection(blocHero, dir);
 		assertTrue(mj.isDeplacementHeroPossible(dir) == !blocDest.isSolide());
 	}
-	
-	
+
+
 	/** Couverture des préconditions **/
 
 	@Test
@@ -91,19 +91,19 @@ public class MoteurJeuTest {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
 		checkInvariant();
-		
+
 		// oracle
 		mj.deplacerHero(Direction.DROITE);
 		assertTrue(true);
 		checkInvariant();
 	}
-	
+
 	@Test
 	public void MoteurJeu_deplacerHero_pre_false1() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
 		checkInvariant();
-		
+
 		try {
 			// oracle
 			mj.deplacerHero(Direction.HAUT);
@@ -120,7 +120,7 @@ public class MoteurJeuTest {
 		mj.init(Stub.getTER1(), 1);
 		mj.deplacerHero(Direction.DROITE);
 		checkInvariant();
-		
+
 		try {
 			// oracle
 			mj.deplacerHero(Direction.GAUCHE);
@@ -130,7 +130,7 @@ public class MoteurJeuTest {
 			checkInvariant();
 		}
 	}
-	
+
 	/** Couverture des invariants **/
 
 	@Test
@@ -138,16 +138,16 @@ public class MoteurJeuTest {
 		// préambule
 		mj.init(Stub.getTER1(), 1);
 		mj.deplacerHero(Direction.DROITE);
-		
+
 		// oracle
 		assertTrue(mj.isPartieTerminee());
 	}
-	
+
 	@Test
 	public void MoteurJeu_invariant1_false() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertFalse(mj.isPartieTerminee());
 	}
@@ -162,7 +162,7 @@ public class MoteurJeuTest {
 		mj.getTerrain().fairePasDeMiseAJour();
 		mj.deplacerHero(Direction.BAS);
 		mj.getTerrain().fairePasDeMiseAJour();
-		
+
 		// oracle
 		assertTrue(mj.isPartieGagnee());
 	}
@@ -171,7 +171,7 @@ public class MoteurJeuTest {
 	public void MoteurJeu_invariant2_false() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertFalse(mj.isPartieGagnee());
 	}
@@ -180,7 +180,7 @@ public class MoteurJeuTest {
 	public void MoteurJeu_invariant3_conseq() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertTrue(mj.isDeplacementHeroPossible(Direction.DROITE));
 	}
@@ -189,19 +189,19 @@ public class MoteurJeuTest {
 	public void MoteurJeu_invariant3_alt() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertTrue(mj.isDeplacementHeroPossible(Direction.DROITE));
 	}
-	
-	
+
+
 	/** Couverture des postconditions **/
 
 	@Test
 	public void MoteurJeu_init_post1() {
 		// contenu
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertTrue(mj.getPasRestants() == 30);
 		checkInvariant();
@@ -211,7 +211,7 @@ public class MoteurJeuTest {
 	public void MoteurJeu_init_post2() {
 		// contenu
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// oracle
 		assertTrue(mj.getTerrain().equals(Stub.getTER1()));
 		checkInvariant();
@@ -221,23 +221,23 @@ public class MoteurJeuTest {
 	public void MoteurJeu_deplacerHero_post1() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
-		
+
 		// oracle
 		assertTrue(mj.getPasRestants() == 30 - 1);
 		checkInvariant();
 	}
-	
+
 	@Test
 	public void MoteurJeu_deplacerHero_post2_1() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
-		
+
 		// oracle
 		TerrainService ter1 = Stub.getTER1();
 		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
@@ -249,10 +249,10 @@ public class MoteurJeuTest {
 	public void MoteurJeu_deplacerHero_post2_2() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		//contenu
 		mj.deplacerHero(Direction.GAUCHE);
-		
+
 		// oracle
 		TerrainService ter1 = Stub.getTER1();
 		BlocService blocHero = ter1.getBlocHero();
@@ -262,33 +262,33 @@ public class MoteurJeuTest {
 		assertTrue(mj.getTerrain().equals(ter1));
 		checkInvariant();
 	}
-	
-	
+
+
 	/** Couverture des transitions **/
 
 	@Test
 	public void MoteurJeu_deplacerHero_trans1() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
-		
+
 		// oracle
 		TerrainService ter1 = Stub.getTER1();
 		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
 		assertTrue(mj.getPasRestants() == 30 - 1 && mj.getTerrain().equals(ter1));
 		checkInvariant();
 	}
-	
+
 	@Test
 	public void MoteurJeu_deplacerHero_trans2() {
 		// préambule
 		mj.init(Stub.getTER1(), 30);
-		
+
 		//contenu
 		mj.deplacerHero(Direction.GAUCHE);
-		
+
 		// oracle
 		TerrainService ter1 = Stub.getTER1();
 		BlocService blocHero = ter1.getBlocHero();
