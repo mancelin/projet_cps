@@ -207,6 +207,10 @@ TerrainService {
 				BlocService bloc = getBloc(x,y);
 				if(bloc.isTombable()){
 					if(y == hauteur-1){
+						BlocService bloc_y0 = getBloc(x,0);
+						if(bloc_y0.isTombable() && getBlocVersDirection(bloc_y0, Direction.BAS).isVide()){
+							deplacerBlocVersDirection(bloc_y0,Direction.BAS);
+						}
 						listIgnoreUpX[x]= true;
 					}
 					if(!(y==0 && listIgnoreUpX[x])){
