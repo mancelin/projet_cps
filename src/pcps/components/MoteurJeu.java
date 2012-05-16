@@ -73,13 +73,6 @@ MoteurJeuService {
 			}
 		}
 		nbPasRestants--;
-		
-		// Si plus de pas restants, "tuer" le héros
-		/*
-		if(nbPasRestants == 0){
-			blocHero.setType(TypeBloc.VIDE);
-		}
-		*/
 	}
 
 

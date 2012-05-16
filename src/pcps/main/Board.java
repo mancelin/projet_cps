@@ -154,7 +154,7 @@ public class Board extends JPanel implements ActionListener {
 
 	public void printNbPasRestants(Graphics g) {
 		g.clearRect(0, hauteur*TAILLE_CASE, largeur*TAILLE_CASE, (hauteur+ 1)*TAILLE_CASE);
-		String msg = ""+mj.getPasRestants(); //+ "pas restants : ";
+		String msg = ""+mj.getPasRestants();
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 
 		g.setColor(Color.green);
@@ -164,7 +164,12 @@ public class Board extends JPanel implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e) {
 		if(newAction){
-			timer.restart();
+			// si le héros n' est pas sous un objet pouvant chutter, on fait la mise a jour aussitot le héros déplacé
+			if(!(mj.getTerrain().getBlocVersDirection(mj.getTerrain().getBlocHero(), Direction.HAUT).isTombable())){
+				mj.getTerrain().fairePasDeMiseAJour();
+			} else {
+				timer.restart();
+			}
 			repaint();
 			newAction = false;
 		} else {

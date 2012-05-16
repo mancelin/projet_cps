@@ -14,13 +14,10 @@ import pcps.services.MoteurJeuService;
 
 public class BoulderDashMain extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private final int TAILLE_CASE = 16;
 
-	public BoulderDashMain(/*String fichierNiveau*/) throws IOException {
+	public BoulderDashMain() throws IOException {
 		Factory.createFactory();
 		Factory factory = Factory.getFactory();
 
@@ -32,13 +29,7 @@ public class BoulderDashMain extends JFrame {
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File fichierNiveau = fc.getSelectedFile();
 			System.out.println(fichierNiveau.getName());
-
-
-
-			// Factory.createFactoryWithContracts(); // a décommenter quand on veut tester avec les contrats
-
 			MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau.getName(),factory); 
-			//		MoteurJeuFactory.depuisFichier(fichierNiveau);
 			int largeur_fenetre = mj.getTerrain().getLargeur()*TAILLE_CASE;
 			int hauteur_fenetre = (mj.getTerrain().getHauteur()+2)*TAILLE_CASE;
 			if(largeur_fenetre < 339) largeur_fenetre = 339;
@@ -54,23 +45,12 @@ public class BoulderDashMain extends JFrame {
 
 			setResizable(false);
 			setVisible(true);
-			//   System.out.print(mj.toString());
 		}
 	}
 
 	public static void main(String[] args) throws IOException{
 		new BoulderDashMain();
-		/*
-    	final JFileChooser fc = new JFileChooser();
-    	int returnVal = fc.showOpenDialog(BoulderDashMain.this);
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-           File file = fc.getSelectedFile();
-           System.out.println(file.getName());
-        }
-		 */
-		//	System.out.println(fc.getSelectedFile());
-		//  new BoulderDashMain("s_file");
 	}
 
 }
