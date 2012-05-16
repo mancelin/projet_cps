@@ -29,7 +29,7 @@ public class Board extends JPanel implements ActionListener {
 	private int largeur;
 	private int hauteur;
 	private final int TAILLE_CASE = 16;
-	private final int DELAI = 250;
+	private final int DELAI = 200;
 	private int largeur_fenetre;
 	private int hauteur_fenetre;
 
@@ -161,11 +161,13 @@ public class Board extends JPanel implements ActionListener {
 		g.setFont(small);
 		g.drawString(msg, (TAILLE_CASE*largeur) - 30,(hauteur+ 1)*TAILLE_CASE+5);
 	}
+	
 	public void actionPerformed(ActionEvent e) {
 		if(newAction){
+			timer.restart();
+			repaint();
 			newAction = false;
 		} else {
-			timer.restart();
 			mj.getTerrain().fairePasDeMiseAJour();
 			repaint();
 		}
