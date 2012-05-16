@@ -6,3 +6,4 @@ bin
 *.out
 *.synctex.gz
 *.fdb_latexmk
+.DS_Store
