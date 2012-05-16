@@ -93,6 +93,7 @@ public class MoteurJeuTest {
 		checkInvariant();
 
 		// oracle
+		assertTrue(!mj.isPartieTerminee() && mj.isDeplacementHeroPossible(Direction.DROITE));
 		mj.deplacerHero(Direction.DROITE);
 		assertTrue(true);
 		checkInvariant();
@@ -104,8 +105,9 @@ public class MoteurJeuTest {
 		mj.init(Stub.getTER1(), 30);
 		checkInvariant();
 
+		// oracle
+		assertFalse(!mj.isPartieTerminee() && mj.isDeplacementHeroPossible(Direction.HAUT));
 		try {
-			// oracle
 			mj.deplacerHero(Direction.HAUT);
 			fail();
 		} catch (Exception e) {
@@ -121,6 +123,8 @@ public class MoteurJeuTest {
 		mj.deplacerHero(Direction.DROITE);
 		checkInvariant();
 
+		// oracle
+		assertFalse(!mj.isPartieTerminee() && mj.isDeplacementHeroPossible(Direction.HAUT));
 		try {
 			// oracle
 			mj.deplacerHero(Direction.GAUCHE);

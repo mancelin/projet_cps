@@ -112,9 +112,8 @@ TerrainService {
 
 	@Override
 	public BlocService getBlocHero() {
-		if(!(isHeroVivant())){
-			return null;
-			//throw new RuntimeException("getBlocHero ne peut être appellée si le héros n' est plus vivant");
+		if (!(isHeroVivant())) {
+			throw new RuntimeException("getBlocHero ne peut être appelée si le héros n'est plus vivant");
 		}
 		PositionService posHero = getPosHero();
 		return getBlocDepuisPosition(posHero);

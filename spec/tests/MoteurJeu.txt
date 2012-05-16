@@ -18,17 +18,23 @@ Objectif MoteurJeu_deplacerHero_pre: précondition de deplacerHero
 	Cas de test MoteurJeu_deplacerHero_pre_true:
 		Préambule: MJ1 = init(TER1, 30)
 		Opérations: aucun
-		Oracle: ∃ MJ2, MJ2 = deplacerHero(MJ1, DROITE)
+		Oracle:
+			(!isPartieTerminee(MJ1) ^ isDeplacementHeroPossible(MJ1, DROITE))
+			∃ MJ2, MJ2 = deplacerHero(MJ1, DROITE)
 
 	Cas de test MoteurJeu_deplacerHero_pre_false1:
 		Préambule: MJ1 = init(TER1, 30)
 		Opérations: aucun
-		Oracle: ∄ MJ2, MJ2 = deplacerHero(MJ1, HAUT)
+		Oracle:
+			(!isPartieTerminee(MJ1) ^ isDeplacementHeroPossible(MJ1, HAUT)) = false
+			∄ MJ2, MJ2 = deplacerHero(MJ1, HAUT)
 
 	Cas de test MoteurJeu_deplacerHero_pre_false2:
 		Préambule: MJ1 = deplacerHero(init(TER1, 1), DROITE)
 		Opérations: aucun
-		Oracle: ∄ MJ2, MJ2 = deplacerHero(MJ1, GAUCHE)
+		Oracle:
+			(!isPartieTerminee(MJ1) ^ isDeplacementHeroPossible(MJ1, HAUT)) = false
+			∄ MJ2, MJ2 = deplacerHero(MJ1, GAUCHE)
 
 
 ** Couverture des invariants **

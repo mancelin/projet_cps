@@ -6,12 +6,16 @@ Objectif Terrain_getBlocHero_pre: précondition de getBlocHero
 	Cas de test Terrain_getBlocHero_pre_true:
 		Préambule: TER1
 		Opérations: aucun
-		Oracle: ∃ T2, T2 = getBlocHero(TER1)
+		Oracle:
+			isHeroVivant(TER1)
+			∃ B, B = getBlocHero(TER1)
 
 	Cas de test Terrain_getBlocHero_pre_false:
 		Préambule: T = init(5, 5)
 		Opérations: aucun
-		Oracle: ∄ T2, T2 = getBlocHero(T)
+		Oracle:
+			isHeroVivant(TER1) = false
+			∄ B, B = getBlocHero(T)
 
 Objectif Terrain_init_pre: précondition de init
 	Cas de test Terrain_init_pre_true:
@@ -33,12 +37,16 @@ Objectif Terrain_deplacerBlocVersDirection_pre: précondition de deplacerBlocVer
 	Cas de test Terrain_deplacerBlocVersDirection_pre_true:
 		Préambule: TER1
 		Opérations: aucun
-		Oracle: ∃ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)
+		Oracle:
+			isDeplacementBlocPossible(TER1, getBlocHero(TER1), DROITE)
+			∃ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), DROITE)
 
 	Cas de test Terrain_deplacerBlocVersDirection_pre_false:
 		Préambule: TER1
 		Opérations: aucun
-		Oracle: ∄ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), HAUT)
+		Oracle:
+			isDeplacementBlocPossible(TER1, getBlocHero(TER1), HAUT) = false
+			∄ T2, T2 = deplacerBlocVersDirection(TER1, getBlocHero(TER1), HAUT)
 
 
 ** Couverture des invariants **

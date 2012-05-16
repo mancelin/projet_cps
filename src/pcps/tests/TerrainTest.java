@@ -112,7 +112,9 @@ public class TerrainTest {
 		ter = Stub.getTER1();
 
 		// oracle
-		assertNotNull(ter.getBlocHero());
+		assertTrue(ter.isHeroVivant());
+		ter.getBlocHero();
+		assertTrue(true);
 		checkInvariant();
 	}
 
@@ -123,8 +125,14 @@ public class TerrainTest {
 		ter.init(5, 5);
 
 		// oracle
-		assertNull(ter.getBlocHero());
-		checkInvariant();
+		assertFalse(ter.isHeroVivant());
+		try {
+			ter.getBlocHero();
+			fail();
+		} catch (Exception e) {
+			assertTrue(true);
+			checkInvariant();
+		}
 	}
 
 	@Test
@@ -163,6 +171,7 @@ public class TerrainTest {
 		ter = Stub.getTER1();
 
 		// oracle
+		assertTrue(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.DROITE));
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
 		assertTrue(true);
 		checkInvariant();
@@ -173,8 +182,9 @@ public class TerrainTest {
 		// préambule
 		ter = Stub.getTER1();
 
+		// oracle
+		assertFalse(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.HAUT));
 		try {
-			// oracle
 			ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.HAUT);
 			fail();
 		} catch (Exception e) {
