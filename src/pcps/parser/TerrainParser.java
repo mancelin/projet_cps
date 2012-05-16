@@ -65,11 +65,11 @@ public class TerrainParser {
 		largeur = Integer.parseInt(tabEntete[0]);
 		hauteur = Integer.parseInt(tabEntete[1]);
 		nbPas = Integer.parseInt(tabEntete[2]);
-	//	System.out.println("nbPas : "+nbPas);
+		System.out.println("nbPas : "+nbPas);
 		t.init(largeur, hauteur);
 		int y = 0;
 		while ((ligne = ficTexte.readLine()) != null){
-		//	System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
+			System.out.printf("largeur : %d, hauteur : %d\n", largeur, hauteur);
 			
 			for(int i=0;i<ligne.length();i++){
 			//	System.out.print(ligne.charAt(i)); 
