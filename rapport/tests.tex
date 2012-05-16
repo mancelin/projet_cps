@@ -97,6 +97,7 @@
 \newcommand{\ora}[1]{\item \textbf{Oracle :} \cmd{#1}}
 \newcommand{\oram}{\item \textbf{Oracle :}}
 \newcommand{\opem}{\item \textbf{Contenu :}}
+\newcommand{\prem}{\item \textbf{Préambule :}}
 
 
 \title{Objectifs de Tests}
@@ -111,7 +112,7 @@
 
 \section{\emph{Stubs} utilisés}
 
-Les objets de test suivant peuvent-être référencés dans les cas de test :
+Les objets de test suivant peuvent être référencés dans les cas de test :
 
 \subsection{Le terrain TER1}
 
@@ -986,6 +987,209 @@ getPosSortie(T2) = Position::init(5, 3, 4, 2)
 		\end{lstlisting}
 	\end{cas}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{MoteurJeu}
+
+
+\subsection{Couverture des préconditions}
+
+\obj{MoteurJeu\_init\_pre} {précondition de init}
+	\begin{cas} {MoteurJeu\_init\_pre\_true}
+		\npre{}
+		\nope{}
+		\ora{\lEXISTS{} MJ, MJ = init(TER1, 30)}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_init\_pre\_false}
+		\npre{}
+		\nope{}
+		\ora{\lNEXISTS{} MJ, MJ = init(TER1, 0)}
+	\end{cas}
+
+
+\obj{MoteurJeu\_deplacerHero\_pre} {précondition de deplacerHero}
+	\begin{cas} {MoteurJeu\_deplacerHero\_pre\_true}
+		\pre{MJ1 = init(TER1, 30)}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+(`\lNOT'isPartieTerminee(MJ1) `\lAND' isDeplacementHeroPossible(MJ1, DROITE))
+`\lAND' `\lEXISTS' MJ2, MJ2 = deplacerHero(MJ1, DROITE)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_deplacerHero\_pre\_false1}
+		\pre{MJ1 = init(TER1, 30)}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+`\lNOT'(`\lNOT'isPartieTerminee(MJ1) `\lAND' isDeplacementHeroPossible(MJ1, HAUT))
+`\lAND' `\lNEXISTS' MJ2, MJ2 = deplacerHero(MJ1, HAUT)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_deplacerHero\_pre\_false2}
+		\pre{MJ1 = deplacerHero(init(TER1, 1), DROITE)}
+		\nope{}
+		\oram{}
+		\begin{lstlisting}
+`\lNOT'(`\lNOT'isPartieTerminee(MJ1) `\lAND' isDeplacementHeroPossible(MJ1, HAUT))
+`\lAND' `\lNEXISTS' MJ2, MJ2 = deplacerHero(MJ1, GAUCHE)
+		\end{lstlisting}
+	\end{cas}
+
+
+\subsection{Couverture des invariants}
+
+\obj{MoteurJeu\_invariant1} {minimisation de isPartieTerminee}
+	\begin{cas} {MoteurJeu\_invariant1\_true}
+		\pre{MJ = deplacerHero(init(TER1, 1), DROITE)}
+		\nope{}
+		\ora{isPartieTerminee(MJ)}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_invariant1\_false}
+		\pre{MJ = init(TER1, 30)}
+		\nope{}
+		\ora{\lNOT{}isPartieTerminee(MJ)}
+	\end{cas}
+
+\obj{MoteurJeu\_invariant2} {minimisation de isPartieGagnee}
+	\begin{cas} {MoteurJeu\_invariant2\_true}
+		\prem{}
+		\begin{lstlisting}
+MJ =
+	fairePasDeMiseAJour(deplacerHero(
+		fairePasDeMiseAJour(deplacerHero(
+			fairePasDeMiseAJour(deplacerHero(init(TER1, 30), DROITE)),
+		DROITE)),
+	BAS))
+		\end{lstlisting}
+		\nope{}
+		\ora{isPartieGagnee(MJ)}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_invariant2\_false}
+		\pre{MJ = init(TER1, 30)}
+		\nope{}
+		\ora{\lNOT{}isPartieGagnee(MJ)}
+	\end{cas}
+
+\obj{MoteurJeu\_invariant3} {minimisation de isDeplacementHeroPossible}
+	\begin{cas} {MoteurJeu\_invariant3\_conseq}
+		\pre{MJ = init(TER1, 30)}
+		\nope{}
+		\ora{isDeplacementHeroPossible(MJ, DROITE)}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_invariant3\_alt}
+		\pre{MJ = init(TER1, 30)}
+		\nope{}
+		\ora{isDeplacementHeroPossible(MJ, BAS)}
+	\end{cas}
+
+
+\subsection{Couverture des postconditions}
+
+\obj{MoteurJeu\_init\_post1} {postcondition de init sur getPasRestants}
+	\begin{cas} {MoteurJeu\_init\_post1}
+		\npre{}
+		\ope{MJ = init(TER1, 30)}
+		\ora{getPasRestants(MJ) = 30}
+	\end{cas}
+
+\obj{MoteurJeu\_init\_post2} {postcondition de init sur getTerrain}
+	\begin{cas} {MoteurJeu\_init\_post2}
+		\npre{}
+		\ope{MJ = init(TER1, 30)}
+		\ora{getTerrain(MJ) = TER1}
+	\end{cas}
+
+\obj{MoteurJeu\_deplacerHero\_post1} {postcondition de deplacerHero sur getPasRestants}
+	\begin{cas} {MoteurJeu\_deplacerHero\_post1}
+		\pre{MJ1 = init(TER1, 30)}
+		\ope{MJ2 = deplacerHero(MJ, DROITE)}
+		\ora{getPasRestants(MJ2) = 30 - 1}
+	\end{cas}
+
+\obj{MoteurJeu\_deplacerHero\_post2} {postcondition de deplacerHero sur getTerrain}
+	\begin{cas} {MoteurJeu\_deplacerHero\_post2\_1}
+		\pre{MJ1 = init(TER1, 30)}
+		\ope{MJ2 = deplacerHero(MJ, DROITE)}
+		\oram{}
+		\begin{lstlisting}
+getTerrain(MJ2) =
+	Terrain::deplacerBlocVersDirection(TER1, Terrain::getBlocHero(TER1), DROITE)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_deplacerHero\_post2\_2}
+		\pre{MJ = init(TER1, 30)}
+		\ope{MJ2 = deplacerHero(MJ, GAUCHE)}
+		\oram{}
+		\begin{lstlisting}
+let* blocHero = Terrain::getBlocHero(TER1)
+and blocDest = Terrain::getBlocVersDirection(TER1, blocHero, GAUCHE)
+in
+	getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(
+		Terrain::deplacerBlocVersDirection(TER1, blocDest, GAUCHE),
+			blocHero, GAUCHE)
+		\end{lstlisting}
+	\end{cas}
+
+
+\subsection{Couverture des transitions}
+
+\obj{MoteurJeu\_deplacerHero\_trans} {transition de deplacerHero}
+	\begin{cas} {MoteurJeu\_deplacerHero\_trans1}
+		\pre{MJ1 = init(TER1, 30)}
+		\ope{MJ2 = deplacerHero(MJ, DROITE)}
+		\oram{}
+		\begin{lstlisting}
+getPasRestants(MJ2) = 30 - 1
+`\lAND' getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(TER1,
+	Terrain::getBlocHero(TER1), DROITE)
+		\end{lstlisting}
+	\end{cas}
+
+	\begin{cas} {MoteurJeu\_deplacerHero\_trans2}
+		\pre{MJ = init(TER1, 30)}
+		\ope{MJ2 = deplacerHero(MJ, GAUCHE)}
+		\oram{}
+		\begin{lstlisting}
+let* blocHero = Terrain::getBlocHero(TER1)
+and blocDest = Terrain::getBlocVersDirection(TER1, blocHero, GAUCHE)
+in
+	getPasRestants(MJ2) = 30 - 1
+	`\lAND' getTerrain(MJ2) = Terrain::deplacerBlocVersDirection(
+		Terrain::deplacerBlocVersDirection(TER1, blocDest, GAUCHE),
+			blocHero, GAUCHE)
+		\end{lstlisting}
+	\end{cas}
 
 \end{document}
 
