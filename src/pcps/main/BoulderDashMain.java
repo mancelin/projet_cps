@@ -29,9 +29,9 @@ public class BoulderDashMain extends JFrame {
 		
 
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
-			File fichierNiveau = fc.getSelectedFile();
+			File fichierNiveau = fc.getSelectedFile().getAbsoluteFile();
 			System.out.println(fichierNiveau.getName());
-			MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau.getName(),factory); 
+			MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau.toString(),factory); 
 			int largeur_fenetre = mj.getTerrain().getLargeur()*TAILLE_CASE;
 			int hauteur_fenetre = (mj.getTerrain().getHauteur()+2)*TAILLE_CASE;
 			if(largeur_fenetre < 339) largeur_fenetre = 339;
