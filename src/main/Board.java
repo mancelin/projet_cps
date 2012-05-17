@@ -171,8 +171,8 @@ public class Board extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		if(newAction){
-			// si le héros n' est pas sous un objet pouvant chutter, on fait la mise a jour aussitot le héros déplacé
-			if(!(mj.getTerrain().getBlocVersDirection(mj.getTerrain().getBlocHero(), Direction.HAUT).isTombable())){
+			// si le héros n'est pas sous un objet pouvant chutter, on fait la mise a jour aussitot le héros déplacé
+			if( !(!mj.isPartieTerminee() && mj.getTerrain().getBlocVersDirection(mj.getTerrain().getBlocHero(), Direction.HAUT).isTombable())){
 				mj.getTerrain().fairePasDeMiseAJour();
 			} else {
 				timer.restart();
@@ -186,26 +186,29 @@ public class Board extends JPanel implements ActionListener {
 
 	}
 
-
 	private class TAdapter extends KeyAdapter {
+		public void deplacerHero(Direction dir) {
+			if (!mj.isPartieTerminee() && mj.isDeplacementHeroPossible(dir))
+				mj.deplacerHero(dir);
+		}
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
 
 			if ((key == KeyEvent.VK_LEFT)) {
-				mj.deplacerHero(Direction.GAUCHE);
+				deplacerHero(Direction.GAUCHE);
 				newAction = true;
 			}
 			if ((key == KeyEvent.VK_RIGHT)) {
-				mj.deplacerHero(Direction.DROITE);
+				deplacerHero(Direction.DROITE);
 				newAction = true;
 			}
 			if ((key == KeyEvent.VK_UP) ) {
-				mj.deplacerHero(Direction.HAUT);
+				deplacerHero(Direction.HAUT);
 				newAction = true;
 			}
 			if (key == KeyEvent.VK_DOWN) {
-				mj.deplacerHero(Direction.BAS);
+				deplacerHero(Direction.BAS);
 				newAction = true;
 
 			}
