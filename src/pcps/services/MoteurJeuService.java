@@ -3,6 +3,8 @@ package pcps.services;
 import pcps.enums.Direction;
 
 public interface MoteurJeuService {
+	public MoteurJeuService copy();
+	
 	/** Observator: terrain associé au moteur de jeu */
 	public TerrainService getTerrain();
 

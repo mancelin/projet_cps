@@ -1,6 +1,7 @@
 package pcps.components;
 
 import pcps.enums.Direction;	
+import pcps.factories.Factory;
 import pcps.services.BlocService;
 import pcps.services.MoteurJeuService;
 import pcps.services.TerrainService;
@@ -86,6 +87,13 @@ MoteurJeuService {
 		res += getTerrain().toString();
 
 		return res;		
+	}
+	
+
+	public MoteurJeuService copy() {
+		MoteurJeuService copy = Factory.getFactory().creerMoteurJeu(); 
+		copy.init(getTerrain().copy(), getPasRestants());
+		return copy;
 	}
 
 }

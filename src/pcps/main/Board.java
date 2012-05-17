@@ -27,6 +27,7 @@ public class Board extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private MoteurJeuService mj;
+	private MoteurJeuService mjClone;
 	private int largeur;
 	private int hauteur;
 	private final int TAILLE_CASE = 16;
@@ -51,6 +52,7 @@ public class Board extends JPanel implements ActionListener {
 
 	public Board(MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
 		this.mj = mj;
+		this.mjClone = mj.copy();
 		this.largeur = mj.getTerrain().getLargeur();
 		this.hauteur = mj.getTerrain().getHauteur();
 
@@ -205,6 +207,10 @@ public class Board extends JPanel implements ActionListener {
 				mj.deplacerHero(Direction.BAS);
 				newAction = true;
 
+			}
+			
+			if (key == KeyEvent.VK_SPACE){
+				mj = mjClone;
 			}
 		}
 	}

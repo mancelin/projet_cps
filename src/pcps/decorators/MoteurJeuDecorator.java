@@ -14,7 +14,12 @@ public class MoteurJeuDecorator implements MoteurJeuService {
 	protected MoteurJeuService getDelegate() {
 		return delegate;
 	}
-
+	
+	@Override
+	public MoteurJeuService copy() {
+		return getDelegate().copy();
+	}
+	
 	@Override
 	public String toString() {
 		return getDelegate().toString();
