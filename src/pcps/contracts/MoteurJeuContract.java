@@ -62,10 +62,7 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 		// pre: nbPas > 0
 		if (!(nbPas > 0))
 			Contractor.defaultContractor().postconditionError("MoteurJeuService", "init", "Le nombre de pas de jeu doit être strictement positif.");
-		
-		// invariant@pre
-		checkInvariant();
-		
+				
 		// run
 		super.init(t, nbPas);
 		
