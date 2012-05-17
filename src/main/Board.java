@@ -40,6 +40,7 @@ public class Board extends JPanel implements ActionListener {
 	private int hauteur_fenetre;
 
 	private boolean newAction = true;
+	private boolean afficherAide = false;
 
 	private Timer timer;
 	private Image c_hero;
@@ -67,7 +68,7 @@ public class Board extends JPanel implements ActionListener {
 		
 		
 		
-		parent.setSize(largeur_fenetre, hauteur_fenetre);
+		parent.setSize(largeur_fenetre, hauteur_fenetre + 20);
 		parent.addKeyListener(new TAdapter());
 		parent.setBackground(Color.black);
 
@@ -133,23 +134,27 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void paint(Graphics g) {
-		if (!mj.isPartieTerminee()) {
-			TerrainService t = mj.getTerrain();
-			for(int y=0;y<hauteur;y++){
-				for(int x=0;x<largeur;x++){
-					TypeBloc typeBlocCourant = t.getBloc(x, y).getType();
-					g.drawImage(imageDeTypeBloc(typeBlocCourant), x * TAILLE_CASE, y *TAILLE_CASE,this);
-				}
-			}
-			printNbPasRestants(g);
-			Toolkit.getDefaultToolkit().sync();
-			g.dispose();
-
+		if(afficherAide){
+			afficherAide(g);
 		} else {
-			if(mj.isPartieGagnee()){
-				youWin(g);
+			if (!mj.isPartieTerminee()) {
+				TerrainService t = mj.getTerrain();
+				for(int y=0;y<hauteur;y++){
+					for(int x=0;x<largeur;x++){
+						TypeBloc typeBlocCourant = t.getBloc(x, y).getType();
+						g.drawImage(imageDeTypeBloc(typeBlocCourant), x * TAILLE_CASE, y *TAILLE_CASE,this);
+					}
+				}
+				printNbPasRestants(g);
+				Toolkit.getDefaultToolkit().sync();
+				g.dispose();
+	
 			} else {
-				gameOver(g);
+				if(mj.isPartieGagnee()){
+					youWin(g);
+				} else {
+					gameOver(g);
+				}
 			}
 		}
 	}
@@ -158,20 +163,46 @@ public class Board extends JPanel implements ActionListener {
 	public void gameOver(Graphics g) {
 		if(parent.getWidth() != 339 || parent.getHeight() != 153){
 			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
-			System.out.println("resizing");
 		}
-		g.clearRect(0, 0, 339, 153 );
+		g.clearRect(0, 0, parent.getX(), parent.getY());
 		g.drawImage(game_over, 0, 0,this);
+		g.dispose();
 	}
 
 	public void youWin(Graphics g) {
 		if(parent.getWidth() != 339 || parent.getHeight() != 153){
 			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
-			System.out.println("resizing");
 		}
-		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
+		g.clearRect(0, 0, parent.getX(), parent.getY());
 		g.drawImage(you_win, 0, 0,this);
+		g.dispose();
 	}
+	
+	public void afficherAide(Graphics g) {
+		if(parent.getWidth() != 600 || parent.getHeight() != 250){
+			parent.setBounds(parent.getX(),parent.getY(), 600, 250);
+		}
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		g.setColor(Color.green);
+		g.setFont(small);
+		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
+		String msg[] = {
+				 "Le but du jeu est de ramasser tous les diamants et de sortir par la"  ,
+				 "porte sans se faire écraser par un diammant ou un rocher, ni épuisé",
+				 "le nombre de pas restants.",
+				 "" ,
+				 "Controles :",
+				 "  fléches directionneles : déplacer joueur",
+				 "  Barre espace : recommencer le niveau en cours",
+				 "  F1 : afficher cette aide"};
+		for(int i=0;i<msg.length;i++){
+			g.drawString(msg[i], 10, 50 + 17 * i);
+		}
+		
+		g.dispose();
+	}
+	
+	
 
 
 
@@ -210,6 +241,11 @@ public class Board extends JPanel implements ActionListener {
 
 		public void keyPressed(KeyEvent e) {
 			int key = e.getKeyCode();
+			
+			if(afficherAide){
+				parent.setSize(largeur_fenetre, hauteur_fenetre + 20);
+				afficherAide = false;
+			}
 
 			if ((key == KeyEvent.VK_LEFT)) {
 				deplacerHero(Direction.GAUCHE);
@@ -231,6 +267,10 @@ public class Board extends JPanel implements ActionListener {
 
 			if (key == KeyEvent.VK_SPACE){
 				mj = mjClone;
+			}
+			
+			if (key == KeyEvent.VK_F1){
+				afficherAide = true;
 			}
 		}
 	}
