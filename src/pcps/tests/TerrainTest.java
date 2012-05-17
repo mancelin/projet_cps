@@ -425,9 +425,9 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 3 && y == 1) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					 fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -493,11 +493,11 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isHero());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -548,11 +548,11 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -580,9 +580,9 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 1 && y == 2) {
-					if (!bloc.isSortieFermee()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isSortieFermee());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -608,9 +608,9 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 1 && y == 2) {
-					if (!bloc.isHero()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isHero());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -636,11 +636,11 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isHero());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -666,11 +666,11 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -696,11 +696,11 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -730,13 +730,13 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 0 && y == 0) {
-					if (!bloc.isTerre()) fail();
+					assertTrue(bloc.isTerre());
 				} else if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isHero());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -763,13 +763,13 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 0 && y == 0) {
-					if (!bloc.isTerre()) fail();
+					assertTrue(bloc.isTerre());
 				} else if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -796,13 +796,13 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 0 && y == 0) {
-					if (!bloc.isTerre()) fail();
+					assertTrue(bloc.isTerre());
 				} else if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.isHero());
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -829,15 +829,15 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
+					assertTrue(bloc.isHero());
 				} else if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -864,15 +864,15 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 2 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 3 && y == 1) {
-					if (!bloc.isHero()) fail();
+					assertTrue(bloc.isHero());
 				} else if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
-					fail();
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
@@ -899,12 +899,13 @@ public class TerrainTest {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
 				if (x == 0 && y == 0) {
-					if (!bloc.isTerre()) fail();
+					assertTrue(bloc.isTerre());
 				} else if (x == 1 && y == 1) {
-					if (!bloc.isVide()) fail();
+					assertTrue(bloc.isVide());
 				} else if (x == 1 && y == 2) {
-					if (bloc.getType() != TypeBloc.ROCHER) fail();
-				} else if (!bloc.equals(ter1.getBloc(x, y))) {
+					assertTrue(bloc.getType() == TypeBloc.ROCHER);
+				} else {
+					assertTrue(bloc.equals(ter1.getBloc(x, y)));
 				}
 			}
 		}
