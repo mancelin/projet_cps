@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -60,34 +61,37 @@ public class Board extends JPanel implements ActionListener {
 
 		setBackground(Color.black);
 
-		ImageIcon iic_h = new ImageIcon(this.getClass().getResource("c_hero.png"));
+		String repCourant = System.getProperty("user.dir" );
+		String repImages = repCourant + File.separator + "src" + File.separator + "pcps" + File.separator + "main";
+		ImageIcon iic_h = new ImageIcon(repImages + File.separator + "c_hero.png");
+		//ImageIcon iic_h = new ImageIcon(this.getClass().getResource("c_hero.png"));
 		c_hero = iic_h.getImage();
 
-		ImageIcon iic_v = new ImageIcon(this.getClass().getResource("c_vide.png"));
+		ImageIcon iic_v = new ImageIcon(repImages + File.separator + "c_vide.png");
 		c_vide = iic_v.getImage();
 
-		ImageIcon iic_r = new ImageIcon(this.getClass().getResource("c_rocher.png"));
+		ImageIcon iic_r = new ImageIcon(repImages + File.separator + "c_rocher.png");
 		c_rocher = iic_r.getImage();
 
-		ImageIcon iic_d = new ImageIcon(this.getClass().getResource("c_diamant.png"));
+		ImageIcon iic_d = new ImageIcon(repImages + File.separator + "c_diamant.png");
 		c_diamant = iic_d.getImage();
 
-		ImageIcon iic_m = new ImageIcon(this.getClass().getResource("c_mur.png"));
+		ImageIcon iic_m = new ImageIcon(repImages + File.separator + "c_mur.png");
 		c_mur = iic_m.getImage();
 
-		ImageIcon iic_t = new ImageIcon(this.getClass().getResource("c_terre.png"));
+		ImageIcon iic_t = new ImageIcon(repImages + File.separator + "c_terre.png");
 		c_terre = iic_t.getImage();
 
-		ImageIcon iic_so = new ImageIcon(this.getClass().getResource("c_sortie_ouverte.png"));
+		ImageIcon iic_so = new ImageIcon(repImages + File.separator + "c_sortie_ouverte.png");
 		c_sortie_ouverte = iic_so.getImage();
 
-		ImageIcon iic_sf = new ImageIcon(this.getClass().getResource("c_sortie_fermee.png"));
+		ImageIcon iic_sf = new ImageIcon(repImages + File.separator + "c_sortie_fermee.png");
 		c_sortie_fermee = iic_sf.getImage();
 
-		ImageIcon iic_go = new ImageIcon(this.getClass().getResource("game_over.png"));
+		ImageIcon iic_go = new ImageIcon(repImages + File.separator + "game_over.png");
 		game_over = iic_go.getImage();
 
-		ImageIcon iic_win = new ImageIcon(this.getClass().getResource("you_win.png"));
+		ImageIcon iic_win = new ImageIcon(repImages + File.separator + "you_win.png");
 		you_win = iic_win.getImage();
 
 		setFocusable(true);
