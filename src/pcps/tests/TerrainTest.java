@@ -109,7 +109,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_getBlocHero_pre_true() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.isHeroVivant());
@@ -168,7 +168,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_pre_true() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.DROITE));
@@ -180,7 +180,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_pre_false() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertFalse(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.HAUT));
@@ -199,7 +199,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant1() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.getBlocHero() == ter.getBloc(2, 1));
@@ -208,7 +208,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant2() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.getBlocVersDirection(ter.getBlocHero(), Direction.DROITE) == ter.getBloc(3, 1));
@@ -217,7 +217,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant3_true() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.isHeroVivant());
@@ -235,7 +235,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant4_true() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.isDiamantsRestants());
@@ -253,7 +253,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant5_true() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertTrue(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.DROITE));
@@ -262,7 +262,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant5_false() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		assertFalse(ter.isDeplacementBlocPossible(ter.getBlocHero(), Direction.HAUT));
@@ -271,21 +271,21 @@ public class TerrainTest {
 	@Test
 	public void Terrain_invariant6() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
-		assertTrue(ter.getBlocDepuisPosition(Stub.getPOS1()) == ter.getBloc(1, 1));
+		assertTrue(ter.getBlocDepuisPosition(ObjectsFactory.getPOS1()) == ter.getBloc(1, 1));
 	}
 
 	@Test
 	public void Terrain_invariant7() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// oracle
 		// todo: compare values of blocs in sets
 		Set<BlocService> terBlocs = ter.getBlocs();
-		Set<BlocService> ter1Blocs = Stub.getTER1Blocs();
+		Set<BlocService> ter1Blocs = ObjectsFactory.getTER1Blocs();
 		assertTrue(terBlocs.equals(ter1Blocs));
 	}
 
@@ -354,7 +354,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_post1_conseq() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.SORTIE_FERMEE, 1, 2);
@@ -369,7 +369,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_post1_alt() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.ROCHER, 1, 2);
@@ -384,7 +384,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_post2_conseq() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.HERO, 1, 2);
@@ -399,7 +399,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_post2_alt() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.VIDE, 1, 2);
@@ -414,13 +414,13 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_post3() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.ROCHER, 3, 1);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -437,7 +437,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_post1() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
@@ -452,7 +452,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_post2_conseq() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
@@ -467,7 +467,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_post2_alt() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBloc(1, 1), Direction.BAS);
@@ -482,13 +482,13 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_post3() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -507,7 +507,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_post1() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
@@ -522,7 +522,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_post2() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
@@ -537,13 +537,13 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_post3() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -565,7 +565,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_trans1() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.SORTIE_FERMEE, 1, 2);
@@ -575,7 +575,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 1, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 2, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -593,7 +593,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_trans2() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.HERO, 1, 2);
@@ -603,7 +603,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 1, 2);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -621,7 +621,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_trans1() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
@@ -631,7 +631,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 3, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -651,7 +651,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_trans2() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBloc(1, 1), Direction.BAS);
@@ -661,7 +661,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 2, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -681,7 +681,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
@@ -691,7 +691,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 2, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -714,7 +714,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_deplacerBlocVersDirection_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.TERRE, 0, 0);
@@ -725,7 +725,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 3, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -747,7 +747,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_setBloc_fairePasDeMiseAJour_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.setBloc(TypeBloc.TERRE, 0, 0);
@@ -758,7 +758,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 2, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -780,7 +780,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_setBloc_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
@@ -791,7 +791,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 3, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -813,7 +813,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_deplacerBlocVersDirection_fairePasDeMiseAJour_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.DROITE);
@@ -824,7 +824,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 3, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -848,7 +848,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_deplacerBlocVersDirection_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
@@ -859,7 +859,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 3, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);
@@ -883,7 +883,7 @@ public class TerrainTest {
 	@Test
 	public void Terrain_fairePasDeMiseAJour_setBloc_trans() {
 		// préambule
-		ter = Stub.getTER1();
+		ter = ObjectsFactory.getTER1();
 
 		// contenu
 		ter.fairePasDeMiseAJour();
@@ -894,7 +894,7 @@ public class TerrainTest {
 		posSortie.init(5, 3, 4, 2);
 		PositionService posHero = Factory.getFactory().creerPosition();
 		posHero.init(5, 3, 2, 1);
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		for (int x = 0; x < 5; x++) {
 			for (int y = 0; y < 3; y++) {
 				BlocService bloc = ter.getBloc(x, y);

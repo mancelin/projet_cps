@@ -7,7 +7,7 @@ import pcps.services.*;
 import pcps.enums.TypeBloc;
 import pcps.factories.Factory;
 
-public class Stub {
+public class ObjectsFactory {
 
 	// POS1: Position(5, 3, 1, 1)
 	static PositionService getPOS1() {

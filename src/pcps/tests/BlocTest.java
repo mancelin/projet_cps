@@ -56,7 +56,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant1() {
 		// préambule
-		bloc.init(TypeBloc.VIDE, Stub.getPOS1());
+		bloc.init(TypeBloc.VIDE, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isVide());
@@ -65,7 +65,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant2() {
 		// préambule
-		bloc.init(TypeBloc.ROCHER, Stub.getPOS1());
+		bloc.init(TypeBloc.ROCHER, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isSolide());
@@ -74,7 +74,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant3() {
 		// préambule
-		bloc.init(TypeBloc.ROCHER, Stub.getPOS1());
+		bloc.init(TypeBloc.ROCHER, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isDeplacable());
@@ -83,7 +83,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant4() {
 		// préambule
-		bloc.init(TypeBloc.ROCHER, Stub.getPOS1());
+		bloc.init(TypeBloc.ROCHER, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isTombable());
@@ -92,7 +92,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant5() {
 		// préambule
-		bloc.init(TypeBloc.SORTIE_OUVERTE, Stub.getPOS1());
+		bloc.init(TypeBloc.SORTIE_OUVERTE, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isSortie());
@@ -101,7 +101,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant6() {
 		// préambule
-		bloc.init(TypeBloc.SORTIE_FERMEE, Stub.getPOS1());
+		bloc.init(TypeBloc.SORTIE_FERMEE, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isSortieFermee());
@@ -110,7 +110,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant7() {
 		// préambule
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isHero());
@@ -119,7 +119,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_invariant8() {
 		// préambule
-		bloc.init(TypeBloc.TERRE, Stub.getPOS1());
+		bloc.init(TypeBloc.TERRE, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.isTerre());
@@ -131,7 +131,7 @@ public class BlocTest {
 	@Test
 	public void Bloc_init_post1() {
 		// contenu
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// oracle
 		assertTrue(bloc.getType() == TypeBloc.HERO);
@@ -141,17 +141,17 @@ public class BlocTest {
 	@Test
 	public void Bloc_init_post2() {
 		// contenu
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// oracle
-		assertTrue(bloc.getPosition().equals(Stub.getPOS1()));
+		assertTrue(bloc.getPosition().equals(ObjectsFactory.getPOS1()));
 		checkInvariant();
 	}
 	
 	@Test
 	public void Bloc_setType_post1() {
 		// préambule
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// contenu
 		bloc.setType(TypeBloc.ROCHER);
@@ -164,13 +164,13 @@ public class BlocTest {
 	@Test
 	public void Bloc_setType_post2() {
 		// préambule
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// contenu
 		bloc.setType(TypeBloc.ROCHER);
 		
 		// oracle
-		assertTrue(bloc.getPosition().equals(Stub.getPOS1()));
+		assertTrue(bloc.getPosition().equals(ObjectsFactory.getPOS1()));
 		checkInvariant();
 	}
 	
@@ -181,13 +181,13 @@ public class BlocTest {
 	@Test
 	public void Bloc_setType_trans() {
 		// préambule
-		bloc.init(TypeBloc.HERO, Stub.getPOS1());
+		bloc.init(TypeBloc.HERO, ObjectsFactory.getPOS1());
 		
 		// contenu
 		bloc.setType(TypeBloc.ROCHER);
 		
 		// oracle
-		assertTrue(bloc.getType() == TypeBloc.ROCHER && bloc.getPosition().equals(Stub.getPOS1()));
+		assertTrue(bloc.getType() == TypeBloc.ROCHER && bloc.getPosition().equals(ObjectsFactory.getPOS1()));
 		checkInvariant();
 	}
 }

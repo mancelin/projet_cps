@@ -148,12 +148,12 @@ public class ScenariosTest {
 
 	@Test
 	public void Scenario1_PartieGagnee() {
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		PositionService posHero;
 		PositionService posSortie;
 
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		ter = mj.getTerrain();
 
 		/** A. Récupérer le diamant **/
@@ -239,12 +239,12 @@ public class ScenariosTest {
 
 	@Test
 	public void Scenario2_PartiePerdu_ManqueDePas() {
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		PositionService posHero;
 		PositionService posSortie;
 
 		// préambule
-		mj.init(Stub.getTER1(), 2);
+		mj.init(ObjectsFactory.getTER1(), 2);
 		ter = mj.getTerrain();
 
 		/** A. Se déplacer jusqu'à épuiser le nombre de pas **/
@@ -297,12 +297,12 @@ public class ScenariosTest {
 
 	@Test
 	public void Scenario3_PartiePerdu_MortDuHero() {
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		PositionService posHero;
 		PositionService posSortie;
 
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		ter = mj.getTerrain();
 
 		/** A. Se déplacer sous le rocher **/
@@ -353,12 +353,12 @@ public class ScenariosTest {
 
 	@Test
 	public void Scenario4_DeplacerUnRocher() {
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		PositionService posHero;
 		PositionService posSortie;
 
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		ter = mj.getTerrain();
 
 		/** A. Pousser le rocher vers la gauche **/

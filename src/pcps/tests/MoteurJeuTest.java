@@ -70,7 +70,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_init_pre_true() {
 		// oracle
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		assertTrue(true);
 		checkInvariant();
 	}
@@ -79,7 +79,7 @@ public class MoteurJeuTest {
 	public void MoteurJeu_init_pre_false() {
 		try {
 			// oracle
-			mj.init(Stub.getTER1(), 0);
+			mj.init(ObjectsFactory.getTER1(), 0);
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
@@ -89,7 +89,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_pre_true() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		checkInvariant();
 
 		// oracle
@@ -102,7 +102,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_pre_false1() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		checkInvariant();
 
 		// oracle
@@ -119,7 +119,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_pre_false2() {
 		// préambule
-		mj.init(Stub.getTER1(), 1);
+		mj.init(ObjectsFactory.getTER1(), 1);
 		mj.deplacerHero(Direction.DROITE);
 		checkInvariant();
 
@@ -140,7 +140,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant1_true() {
 		// préambule
-		mj.init(Stub.getTER1(), 1);
+		mj.init(ObjectsFactory.getTER1(), 1);
 		mj.deplacerHero(Direction.DROITE);
 
 		// oracle
@@ -150,7 +150,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant1_false() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
 		assertFalse(mj.isPartieTerminee());
@@ -159,7 +159,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant2_true() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 		mj.deplacerHero(Direction.DROITE);
 		mj.getTerrain().fairePasDeMiseAJour();
 		mj.deplacerHero(Direction.DROITE);
@@ -174,7 +174,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant2_false() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
 		assertFalse(mj.isPartieGagnee());
@@ -183,7 +183,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant3_conseq() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
 		assertTrue(mj.isDeplacementHeroPossible(Direction.DROITE));
@@ -192,7 +192,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_invariant3_alt() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
 		assertTrue(mj.isDeplacementHeroPossible(Direction.DROITE));
@@ -204,7 +204,7 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_init_post1() {
 		// contenu
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
 		assertTrue(mj.getPasRestants() == 30);
@@ -214,17 +214,17 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_init_post2() {
 		// contenu
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// oracle
-		assertTrue(mj.getTerrain().equals(Stub.getTER1()));
+		assertTrue(mj.getTerrain().equals(ObjectsFactory.getTER1()));
 		checkInvariant();
 	}
 
 	@Test
 	public void MoteurJeu_deplacerHero_post1() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
@@ -237,13 +237,13 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_post2_1() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
 		assertTrue(mj.getTerrain().equals(ter1));
 		checkInvariant();
@@ -252,13 +252,13 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_post2_2() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		//contenu
 		mj.deplacerHero(Direction.GAUCHE);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		BlocService blocHero = ter1.getBlocHero();
 		BlocService blocDest = ter1.getBlocVersDirection(blocHero, Direction.GAUCHE);
 		ter1.deplacerBlocVersDirection(blocDest, Direction.GAUCHE);
@@ -273,13 +273,13 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_trans1() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
 		assertTrue(mj.getPasRestants() == 30 - 1 && mj.getTerrain().equals(ter1));
 		checkInvariant();
@@ -288,13 +288,13 @@ public class MoteurJeuTest {
 	@Test
 	public void MoteurJeu_deplacerHero_trans2() {
 		// préambule
-		mj.init(Stub.getTER1(), 30);
+		mj.init(ObjectsFactory.getTER1(), 30);
 
 		//contenu
 		mj.deplacerHero(Direction.GAUCHE);
 
 		// oracle
-		TerrainService ter1 = Stub.getTER1();
+		TerrainService ter1 = ObjectsFactory.getTER1();
 		BlocService blocHero = ter1.getBlocHero();
 		BlocService blocDest = ter1.getBlocVersDirection(blocHero, Direction.GAUCHE);
 		ter1.deplacerBlocVersDirection(blocDest, Direction.GAUCHE);

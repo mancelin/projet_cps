@@ -100,23 +100,47 @@
 \newcommand{\prem}{\item \textbf{Préambule :}}
 
 
-\title{Objectifs de Tests}
+\title{
+	\normalsize{M1 Informatique STL\\
+	Université Pierre et Marie Curie\\
+	2011-2012}\\
+	\vspace{15mm}
+	\rule{\linewidth{}}{0.3mm}\\
+	\Huge{Boulder Dash (CPS)}\\
+	\large{Objectifs de Tests}\\
+	\vspace{5mm}
+	\footnotesize{Maxime A\bsc{ncelin} et Mickaël M\bsc{enu}}
+	\rule{\linewidth{}}{0.3mm}
+}
 
 \author{}
 
-\date{}
+\date{17 mai 2012}
+
 
 \begin{document}
 
 \maketitle{}
+\tableofcontents{}
+\clearpage{}
 
-\section{\emph{Stubs} utilisés}
+\section{Introduction}
 
-Les objets de test suivant peuvent être référencés dans les cas de test :
+\subsection{Taux de couverture}
 
-\subsection{Le terrain TER1}
+Le taux de couverture est de (\#objectifs atteints / \#objectifs) * 100 \%
 
-\cmd{TER1 \eqdef{} Terrain::init(5, 3)}
+avec \#objectifs = \#objectifs atteints = 68.
+
+Donc notre taux de couverture est de 100\%.
+
+\subsection{Objets de test utilisés}
+
+Les objets de test suivant -- implémentés dans \cmd{tests.ObjectsFactory} -- peuvent être référencés dans les cas de test :
+
+\begin{itemize}
+	\item \cmd{POS1 \eqdef{} Position::init(5, 3, 1, 1)}
+	\item \cmd{TER1 \eqdef{} Terrain::init(5, 3)}\\
 
 Avec pour blocs :
 
@@ -124,6 +148,7 @@ Avec pour blocs :
 .####
 .OX.Y
 ....?
+
 \end{verbatim}
 
 \begin{itemize}
@@ -134,23 +159,37 @@ Avec pour blocs :
 	\item \cmd{Y} diamant
 	\item \cmd{?} sortie fermée
 \end{itemize}
+\end{itemize}
 
-\subsection{La position POS1}
-
-\cmd{POS1 \eqdef{} Position::init(5, 3, 1, 1)}
 
 \clearpage{}
 
 
 
 
-\section{Bloc}
 
-\subsection{Couverture des préconditions}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Service Bloc}
+
+\subsection*{Couverture des préconditions}
 
 Aucune précondition dans Bloc.
 
-\subsection{Couverture des invariants}
+\subsection*{Couverture des invariants}
 
 \obj{Bloc\_invariant1} {minimisation de isVide}
 
@@ -213,7 +252,7 @@ Aucune précondition dans Bloc.
 	\end{cas}
 
 
-\subsection{Couverture des postconditions}
+\subsection*{Couverture des postconditions}
 
 \obj{Bloc\_init\_post1} {postcondition de init sur getType}
 	\begin{cas}{Bloc\_init\_post1}
@@ -245,7 +284,7 @@ Aucune précondition dans Bloc.
 	\end{cas}
 
 
-\subsection{Couverture des transitions}
+\subsection*{Couverture des transitions}
 
 \obj{Bloc\_setType\_trans} {transition de setType}
 	\begin{cas}{Bloc\_setType\_trans}
@@ -276,9 +315,9 @@ Aucune précondition dans Bloc.
 
 
 
-\section{Position}
+\section{Service Position}
 
-\subsection{Couverture des préconditions}
+\subsection*{Couverture des préconditions}
 
 \obj{Position\_init\_pre} {précondition de init}
 
@@ -313,11 +352,11 @@ Aucune précondition dans Bloc.
 	\end{cas}
 
 
-\subsection{Couverture des invariants}
+\subsection*{Couverture des invariants}
 
 Aucun invariant dans Position.
 
-\subsection{Couverture des postconditions}
+\subsection*{Couverture des postconditions}
 
 \obj{Position\_init\_post1} {postcondition de init sur getLargeur}
 	\begin{cas} {Position\_init\_post1}
@@ -387,7 +426,7 @@ Aucun invariant dans Position.
 	\end{cas}
 
 
-\subsection{Couverture des transitions}
+\subsection*{Couverture des transitions}
 
 \obj{Position\_deplacerVersDirection\_trans} {transition de deplacerVersDirection}
 	\begin{cas} {Position\_deplacerVersDirection\_trans1}
@@ -438,9 +477,9 @@ Aucun invariant dans Position.
 
 
 
-\section{Terrain}
+\section{Service Terrain}
 
-\subsection{Couverture des préconditions}
+\subsection*{Couverture des préconditions}
 
 \obj{Terrain\_getBlocHero\_pre} {précondition de getBlocHero}
 	\begin{cas} {Terrain\_getBlocHero\_pre\_true}
@@ -495,7 +534,7 @@ isDeplacementBlocPossible(TER1, getBlocHero(TER1), DROITE)
 		\end{lstlisting}
 	\end{cas}
 
-\subsection{Couverture des invariants}
+\subsection*{Couverture des invariants}
 
 \obj{Terrain\_invariant1} {minimisation de getBlocHero}
 	\begin{cas} {Terrain\_invariant1}
@@ -585,7 +624,7 @@ getBlocs(TER1) = {
 	\end{cas}
 
 
-\subsection{Couverture des postconditions}
+\subsection*{Couverture des postconditions}
 
 \obj{Terrain\_init\_post1} {postcondition de init sur getLargeur}
 	\begin{cas} {Terrain\_init\_post1}
@@ -736,7 +775,7 @@ in
 	\end{cas}
 
 
-\subsection{Couverture des transitions}
+\subsection*{Couverture des transitions}
 
 \obj{Terrain\_setBloc\_trans} {transition de setBloc}
 	\begin{cas} {Terrain\_setBloc\_trans1}
@@ -833,7 +872,7 @@ getPosSortie(T2) = Position::init(5, 3, 4, 2)
 	\end{cas}
 
 
-\subsection{Couverture des paires de transitions}
+\subsection*{Couverture des paires de transitions}
 
 \obj{Terrain\_setBloc\_deplacerBlocVersDirection\_trans} {transitions de setBloc puis deplacerBlocVersDirection}
 	\begin{cas} {Terrain\_setBloc\_deplacerBlocVersDirection\_trans}
@@ -1012,10 +1051,10 @@ getPosSortie(T2) = Position::init(5, 3, 4, 2)
 
 
 
-\section{MoteurJeu}
+\section{Service MoteurJeu}
 
 
-\subsection{Couverture des préconditions}
+\subsection*{Couverture des préconditions}
 
 \obj{MoteurJeu\_init\_pre} {précondition de init}
 	\begin{cas} {MoteurJeu\_init\_pre\_true}
@@ -1063,7 +1102,7 @@ getPosSortie(T2) = Position::init(5, 3, 4, 2)
 	\end{cas}
 
 
-\subsection{Couverture des invariants}
+\subsection*{Couverture des invariants}
 
 \obj{MoteurJeu\_invariant1} {minimisation de isPartieTerminee}
 	\begin{cas} {MoteurJeu\_invariant1\_true}
@@ -1113,7 +1152,7 @@ MJ =
 	\end{cas}
 
 
-\subsection{Couverture des postconditions}
+\subsection*{Couverture des postconditions}
 
 \obj{MoteurJeu\_init\_post1} {postcondition de init sur getPasRestants}
 	\begin{cas} {MoteurJeu\_init\_post1}
@@ -1162,7 +1201,7 @@ in
 	\end{cas}
 
 
-\subsection{Couverture des transitions}
+\subsection*{Couverture des transitions}
 
 \obj{MoteurJeu\_deplacerHero\_trans} {transition de deplacerHero}
 	\begin{cas} {MoteurJeu\_deplacerHero\_trans1}
@@ -1231,6 +1270,15 @@ in
 \section{Scénarios utilisateurs}
 
 \obj{Scenario1\_PartieGagnee} {récupérer le diamant et rejoindre la sortie}
+
+	\begin{enumerate}
+		\item Récupérer le diamant
+		\item Mettre à jour le terrain
+		\item Rejoindre la sortie
+		\item Mettre à jour le terrain
+		\item Constater la victoire
+	\end{enumerate}
+
 	\begin{cas} {Scenario1\_PartieGagnee}
 		\pre{MJ = init(TER1, 30)}
 		\opem{}
@@ -1255,7 +1303,14 @@ in
 
 
 \obj{Scenario2\_PartiePerdue\_ManqueDePas} {se déplacer jusqu'à épuiser le nombre de pas et ainsi perdre la partie}
-	\begin{cas} {Scenario2\_PartiePerdue\_ManqueDePa}
+
+	\begin{enumerate}
+		\item Se déplacer jusqu'à épuiser le nombre de pas
+		\item Mettre à jour le terrain
+		\item Constater la défaite
+	\end{enumerate}
+
+	\begin{cas} {Scenario2\_PartiePerdue\_ManqueDePas}
 		\pre{MJ = init(TER1, 2)}
 		\opem{}
 		\begin{enumerate}
@@ -1272,6 +1327,13 @@ in
 	\end{cas}
 
 \obj{Scenario3\_PartiePerdue\_MortDuHero} {se déplacer sous le rocher, puis mourir}
+
+	\begin{enumerate}
+		\item Se déplacer sous le rocher
+		\item Mettre à jour le terrain
+		\item Constater la mort du héro
+	\end{enumerate}
+
 	\begin{cas} {Scenario3\_PartiePerdue\_MortDuHero}
 		\pre{MJ = init(TER1, 30)}
 		\opem{}
@@ -1289,6 +1351,13 @@ in
 	\end{cas}
 
 \obj{Scenario4\_DeplacerUnRocher} {pousser le rocher vers la gauche}
+
+	\begin{enumerate}
+		\item Pousser le rocher vers la gauche
+		\item Constater le déplacement du rocher
+		\item Mettre à jour le terrain
+	\end{enumerate}
+
 	\begin{cas} {Scenario4\_DeplacerUnRocher}
 		\pre{MJ = init(TER1, 30)}
 		\opem{}
