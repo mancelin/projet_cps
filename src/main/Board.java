@@ -38,6 +38,8 @@ public class Board extends JPanel implements ActionListener {
 	private final int DELAI = 200;
 	private int largeur_fenetre;
 	private int hauteur_fenetre;
+	private int x_window;
+	private int y_window;
 
 	private boolean newAction = true;
 	private boolean afficherAide = false;
@@ -65,7 +67,8 @@ public class Board extends JPanel implements ActionListener {
 		this.largeur_fenetre = largeur_fenetre;
 		this.hauteur_fenetre = hauteur_fenetre + 20;
 		this.parent =parent;
-		
+		this.x_window = parent.getX();
+		this.y_window = parent.getY();
 		
 		
 		parent.setSize(largeur_fenetre, hauteur_fenetre);
@@ -105,7 +108,7 @@ public class Board extends JPanel implements ActionListener {
 		you_win = iic_win.getImage();
 		
 		parent.setFocusable(true);
-		parent.pack();
+	//	parent.pack();
 		parent.repaint();
 		
 		initGame();
@@ -162,9 +165,9 @@ public class Board extends JPanel implements ActionListener {
 
 	public void gameOver(Graphics g) {
 		if(parent.getWidth() != 339 || parent.getHeight() != (203)){ // 153 + 50
-			parent.setBounds(parent.getX(),parent.getY(), 339, 203);
+			parent.setBounds(x_window,y_window, 339, 203);
 		}
-		g.clearRect(0, 0, parent.getX(), parent.getY());
+		g.clearRect(0, 0, parent.getWidth(), parent.getHeight());
 		g.drawImage(game_over, 0, 0,this);
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 		g.setColor(Color.green);
@@ -175,9 +178,9 @@ public class Board extends JPanel implements ActionListener {
 
 	public void youWin(Graphics g) {
 		if(parent.getWidth() != 339 || parent.getHeight() != 203){
-			parent.setBounds(parent.getX(),parent.getY(), 339, 203);
+			parent.setBounds(x_window,y_window, 339, 203);
 		}
-		g.clearRect(0, 0, parent.getX(), parent.getY());
+		g.clearRect(0, 0, parent.getWidth(), parent.getHeight());
 		g.drawImage(you_win, 0, 0,this);
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 		g.setColor(Color.green);
@@ -189,12 +192,13 @@ public class Board extends JPanel implements ActionListener {
 	
 	public void afficherAide(Graphics g) {
 		if(parent.getWidth() != 600 || parent.getHeight() != 250){
-			parent.setBounds(parent.getX(),parent.getY(), 600, 250);
+			parent.setBounds(x_window,y_window, 600, 250);
 		}
 		Font small = new Font("Helvetica", Font.BOLD, 14);
-		g.setColor(Color.green);
+		parent.setBackground(Color.white);
+		g.setColor(Color.black);
 		g.setFont(small);
-		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
+		g.clearRect(0, 0, parent.getWidth(), parent.getHeight());
 		String msg[] = {
 				 "Le but du jeu est de ramasser tous les diamants et de sortir par la"  ,
 				 "porte sans se faire écraser par un diammant ou un rocher, ni épuisé",
@@ -216,10 +220,10 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void printNbPasRestants(Graphics g) {
-		g.clearRect(0, hauteur*TAILLE_CASE, largeur*TAILLE_CASE, (hauteur+ 1)*TAILLE_CASE);
+		g.clearRect(0, hauteur*TAILLE_CASE, parent.getHeight(), parent.getWidth());
 		String msg = ""+mj.getPasRestants();
 		Font small = new Font("Helvetica", Font.BOLD, 14);
-
+		parent.setBackground(Color.BLACK);
 		g.setColor(Color.green);
 		g.setFont(small);
 		g.drawString(msg, (TAILLE_CASE*largeur) - 30,(hauteur+ 1)*TAILLE_CASE+5);
@@ -277,7 +281,7 @@ public class Board extends JPanel implements ActionListener {
 			if (key == KeyEvent.VK_SPACE){
 				mj = mjClone;
 				mjClone = mj.copy();
-				parent.setBounds(parent.getX(),parent.getY(), largeur_fenetre, hauteur_fenetre);
+				parent.setBounds(x_window,y_window, largeur_fenetre, hauteur_fenetre);
 				repaint();
 			}
 			
