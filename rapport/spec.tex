@@ -106,13 +106,27 @@
 \newcommand{\eo}[1]{\textcolor{RoyalPurple}{#1}}
 \newcommand{\ec}[1]{\textcolor{BrickRed}{#1}}
 
-\title{Spécification du Boulder Dash}
+
+\title{
+	\normalsize{M1 Informatique STL\\
+	Université Pierre et Marie Curie\\
+	2011-2012}\\
+	\vspace{15mm}
+	\rule{\linewidth{}}{0.3mm}\\
+	\Huge{Boulder Dash (CPS)}\\
+	\large{Spécification}\\
+	\vspace{5mm}
+	\footnotesize{Maxime A\bsc{ncelin} et Mickaël M\bsc{enu}}
+	\rule{\linewidth{}}{0.3mm}
+}
 
 \author{}
 
-\date{}
-
 \begin{document}
+
+\maketitle{}
+\thispagestyle{empty}
+\clearpage{}
 
 \begin{lstlisting}[caption=Bloc]
 `\service` Bloc
@@ -427,10 +441,10 @@
 \section*{Légende}
 
 \begin{itemize}
-	\item \o{\cmd{observator}}
-	\item \c{\cmd{operator}}/\c{\cmd{constructor}}
-	\item \eo{\cmd{External::observator}}
-	\item \ec{\cmd{External::operator}}
+	\item \o{\cmd{Observateur}}
+	\item \c{\cmd{Opérateur}}/\c{\cmd{Constructeur}}
+	\item \eo{\cmd{ServiceExterne::observateur}}
+	\item \ec{\cmd{ServiceExterne::opérateur}}
 \end{itemize}
 \end{document}
 
