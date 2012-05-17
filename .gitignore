@@ -8,3 +8,6 @@ bin
 *.fdb_latexmk
 .DS_Store
 *.fls
+build/
+report.txt
+*.toc

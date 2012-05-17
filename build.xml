@@ -1,0 +1,71 @@
+<project name="builderdash" default="compile" basedir=".">
+	<description>
+		Fichier de construction du projet de TP Boulder Dash
+	</description>
+
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="jars" location="jars"/>
+
+	<property name="nom1" value="Maxime_ANCELIN"/>
+	<property name="nom2" value="Mickael_MENU"/>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init" description="Compiler les sources">
+		<javac debug="true" classpath="${jars}/junit.jar" srcdir="${src}" excludes="" destdir="${build}" />
+	</target>
+
+	<target name="run" depends="compile" description="Lancer le jeu">
+		<echo>================ Lancement de Boulder Dash ================</echo>
+		<java classname="pcps.main.BoulderDashMain" classpath="${build}" fork="true"></java>
+	</target>
+
+	<target name="test" depends="compile" description="Verifier les objectifs de tests">
+		<echo>================ Verification des objectifs de tests ================</echo>
+		<junit printsummary="yes">
+ 			<classpath>
+				<pathelement location="${build}"/>
+				<pathelement location="${jars}/junit.jar"/>
+			</classpath>
+
+			<formatter type="plain"/>
+
+			<test name="pcps.tests.AllTests" outfile="report"/>
+		</junit>
+		<echo>================ Consultez les resultats dans report.txt ================</echo>
+	</target>
+
+	<target name="ctest" depends="compile" description="Verifier les objectifs de tests avec les contrats">
+		<echo>================ Verification des objectifs de tests avec les contrats ================</echo>
+		<junit printsummary="yes">
+ 			<classpath>
+				<pathelement location="${build}"/>
+				<pathelement location="${jars}/junit.jar"/>
+			</classpath>
+
+			<formatter type="plain"/>
+
+			<test name="pcps.tests.AllTests" outfile="report"/>
+		</junit>
+		<echo>================ Consultez les resultats dans report.txt ================</echo>
+	</target>
+	
+	<target name="dist" depends="init,clean" description="Generer la distribution" >
+		<jar basedir=".." jarfile="../${nom1}-${nom2}-Projet-JeuCailloux.jar" includes="projet_cps" excludes="**/.git"/>
+	</target>
+
+	<target name="clean" description="Nettoyer le répertoire">
+		<echo>================ Nettoyage des fichiers temporaires ================</echo>
+		<delete verbose="true">
+		<fileset dir="${basedir}" defaultexcludes="no">
+			<include name="**/*~"/>
+		</fileset>
+		</delete>
+		<echo>================ Suppression du répertoire de build ================</echo>    
+		<delete dir="${build}"/>
+	</target>
+</project>
