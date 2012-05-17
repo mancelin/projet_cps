@@ -18,6 +18,16 @@ public class PositionDecorator implements PositionService {
 	public PositionService copy() {
 		return getDelegate().copy();
 	}
+
+	@Override
+	public String toString() {
+		return getDelegate().toString();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return getDelegate().equals(other);
+	}
 	
 	@Override
 	public int getLargeur() {

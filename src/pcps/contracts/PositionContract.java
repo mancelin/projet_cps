@@ -51,6 +51,7 @@ public class PositionContract extends PositionDecorator {
 		// captures
 		int getXAtPre = getX();
 		int getYAtPre = getY();
+		int newX, newY;
 
 		// invariant@pre
 		checkInvariant();
@@ -75,7 +76,9 @@ public class PositionContract extends PositionDecorator {
 		//       getX() == getX()@pre
 		//       getY() == (getY()@pre + 1) mod getHauteur()
 		if (dir == Direction.GAUCHE) {
-			if (!(getX() == (getXAtPre - 1) % getLargeur()))
+			newX = (getXAtPre - 1) % getLargeur();
+			if (newX == -1) newX = (getLargeur() - 1);
+			if (!(getX() == newX))
 				Contractor.defaultContractor().postconditionError("PositionService", "deplacerVersDirection", "Dans un déplacement vers la GAUCHE, la nouvelle valeur de X doit être le reste du modulo de l'ancien X décrémenté de 1 par la largeur du terrain.");
 			if (!(getY() == getYAtPre))
 				Contractor.defaultContractor().postconditionError("PositionService", "deplacerVersDirection", "Dans un déplacement vrs la GAUCHE, la valeur de Y doit rester inchangée.");
@@ -87,7 +90,9 @@ public class PositionContract extends PositionDecorator {
 		} else if (dir == Direction.HAUT) {
 			if (!(getX() == getXAtPre))
 				Contractor.defaultContractor().postconditionError("PositionService", "deplacerVersDirection", "Dans un déplacement vers le HAUT, la valeur de X doit rester inchangée.");
-			if (!(getY() == (getYAtPre - 1) % getHauteur()))
+			newY = (getYAtPre - 1) % getHauteur();
+			if (newY == -1) newY = getHauteur() - 1;
+			if (!(getY() == newY))
 				Contractor.defaultContractor().postconditionError("PositionService", "deplacerVersDirection", "Dans un déplacement vers le HAUT, la nouvelle valeur de Y doit être le reste du modulo de l'ancien Y décrémenté de 1 par la hauteur du terrain.");
 		} else if (dir == Direction.BAS) {
 			if (!(getX() == getXAtPre))

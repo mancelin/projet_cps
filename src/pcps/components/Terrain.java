@@ -86,6 +86,11 @@ TerrainService {
 	public TerrainService copy() {
 		TerrainService copy = Factory.getFactory().creerTerrain();
 		copy.init(getLargeur(), getHauteur());
+		for(int y = 0; y < hauteur; y++) {
+			for(int x = 0; x < largeur; x++) {
+				copy.setBloc(getBloc(x, y).getType(), x, y);
+			}
+		}
 		return copy;
 	}
 

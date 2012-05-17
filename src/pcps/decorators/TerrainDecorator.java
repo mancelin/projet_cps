@@ -25,6 +25,16 @@ public class TerrainDecorator implements TerrainService {
 	}
 	
 	@Override
+	public String toString() {
+		return getDelegate().toString();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return getDelegate().equals(other);
+	}
+	
+	@Override
 	public int getLargeur() {
 		return getDelegate().getLargeur();
 	}

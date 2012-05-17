@@ -26,6 +26,16 @@ public class BlocDecorator implements BlocService {
 	}
 	
 	@Override
+	public String toString() {
+		return getDelegate().toString();
+	}
+	
+	@Override
+	public boolean equals(Object other) {
+		return getDelegate().equals(other);
+	}
+	
+	@Override
 	public PositionService getPosition() {
 		return getDelegate().getPosition();
 	}

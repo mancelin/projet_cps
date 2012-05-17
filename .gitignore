@@ -11,3 +11,4 @@ bin
 build/
 report.txt
 *.toc
+report_with_contracts.txt
