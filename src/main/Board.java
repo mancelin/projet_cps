@@ -63,12 +63,12 @@ public class Board extends JPanel implements ActionListener {
 		this.hauteur = mj.getTerrain().getHauteur();
 
 		this.largeur_fenetre = largeur_fenetre;
-		this.hauteur_fenetre = hauteur_fenetre;
+		this.hauteur_fenetre = hauteur_fenetre + 20;
 		this.parent =parent;
 		
 		
 		
-		parent.setSize(largeur_fenetre, hauteur_fenetre + 20);
+		parent.setSize(largeur_fenetre, hauteur_fenetre);
 		parent.addKeyListener(new TAdapter());
 		parent.setBackground(Color.black);
 
@@ -161,20 +161,29 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void gameOver(Graphics g) {
-		if(parent.getWidth() != 339 || parent.getHeight() != 153){
-			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
+		if(parent.getWidth() != 339 || parent.getHeight() != (203)){ // 153 + 50
+			parent.setBounds(parent.getX(),parent.getY(), 339, 203);
 		}
 		g.clearRect(0, 0, parent.getX(), parent.getY());
 		g.drawImage(game_over, 0, 0,this);
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		g.setColor(Color.green);
+		g.setFont(small);
+		g.drawString("appuyez sur espace pour recommencer!", 4, 170);
 		g.dispose();
 	}
 
 	public void youWin(Graphics g) {
-		if(parent.getWidth() != 339 || parent.getHeight() != 153){
-			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
+		if(parent.getWidth() != 339 || parent.getHeight() != 203){
+			parent.setBounds(parent.getX(),parent.getY(), 339, 203);
 		}
 		g.clearRect(0, 0, parent.getX(), parent.getY());
 		g.drawImage(you_win, 0, 0,this);
+		Font small = new Font("Helvetica", Font.BOLD, 14);
+		g.setColor(Color.green);
+		g.setFont(small);
+		g.drawString("appuyez sur espace pour recommencer!", 4, 170);
+		g.dispose();
 		g.dispose();
 	}
 	
@@ -243,7 +252,7 @@ public class Board extends JPanel implements ActionListener {
 			int key = e.getKeyCode();
 			
 			if(afficherAide){
-				parent.setSize(largeur_fenetre, hauteur_fenetre + 20);
+				parent.setSize(largeur_fenetre, hauteur_fenetre);
 				afficherAide = false;
 			}
 
@@ -267,6 +276,9 @@ public class Board extends JPanel implements ActionListener {
 
 			if (key == KeyEvent.VK_SPACE){
 				mj = mjClone;
+				mjClone = mj.copy();
+				parent.setBounds(parent.getX(),parent.getY(), largeur_fenetre, hauteur_fenetre);
+				repaint();
 			}
 			
 			if (key == KeyEvent.VK_F1){
