@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-
 import factories.*;
 
 import parser.TerrainParser;
@@ -21,7 +20,7 @@ public class BoulderDashMain extends JFrame {
 
 	public BoulderDashMain() throws IOException {
 		Factory factory = Factory.getFactory();
-
+		JFrame mainWindow = new JFrame();
 		final JFileChooser fc = new JFileChooser();
 		String repCourant = System.getProperty("user.dir" );
 		fc.setDialogTitle("Ouvrir fichier de niveau");
@@ -35,19 +34,25 @@ public class BoulderDashMain extends JFrame {
 			MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau.toString(),factory); 
 			int largeur_fenetre = mj.getTerrain().getLargeur()*TAILLE_CASE;
 			int hauteur_fenetre = (mj.getTerrain().getHauteur()+2)*TAILLE_CASE;
+			/*
 			if(largeur_fenetre < 339) largeur_fenetre = 339;
 			if(hauteur_fenetre < 153) hauteur_fenetre = 153;
-			add(new Board(mj,largeur_fenetre,hauteur_fenetre));
-
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			*/
+		//	Component window = this.rootPane.getContentPane();
 			
-			setSize(largeur_fenetre, hauteur_fenetre );
-			setBackground(Color.BLACK);
-			setLocationRelativeTo(null);
-			setTitle("Boulder Dash");
+			//add(new Board(/*this,*/mj,largeur_fenetre,hauteur_fenetre));
 
-			setResizable(false);
-			setVisible(true);
+			mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			mainWindow.setSize(largeur_fenetre, hauteur_fenetre );
+			mainWindow.setBackground(Color.BLACK);
+			mainWindow.setLocationRelativeTo(null);
+			mainWindow.setTitle("Boulder Dash");
+
+		//	setResizable(false);
+			//mainWindow.pack();
+			mainWindow.setVisible(true);
+			mainWindow.add(new Board(mainWindow,mj,largeur_fenetre,hauteur_fenetre));
 		}
 	}
 

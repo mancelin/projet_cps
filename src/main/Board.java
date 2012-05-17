@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -29,6 +30,8 @@ public class Board extends JPanel implements ActionListener {
 
 	private MoteurJeuService mj;
 	private MoteurJeuService mjClone;
+	
+	JFrame parent;
 	private int largeur;
 	private int hauteur;
 	private final int TAILLE_CASE = 16;
@@ -51,7 +54,8 @@ public class Board extends JPanel implements ActionListener {
 	private Image game_over;
 	private Image you_win;
 
-	public Board(MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
+	public Board(JFrame parent, MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
+	//public Board(MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
 		this.mj = mj;
 		this.mjClone = mj.copy();
 		this.largeur = mj.getTerrain().getLargeur();
@@ -59,15 +63,17 @@ public class Board extends JPanel implements ActionListener {
 
 		this.largeur_fenetre = largeur_fenetre;
 		this.hauteur_fenetre = hauteur_fenetre;
-
-		addKeyListener(new TAdapter());
-
-		setBackground(Color.black);
+		this.parent =parent;
+		
+		
+		
+		parent.setSize(largeur_fenetre, hauteur_fenetre);
+		parent.addKeyListener(new TAdapter());
+		parent.setBackground(Color.black);
 
 		String repCourant = System.getProperty("user.dir" );
 		String repImages = repCourant + File.separator + "src" + File.separator + "main";
 		ImageIcon iic_h = new ImageIcon(repImages + File.separator + "c_hero.png");
-		//ImageIcon iic_h = new ImageIcon(this.getClass().getResource("c_hero.png"));
 		c_hero = iic_h.getImage();
 
 		ImageIcon iic_v = new ImageIcon(repImages + File.separator + "c_vide.png");
@@ -96,8 +102,11 @@ public class Board extends JPanel implements ActionListener {
 
 		ImageIcon iic_win = new ImageIcon(repImages + File.separator + "you_win.png");
 		you_win = iic_win.getImage();
-
-		setFocusable(true);
+		
+		parent.setFocusable(true);
+		parent.pack();
+		parent.repaint();
+		
 		initGame();
 	}
 
@@ -105,7 +114,6 @@ public class Board extends JPanel implements ActionListener {
 	public void initGame() {
 		timer = new Timer(DELAI, this);
 		timer.start();
-
 	}
 
 	public Image imageDeTypeBloc(TypeBloc tb){
@@ -148,11 +156,19 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void gameOver(Graphics g) {
-		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
+		if(parent.getWidth() != 339 || parent.getHeight() != 153){
+			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
+			System.out.println("resizing");
+		}
+		g.clearRect(0, 0, 339, 153 );
 		g.drawImage(game_over, 0, 0,this);
 	}
 
 	public void youWin(Graphics g) {
+		if(parent.getWidth() != 339 || parent.getHeight() != 153){
+			parent.setBounds(parent.getX(),parent.getY(), 339, 153);
+			System.out.println("resizing");
+		}
 		g.clearRect(0, 0, largeur_fenetre, hauteur_fenetre );
 		g.drawImage(you_win, 0, 0,this);
 	}
