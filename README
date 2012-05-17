@@ -1,0 +1,24 @@
+
+== TP Boulder Dash (CPS) ==
+
+Auteurs: Maxime ANCELIN et Mickaël MENU (3152367)
+Date:    17 mai 2012
+
+
+
+1) Pour lancer le jeu : ant run
+Plusieurs cartes sont disponibles dans le répertoire "niveaux" à la racine du jeu.
+
+2) Pour lancer le jeu avec les contrats branchés : ant crun
+
+3) Pour lancer les objectifs de tests : ant test
+Le rapport JUnit est alors écrit dans report.txt
+
+4) Pour lancer les objectifs de tests avec les contrats : ant ctest
+Le rapport JUnit est alors écrit dans report_with_contracts.txt
+
+* Remarque : Le Contractor affiche dans la console certaines erreurs de
+préconditions au lancement des tests avec contrats, mais c'est le comportement
+attendu. En effet dans certains cas de test, on passe délibérément de mauvaises
+valeurs en arguments pour vérifier que l'implémentation retourne une erreur.
+
