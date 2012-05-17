@@ -15,9 +15,9 @@ import pcps.factories.Factory;
 	ScenariosTest.class
 })
 
-public class AllTests {
+public class AllTestsWithContracts {
 	@BeforeClass
 	public static void setUp() {
-		Factory.createFactory();
+		Factory.createFactoryWithContracts();
 	}
 }

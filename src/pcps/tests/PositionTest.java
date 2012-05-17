@@ -11,7 +11,6 @@ public class PositionTest {
 	private PositionService position;
 	
 	public PositionTest() {
-		Factory.createFactory();
 		position = null;
 	}
 	

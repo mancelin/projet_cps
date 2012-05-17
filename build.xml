@@ -49,9 +49,9 @@
 
 			<formatter type="plain"/>
 
-			<test name="pcps.tests.AllTests" outfile="report"/>
+			<test name="pcps.tests.AllTestsWithContracts" outfile="report_with_contracts"/>
 		</junit>
-		<echo>================ Consultez les resultats dans report.txt ================</echo>
+		<echo>================ Consultez les resultats dans report_with_contracts.txt ================</echo>
 	</target>
 	
 	<target name="dist" depends="init,clean" description="Generer la distribution" >

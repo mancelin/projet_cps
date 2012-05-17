@@ -11,7 +11,6 @@ public class BlocTest {
 	private BlocService bloc;
 	
 	public BlocTest() {
-		Factory.createFactory();
 		bloc = null;
 	}
 	

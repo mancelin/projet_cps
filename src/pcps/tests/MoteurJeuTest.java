@@ -11,7 +11,6 @@ public class MoteurJeuTest {
 	private MoteurJeuService mj;
 
 	public MoteurJeuTest() {
-		Factory.createFactory();
 		mj = null;
 	}
 

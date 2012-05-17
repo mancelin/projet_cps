@@ -17,7 +17,6 @@ public class TerrainTest {
 	private TerrainService ter;
 
 	public TerrainTest() {
-		Factory.createFactory();
 		ter = null;
 	}
 
