@@ -62,7 +62,9 @@
 	</target>
 	
 	<target name="dist" depends="init,clean" description="Generer la distribution" >
-		<jar basedir=".." jarfile="../${nom1}-${nom2}-Projet-JeuCailloux.jar" includes="projet_cps" excludes="**/.git"/>
+		<jar basedir=".." jarfile="../${nom1}-${nom2}-Projet-JeuCailloux.jar" includes="projet_cps" excludes=".git*"/>
+		<gzip src="../${nom1}-${nom2}-Projet-JeuCailloux.jar" destfile="../${nom1}-${nom2}-Projet-JeuCailloux.jgz"/>
+		<delete file="../${nom1}-${nom2}-Projet-JeuCailloux.jar"/>
 	</target>
 
 	<target name="clean" description="Nettoyer le répertoire">
