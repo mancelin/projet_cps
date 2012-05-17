@@ -1191,5 +1191,119 @@ in
 		\end{lstlisting}
 	\end{cas}
 
+\clearpage{}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Scénarios utilisateurs}
+
+\obj{Scenario1\_PartieGagnee} {récupérer le diamant et rejoindre la sortie}
+	\begin{cas} {Scenario1\_PartieGagnee}
+		\pre{MJ = init(TER1, 30)}
+		\opem{}
+		\begin{enumerate}
+			\item \cmd{MJ2 = deplacerHero(deplacerHero(MJ, DROITE), DROITE))}
+			\item \cmd{T2 = fairePasDeMiseAJour(getTerrain(MJ2))}
+			\item \cmd{MJ3 = deplacerHero(MJ2, BAS)}
+			\item \cmd{T3 = fairePasDeMiseAJour(getTerrain(MJ3))}
+		\end{enumerate}
+		\oram{}
+		\begin{enumerate}
+			\item Préconditions avant MJ2
+			\item Postconditions + invariant après MJ2
+			\item Postconditions + invariant après T2
+			\item Préconditions avant MJ3
+			\item Postconditions + invariant après MJ3
+			\item Postconditions + invariant après T3
+			\item \cmd{isPartieGagnee(MJ)}
+		\end{enumerate}
+	\end{cas}
+
+
+
+\obj{Scenario2\_PartiePerdue\_ManqueDePas} {se déplacer jusqu'à épuiser le nombre de pas et ainsi perdre la partie}
+	\begin{cas} {Scenario2\_PartiePerdue\_ManqueDePa}
+		\pre{MJ = init(TER1, 2)}
+		\opem{}
+		\begin{enumerate}
+			\item \cmd{MJ2 = deplacerHero(deplacerHero(MJ, DROITE), DROITE)}
+			\item \cmd{T2 = fairePasDeMiseAJour(getTerrain(MJ2))}
+		\end{enumerate}
+		\oram{}
+		\begin{enumerate}
+			\item Préconditions avant MJ2
+			\item Postconditions + invariant après MJ2
+			\item Postconditions + invariant après T2
+			\item \cmd{isPartieTerminee(MJ) \lAND{} \lNOT{}isPartieGagnee(MJ)}
+		\end{enumerate}
+	\end{cas}
+
+\obj{Scenario3\_PartiePerdue\_MortDuHero} {se déplacer sous le rocher, puis mourir}
+	\begin{cas} {Scenario3\_PartiePerdue\_MortDuHero}
+		\pre{MJ = init(TER1, 30)}
+		\opem{}
+		\begin{enumerate}
+			\item \cmd{MJ2 = deplacerHero(deplacerHero(MJ, BAS), GAUCHE)}
+			\item \cmd{T2 = fairePasDeMiseAJour(getTerrain(MJ2))}
+		\end{enumerate}
+		\oram{}
+		\begin{enumerate}
+			\item Préconditions avant MJ2
+			\item Postconditions + invariant après MJ2
+			\item Postconditions + invariant après T2
+			\item \cmd{\lNOT{}isHeroVivant(T2)}
+		\end{enumerate}
+	\end{cas}
+
+\obj{Scenario4\_DeplacerUnRocher} {pousser le rocher vers la gauche}
+	\begin{cas} {Scenario4\_DeplacerUnRocher}
+		\pre{MJ = init(TER1, 30)}
+		\opem{}
+		\begin{enumerate}
+			\item \cmd{MJ2 = deplacerHero(MJ, GAUCHE)}
+			\item \cmd{T2 = fairePasDeMiseAJour(getTerrain(MJ2))}
+		\end{enumerate}
+		\oram{}
+		\begin{enumerate}
+			\item Préconditions avant MJ2
+			\item Postconditions + invariant après MJ2
+			\item \cmd{getType(getBloc(getTerrain(MJ2), 0, 1)) = ROCHER}
+			\item Postconditions + invariant après T2
+		\end{enumerate}
+	\end{cas}
+
 \end{document}
 
