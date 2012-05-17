@@ -21,7 +21,7 @@
 
 	<target name="run" depends="compile" description="Lancer le jeu">
 		<echo>================ Lancement de Boulder Dash ================</echo>
-		<java classname="pcps.main.BoulderDashMain" classpath="${build}" fork="true"></java>
+		<java classname="main.BoulderDashMain" classpath="${build}" fork="true"></java>
 	</target>
 
 	<target name="test" depends="compile" description="Verifier les objectifs de tests">
@@ -34,7 +34,7 @@
 
 			<formatter type="plain"/>
 
-			<test name="pcps.tests.AllTests" outfile="report"/>
+			<test name="tests.AllTests" outfile="report"/>
 		</junit>
 		<echo>================ Consultez les resultats dans report.txt ================</echo>
 	</target>
@@ -49,7 +49,7 @@
 
 			<formatter type="plain"/>
 
-			<test name="pcps.tests.AllTestsWithContracts" outfile="report_with_contracts"/>
+			<test name="tests.AllTestsWithContracts" outfile="report_with_contracts"/>
 		</junit>
 		<echo>================ Consultez les resultats dans report_with_contracts.txt ================</echo>
 	</target>
@@ -65,7 +65,7 @@
 			<include name="**/*~"/>
 		</fileset>
 		</delete>
-		<echo>================ Suppression du répertoire de build ================</echo>    
+		<echo>================ Suppression du repertoire de build ================</echo>    
 		<delete dir="${build}"/>
 	</target>
 </project>
