@@ -24,6 +24,13 @@
 		<java classname="main.BoulderDashMain" classpath="${build}" fork="true"></java>
 	</target>
 
+	<target name="crun" depends="compile" description="Lancer le jeu avec les contrats">
+		<echo>================ Lancement de Boulder Dash avec les contrats ================</echo>
+		<java classname="main.BoulderDashMain" classpath="${build}" fork="true">
+			<arg value="--with-contracts"/>
+		</java>
+	</target>
+	
 	<target name="test" depends="compile" description="Verifier les objectifs de tests">
 		<echo>================ Verification des objectifs de tests ================</echo>
 		<junit printsummary="yes">

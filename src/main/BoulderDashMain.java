@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -19,7 +20,6 @@ public class BoulderDashMain extends JFrame {
 	private final int TAILLE_CASE = 16;
 
 	public BoulderDashMain() throws IOException {
-		Factory.createFactory();
 		Factory factory = Factory.getFactory();
 
 		final JFileChooser fc = new JFileChooser();
@@ -52,8 +52,14 @@ public class BoulderDashMain extends JFrame {
 	}
 
 	public static void main(String[] args) throws IOException{
+		if (args.length > 0 && Arrays.asList(args).contains("--with-contracts")) {
+			System.out.println("withContracts: true");
+			Factory.createFactoryWithContracts();
+		} else {
+			System.out.println("withContracts: false");
+			Factory.createFactory();
+		}
 		new BoulderDashMain();
-
 	}
 
 }

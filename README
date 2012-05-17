@@ -10,6 +10,8 @@ Date:    17 mai 2012
 Plusieurs cartes sont disponibles dans le répertoire "niveaux" à la racine du jeu.
 
 2) Pour lancer le jeu avec les contrats branchés : ant crun
+* Remarque : les performances du jeu lorsque les contrats sont branchés sont
+très médiocres, en raison du nombre de tests effectués sur le terrain.
 
 3) Pour lancer les objectifs de tests : ant test
 Le rapport JUnit est alors écrit dans report.txt
