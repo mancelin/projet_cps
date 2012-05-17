@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import decorators.TerrainDecorator;
 import enums.Direction;
 import enums.TypeBloc;
+import factories.Factory;
 
 import services.BlocService;
 import services.PositionService;
@@ -203,7 +204,15 @@ public class TerrainContract extends TerrainDecorator {
 		if (getPosHeroAtPre != null)
 			getPosHeroAtPre = getPosHeroAtPre.copy();
 		BlocService getBlocXYAtPre = getBloc(x, y).copy();
-		TerrainService terrainAtPre = this.copy();
+		
+		// on fait une copie manuelle du terrain pour éviter la boucle dans le contrat
+		TerrainService terrainAtPre = Factory.getFactory().creerTerrain();
+		terrainAtPre.init(getLargeur(), getHauteur());
+		for(int y2 = 0; y2 < getHauteur(); y2++) {
+			for(int x2 = 0; x2 < getLargeur(); x2++) {
+				((TerrainContract)terrainAtPre).getDelegate().setBloc(getBloc(x2, y2).getType(), x2, y2);
+			}
+		}
 		
 		// invariant@pre
 		checkInvariant();
@@ -264,8 +273,11 @@ public class TerrainContract extends TerrainDecorator {
 	@Override
 	public void deplacerBlocVersDirection(BlocService bloc, Direction dir) {
 		// captures
-		PositionService getPosSortieAtPre = getPosSortie().copy();
-		PositionService getPosHeroAtPre = getPosHero().copy();
+		boolean isBlocHero = (bloc == getBlocHero());
+		PositionService getPosSortieAtPre = getPosSortie();
+		if (getPosSortieAtPre != null) getPosSortieAtPre = getPosSortieAtPre.copy();
+		PositionService getPosHeroAtPre = getPosHero();
+		if (getPosHeroAtPre != null) getPosHeroAtPre = getPosHeroAtPre.copy();
 		BlocService blocAtPre = bloc.copy();
 		TypeBloc typeBlocAtPre = blocAtPre.getType();
 		BlocService blocDestAtPre = getBlocVersDirection(bloc, dir).copy();
@@ -293,7 +305,7 @@ public class TerrainContract extends TerrainDecorator {
 		//       getPosHero() == getBlocVersDirection(bloc, dir).getPosition()
 		//   \else
 		//       getPosHero() == getPosHero()@pre
-		if (bloc.equals(getBlocHero())) {
+		if (isBlocHero) {
 			if (!(getPosHero().equals(getBlocVersDirection(bloc, dir).getPosition())))
 				Contractor.defaultContractor().postconditionError("TerrainService", "deplacerBlocVersDirection", "Si le bloc à déplacer est le héro, alors la position retournée par getPosHero() doit être les coordonnées données.");
 		} else {
@@ -382,6 +394,7 @@ public class TerrainContract extends TerrainDecorator {
 		//   }
 		//   }
 		BlocService blocAtPre;
+		
 		for (int x = 0; x <= getLargeur() - 1; x++) {
 		for (int y = 0; y <= getHauteur() - 1; y++) {
 			blocAtPre = terrainAtPre.getBloc(x, y);

@@ -89,7 +89,7 @@ TerrainService {
 		copy.init(getLargeur(), getHauteur());
 		for(int y = 0; y < hauteur; y++) {
 			for(int x = 0; x < largeur; x++) {
-				copy.getBloc(x, y).setType(getBloc(x, y).getType());
+				copy.setBloc(getBloc(x, y).getType(), x, y);
 			}
 		}
 		return copy;

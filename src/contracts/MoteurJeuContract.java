@@ -82,7 +82,7 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 	public void deplacerHero(Direction dir) {
 		// captures
 		int getPasRestantsAtPre = getPasRestants();
-		TerrainService getTerrainAtPre = getTerrain();
+		TerrainService getTerrainAtPre = getTerrain().copy();
 		
 		// pre: !isPartieTerminee() && isDeplacementHeroPossible(dir)
 		if (!(!isPartieTerminee() && isDeplacementHeroPossible(dir)))
@@ -98,26 +98,25 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 		checkInvariant();
 		
 		// post:
-		//   \let* terrain = getTerrain()
-		//   \and blocHero = terrain.getBlocHero()
-		//   \and blocDest = terrain.getBlocVersDirection(blocHero, dir)
+		//   \let* terrain = getTerrain()@pre
+		//   \and blocHero = terrainAtPre.getBlocHero()
+		//   \and blocDest = terrainAtPre.getBlocVersDirection(blocHero, dir)
 		//   \in
 		//       \if !blocDest.isSolide() \then
-		//           getTerrain() = getTerrain()@pre.deplacerBlocVersDirection(blocHero, dir)
+		//           getTerrain() = terrainAtPre.deplacerBlocVersDirection(blocHero, dir)
 		//       \else \if blocDest.isDeplacable() && dir \in { GAUCHE, DROITE } \then
-		//           getTerrain()@pre.deplacerBlocVersDirection(blocDest, dir)
-		//           getTerrain() == getTerrain()@pre.deplacerBlocVersDirection(blocHero, dir)
-		TerrainService terrain = getTerrain();
-		BlocService blocHero = terrain.getBlocHero();
-		BlocService blocDest = terrain.getBlocVersDirection(blocHero, dir);
+		//           terrainAtPre.deplacerBlocVersDirection(blocDest, dir)
+		//           getTerrain() == terrainAtPre.deplacerBlocVersDirection(blocHero, dir)
+		BlocService blocHero = getTerrainAtPre.getBlocHero();
+		BlocService blocDest = getTerrainAtPre.getBlocVersDirection(blocHero, dir);
 		if (!blocDest.isSolide()) {
 			getTerrainAtPre.deplacerBlocVersDirection(blocHero, dir);
-			if (!(getTerrain() == getTerrainAtPre))
+			if (!(getTerrain().equals(getTerrainAtPre)))
 				Contractor.defaultContractor().postconditionError("MoteurJeuService", "deplacerHero", "Après un déplacement du héro, le terrain doit avoir déplacé le héro d'une case dans la direction voulue.");
 		} else if (blocDest.isDeplacable() && (dir == Direction.GAUCHE || dir == Direction.DROITE)) {
 			getTerrainAtPre.deplacerBlocVersDirection(blocDest, dir);
 			getTerrainAtPre.deplacerBlocVersDirection(blocHero, dir);
-			if (!(getTerrain() == getTerrainAtPre))
+			if (!(getTerrain().equals(getTerrainAtPre)))
 				Contractor.defaultContractor().postconditionError("MoteurJeuService", "deplacerHero", "Après un déplacement horizontal du héro entravé d'un objet déplaçable, le terrain doit avoir déplacé le héro ainsi que l'obstacle d'une case dans la direction voulue.");
 		}
 		
