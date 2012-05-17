@@ -61,7 +61,7 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 	public void init(TerrainService t, int nbPas) {
 		// pre: nbPas > 0
 		if (!(nbPas > 0))
-			Contractor.defaultContractor().postconditionError("MoteurJeuService", "init", "Le nombre de pas de jeu doit être strictement positif.");
+			Contractor.defaultContractor().preconditionError("MoteurJeuService", "init", "Le nombre de pas de jeu doit être strictement positif.");
 				
 		// run
 		super.init(t, nbPas);
@@ -86,7 +86,7 @@ public class MoteurJeuContract extends MoteurJeuDecorator {
 		
 		// pre: !isPartieTerminee() && isDeplacementHeroPossible(dir)
 		if (!(!isPartieTerminee() && isDeplacementHeroPossible(dir)))
-			Contractor.defaultContractor().postconditionError("MoteurJeuService", "deplacerHero", "Pour pouvoir déplacer le héro, il faut que la partie ne soit pas terminée et que le déplacement du héro dans la direction donnée soit possible.");
+			Contractor.defaultContractor().preconditionError("MoteurJeuService", "deplacerHero", "Pour pouvoir déplacer le héro, il faut que la partie ne soit pas terminée et que le déplacement du héro dans la direction donnée soit possible.");
 		
 		// invariant@pre
 		checkInvariant();

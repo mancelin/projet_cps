@@ -8,6 +8,8 @@ import java.util.TreeSet;
 
 import org.junit.*;
 
+import contracts.ContractError;
+
 import enums.Direction;
 import enums.TypeBloc;
 import factories.Factory;
@@ -132,6 +134,9 @@ public class TerrainTest {
 		} catch (Exception e) {
 			assertTrue(true);
 			checkInvariant();
+		} catch (ContractError e) {
+			assertTrue(true);
+			checkInvariant();
 		}
 	}
 
@@ -151,6 +156,8 @@ public class TerrainTest {
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
+		} catch (ContractError e) {
+			assertTrue(true);
 		}
 	}
 
@@ -161,6 +168,8 @@ public class TerrainTest {
 			ter.init(5, 0);
 			fail();
 		} catch (Exception e) {
+			assertTrue(true);
+		} catch (ContractError e) {
 			assertTrue(true);
 		}
 	}
@@ -188,6 +197,8 @@ public class TerrainTest {
 			ter.deplacerBlocVersDirection(ter.getBlocHero(), Direction.HAUT);
 			fail();
 		} catch (Exception e) {
+			assertTrue(true);
+		} catch (ContractError e) {
 			assertTrue(true);
 		}
 	}

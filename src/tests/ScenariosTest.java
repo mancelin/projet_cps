@@ -209,28 +209,7 @@ public class ScenariosTest {
 		assertTrue(mj.getPasRestants() == 28 - 1 && ter.equals(ter1));
 		checkMoteurJeuInvariant();
 
-		/** D. Mettre à jour le terrain **/
-
-		// contenu
-		ter.fairePasDeMiseAJour();
-
-		// oracle
-		posSortie = Factory.getFactory().creerPosition();
-		posSortie.init(5, 3, 4, 2);
-		posHero = Factory.getFactory().creerPosition();
-		posHero.init(5, 3, 4, 2);
-		for (int x = 0; x < 5; x++) {
-			for (int y = 0; y < 3; y++) {
-				BlocService bloc = ter.getBloc(x, y);
-				if (!bloc.equals(ter1.getBloc(x, y)))
-					fail();
-			}
-		}
-		assertTrue(ter.getPosSortie().equals(posSortie) && ter.getPosHero().equals(posHero));
-
-		checkTerrainInvariant();
-
-		/** E. Constater la victoire **/
+		/** D. Constater la victoire **/
 
 		// oracle
 		assertTrue(mj.isPartieGagnee());

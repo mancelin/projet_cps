@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 import org.junit.*;
 
+import contracts.ContractError;
+
 import enums.Direction;
 import factories.Factory;
 
@@ -83,6 +85,8 @@ public class MoteurJeuTest {
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
+		} catch (ContractError e) {
+			assertTrue(true);
 		}
 	}
 
@@ -113,6 +117,9 @@ public class MoteurJeuTest {
 		} catch (Exception e) {
 			assertTrue(true);
 			checkInvariant();
+		} catch (ContractError e) {
+			assertTrue(true);
+			checkInvariant();
 		}
 	}
 
@@ -130,6 +137,9 @@ public class MoteurJeuTest {
 			mj.deplacerHero(Direction.GAUCHE);
 			fail();
 		} catch(Exception e) {
+			assertTrue(true);
+			checkInvariant();
+		} catch (ContractError e) {
 			assertTrue(true);
 			checkInvariant();
 		}
@@ -165,7 +175,6 @@ public class MoteurJeuTest {
 		mj.deplacerHero(Direction.DROITE);
 		mj.getTerrain().fairePasDeMiseAJour();
 		mj.deplacerHero(Direction.BAS);
-		mj.getTerrain().fairePasDeMiseAJour();
 
 		// oracle
 		assertTrue(mj.isPartieGagnee());
@@ -241,10 +250,11 @@ public class MoteurJeuTest {
 
 		// contenu
 		mj.deplacerHero(Direction.DROITE);
-
+		
 		// oracle
 		TerrainService ter1 = ObjectsFactory.getTER1();
 		ter1.deplacerBlocVersDirection(ter1.getBlocHero(), Direction.DROITE);
+		
 		assertTrue(mj.getTerrain().equals(ter1));
 		checkInvariant();
 	}
@@ -255,18 +265,14 @@ public class MoteurJeuTest {
 		mj.init(ObjectsFactory.getTER1(), 30);
 
 		//contenu
-		System.out.println(mj.getTerrain());
 		mj.deplacerHero(Direction.GAUCHE);
-		System.out.println(mj.getTerrain());
-
+		
 		// oracle
 		TerrainService ter1 = ObjectsFactory.getTER1();
 		BlocService blocHero = ter1.getBlocHero();
 		BlocService blocDest = ter1.getBlocVersDirection(blocHero, Direction.GAUCHE);
 		ter1.deplacerBlocVersDirection(blocDest, Direction.GAUCHE);
 		ter1.deplacerBlocVersDirection(blocHero, Direction.GAUCHE);
-		System.out.println(mj.getTerrain());
-		System.out.println(ter1);
 		assertTrue(mj.getTerrain().equals(ter1));
 		checkInvariant();
 	}

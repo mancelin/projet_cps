@@ -1120,12 +1120,11 @@ getPosSortie(T2) = Position::init(5, 3, 4, 2)
 	\begin{cas} {MoteurJeu\_invariant2\_true}
 		\prem{}
 		\begin{lstlisting}
-MJ =
-	fairePasDeMiseAJour(deplacerHero(
+MJ = deplacerHero(
 		fairePasDeMiseAJour(deplacerHero(
 			fairePasDeMiseAJour(deplacerHero(init(TER1, 30), DROITE)),
 		DROITE)),
-	BAS))
+	BAS)
 		\end{lstlisting}
 		\nope{}
 		\ora{isPartieGagnee(MJ)}
@@ -1274,7 +1273,6 @@ in
 		\item Récupérer le diamant
 		\item Mettre à jour le terrain
 		\item Rejoindre la sortie
-		\item Mettre à jour le terrain
 		\item Constater la victoire
 	\end{enumerate}
 
@@ -1285,7 +1283,6 @@ in
 			\item \cmd{MJ2 = deplacerHero(deplacerHero(MJ, DROITE), DROITE))}
 			\item \cmd{T2 = fairePasDeMiseAJour(getTerrain(MJ2))}
 			\item \cmd{MJ3 = deplacerHero(MJ2, BAS)}
-			\item \cmd{T3 = fairePasDeMiseAJour(getTerrain(MJ3))}
 		\end{enumerate}
 		\oram{}
 		\begin{enumerate}
@@ -1294,7 +1291,6 @@ in
 			\item Postconditions + invariant après T2
 			\item Préconditions avant MJ3
 			\item Postconditions + invariant après MJ3
-			\item Postconditions + invariant après T3
 			\item \cmd{isPartieGagnee(MJ)}
 		\end{enumerate}
 	\end{cas}

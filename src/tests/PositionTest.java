@@ -3,6 +3,8 @@ package tests;
 import static org.junit.Assert.*;
 import org.junit.*;
 
+import contracts.ContractError;
+
 import enums.Direction;
 import factories.Factory;
 
@@ -52,6 +54,8 @@ public class PositionTest {
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
+		} catch (ContractError e) {
+			assertTrue(true);
 		}
 	}
 	
@@ -62,6 +66,8 @@ public class PositionTest {
 			position.init(5, 0, 2, 3);
 			fail();
 		} catch (Exception e) {
+			assertTrue(true);
+		} catch (ContractError e) {
 			assertTrue(true);
 		}
 	}
@@ -74,6 +80,8 @@ public class PositionTest {
 			fail();
 		} catch (Exception e) {
 			assertTrue(true);
+		} catch (ContractError e) {
+			assertTrue(true);
 		}
 	}
 
@@ -84,6 +92,8 @@ public class PositionTest {
 			position.init(5, 5, 2, -1);
 			fail();
 		} catch (Exception e) {
+			assertTrue(true);
+		} catch (ContractError e) {
 			assertTrue(true);
 		}
 	}

@@ -12,7 +12,7 @@ public class Contractor {
 	
 	public static Contractor defaultContractor() {
 		if(defaultInstance==null) {
-			defaultInstance = new Contractor(10); // erreur après 10 ruptures de contrat
+			defaultInstance = new Contractor(1); // erreur après 1 rupture de contrat
 		}
 		return defaultInstance;
 	}

@@ -394,20 +394,44 @@ public class TerrainContract extends TerrainDecorator {
 		//   }
 		//   }
 		BlocService blocAtPre;
-		
+		// première passe pour mettre à jour terrainAtPre
+		if (terrainAtPre.getBlocDepuisPosition(terrainAtPre.getPosSortie()).isSortieFermee() && !terrainAtPre.isDiamantsRestants()) {
+			PositionService posSortie = terrainAtPre.getPosSortie();
+			terrainAtPre.setBloc(TypeBloc.SORTIE_OUVERTE, posSortie.getX(), posSortie.getY());
+		}
+		boolean listIgnoreUpX[] = new boolean[terrainAtPre.getLargeur()];
+		for(int x = 0; x < terrainAtPre.getLargeur(); x++) {
+		for(int y = terrainAtPre.getHauteur() - 1; y >= 0; y--) {
+			// pour ne pas redeplacer bloc qui viennet de tomber de la derniére ligen du bas,
+			// on mémorise la position x de ces blocs dans une liste
+			BlocService bloc = terrainAtPre.getBloc(x,y);
+			if (bloc.isTombable()) {
+				if (y == terrainAtPre.getHauteur() - 1) {
+					BlocService bloc_y0 = terrainAtPre.getBloc(x, 0);
+					if (bloc_y0.isTombable() && terrainAtPre.getBlocVersDirection(bloc_y0, Direction.BAS).isVide()) {
+						terrainAtPre.deplacerBlocVersDirection(bloc_y0, Direction.BAS);
+					}
+					listIgnoreUpX[x] = true;
+				}
+				if (!(y == 0 && listIgnoreUpX[x])) {
+					if (terrainAtPre.getBlocVersDirection(bloc, Direction.BAS).isVide() || // diamants et rochers tombent	
+							terrainAtPre.getBlocVersDirection(bloc, Direction.BAS).isHero()) { // héro peut être écrasé
+						terrainAtPre.deplacerBlocVersDirection(bloc,Direction.BAS);
+					}
+				}
+			}
+		}}
+		// deuxième passe pour controler le résultat
 		for (int x = 0; x <= getLargeur() - 1; x++) {
 		for (int y = 0; y <= getHauteur() - 1; y++) {
 			blocAtPre = terrainAtPre.getBloc(x, y);
 			if (blocAtPre.isSortieFermee() && !isDiamantsRestants()) {
-				blocAtPre.setType(TypeBloc.SORTIE_OUVERTE);
 				if (!(getBloc(x, y).equals(blocAtPre)))
 					Contractor.defaultContractor().postconditionError("TerrainService", "fairePasDeMiseAJour", "Tout bloc de type SORTIE_FERMEE doit être ouvert après un pas de mise à jour s'il n'y a plus de diamants.");
 			} else if (blocAtPre.isTombable() && getBlocVersDirection(blocAtPre, Direction.BAS).isVide()) {
-				blocAtPre.setType(TypeBloc.VIDE);
 				if (!(getBloc(x, y).equals(blocAtPre)))
 					Contractor.defaultContractor().postconditionError("TerrainService", "fairePasDeMiseAJour", "Tout bloc tombable doit être VIDE après un pas de mise à jour.");
 			} else if (blocAtPre.isVide() && getBlocVersDirection(blocAtPre, Direction.HAUT).isTombable()) {
-				blocAtPre.setType(getBlocVersDirection(blocAtPre, Direction.HAUT).getType());
 				if (!(getBloc(x, y).equals(blocAtPre)))
 					Contractor.defaultContractor().postconditionError("TerrainService", "fairePasDeMiseAJour", "Tout bloc situé sous un bloc tombable doit devenir du type du bloc tombable.");
 			} else {
@@ -415,5 +439,6 @@ public class TerrainContract extends TerrainDecorator {
 					Contractor.defaultContractor().postconditionError("TerrainService", "fairePasDeMiseAJour", "Tout bloc non impacté par un pas de mise à jour doit rester inchangé.");
 			}
 		}}
+
 	}
 }
