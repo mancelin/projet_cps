@@ -220,7 +220,7 @@ public class Board extends JPanel implements ActionListener {
 
 
 	public void printNbPasRestants(Graphics g) {
-		g.clearRect(0, hauteur*TAILLE_CASE, parent.getHeight(), parent.getWidth());
+		g.clearRect(0, hauteur*TAILLE_CASE, largeur_fenetre, hauteur_fenetre);
 		String msg = ""+mj.getPasRestants();
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 		parent.setBackground(Color.BLACK);
