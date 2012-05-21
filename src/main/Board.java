@@ -58,14 +58,13 @@ public class Board extends JPanel implements ActionListener {
 	private Image you_win;
 
 	public Board(JFrame parent, MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
-	//public Board(MoteurJeuService mj,int largeur_fenetre, int hauteur_fenetre) {
 		this.mj = mj;
 		this.mjClone = mj.copy();
 		this.largeur = mj.getTerrain().getLargeur();
 		this.hauteur = mj.getTerrain().getHauteur();
 
 		this.largeur_fenetre = largeur_fenetre;
-		this.hauteur_fenetre = hauteur_fenetre;//	 + 50;
+		this.hauteur_fenetre = hauteur_fenetre;
 		this.parent =parent;
 		this.x_window = parent.getX();
 		this.y_window = parent.getY();
