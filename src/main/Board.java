@@ -65,7 +65,7 @@ public class Board extends JPanel implements ActionListener {
 		this.hauteur = mj.getTerrain().getHauteur();
 
 		this.largeur_fenetre = largeur_fenetre;
-		this.hauteur_fenetre = hauteur_fenetre + 20;
+		this.hauteur_fenetre = hauteur_fenetre;//	 + 50;
 		this.parent =parent;
 		this.x_window = parent.getX();
 		this.y_window = parent.getY();
@@ -76,7 +76,7 @@ public class Board extends JPanel implements ActionListener {
 		parent.setBackground(Color.black);
 
 		String repCourant = System.getProperty("user.dir" );
-		String repImages = repCourant + File.separator + "src" + File.separator + "main";
+		String repImages = repCourant + File.separator + "src" + File.separator + "ressources";
 		ImageIcon iic_h = new ImageIcon(repImages + File.separator + "c_hero.png");
 		c_hero = iic_h.getImage();
 
@@ -108,7 +108,7 @@ public class Board extends JPanel implements ActionListener {
 		you_win = iic_win.getImage();
 		
 		parent.setFocusable(true);
-	//	parent.pack();
+		parent.pack();
 		parent.repaint();
 		
 		initGame();
@@ -207,7 +207,8 @@ public class Board extends JPanel implements ActionListener {
 				 "Controles :",
 				 "  fléches directionneles : déplacer joueur",
 				 "  Barre espace : recommencer le niveau en cours",
-				 "  F1 : afficher cette aide"};
+				 "  F1 : afficher cette aide",
+				 "  N' importe quelle autre touche : quitter aide"};
 		for(int i=0;i<msg.length;i++){
 			g.drawString(msg[i], 10, 50 + 17 * i);
 		}
@@ -222,11 +223,13 @@ public class Board extends JPanel implements ActionListener {
 	public void printNbPasRestants(Graphics g) {
 		g.clearRect(0, hauteur*TAILLE_CASE, largeur_fenetre, hauteur_fenetre);
 		String msg = ""+mj.getPasRestants();
+		String msg2 = "F1: afficher instructions de jeu";
 		Font small = new Font("Helvetica", Font.BOLD, 14);
 		parent.setBackground(Color.BLACK);
 		g.setColor(Color.green);
 		g.setFont(small);
 		g.drawString(msg, (TAILLE_CASE*largeur) - 30,(hauteur+ 1)*TAILLE_CASE+5);
+		g.drawString(msg2,10,(hauteur+ 2)*TAILLE_CASE+10);
 	}
 
 	public void actionPerformed(ActionEvent e) {
