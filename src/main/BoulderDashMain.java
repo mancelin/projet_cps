@@ -34,13 +34,6 @@ public class BoulderDashMain extends JFrame {
 			MoteurJeuService mj = TerrainParser.depuisFichier(fichierNiveau.toString(),factory); 
 			int largeur_fenetre = mj.getTerrain().getLargeur()*TAILLE_CASE;
 			int hauteur_fenetre = (mj.getTerrain().getHauteur()+2)*TAILLE_CASE +50;
-			/*
-			if(largeur_fenetre < 339) largeur_fenetre = 339;
-			if(hauteur_fenetre < 153) hauteur_fenetre = 153;
-			*/
-		//	Component window = this.rootPane.getContentPane();
-			
-			//add(new Board(/*this,*/mj,largeur_fenetre,hauteur_fenetre));
 
 			mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			
